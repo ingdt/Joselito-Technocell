@@ -5,7 +5,7 @@ namespace Joselito_Technocell.Models
 {
     public class Product
     {
-        [PrimaryKey]
+        //[PrimaryKey]
         public int ProductId { get; set; }
 
         public string Description { get; set; }
@@ -20,9 +20,9 @@ namespace Joselito_Technocell.Models
 
         public double Stock { get; set; }
 
-        [OneToMany(CascadeOperations = CascadeOperation.All)]
+        //[OneToMany(CascadeOperations = CascadeOperation.All)]
 
-        public List<Inventory> Inventories { get; set; }
+        //public List<Inventory> Inventories { get; set; }
 
         public int CompanyId { get; set; }
 

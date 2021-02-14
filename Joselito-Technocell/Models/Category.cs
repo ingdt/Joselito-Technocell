@@ -15,7 +15,6 @@ namespace Joselito_Technocell.Models
 
         public int CompanyId { get; set; }
 
-        [OneToMany(CascadeOperations = CascadeOperation.All)]
         public List<Product> Products { get; set; }
 
         public override int GetHashCode()
