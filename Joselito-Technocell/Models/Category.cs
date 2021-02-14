@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Joselito_Technocell.Models
 {
     public class Category
     {
-        [PrimaryKey]
+        [Key]
         public int CategoryId { get; set; }
 
         public string Description { get; set; }
