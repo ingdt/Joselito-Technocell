@@ -5,11 +5,11 @@ using System.Web;
 
 namespace Joselito_Technocell.Models
 {
-    public class Joselito_TechnocellDbContext
+    public class LoginRequest
     {
-        public Joselito_TechnocellDbContext() : base("DefaultConnection")
-        {
+        public string Email { get; set; }
 
-        }
+        public string Password { get; set; }
     }
+
 }
