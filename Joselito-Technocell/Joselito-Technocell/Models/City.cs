@@ -11,8 +11,13 @@ namespace Joselito_Technocell.Models
         [Key]
         public int CityId { get; set; }
 
+        [Display(Name = "City")]
+        [Required(ErrorMessage = "You must enter a {0}")]
+        [StringLength(256, ErrorMessage ="The field {0} can contain maximun {1} and minimum {2} characters",MinimumLength = 3)]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "You must enter a {0}")]
+        [Range(1, double.MaxValue, ErrorMessage = "The file{0} is reguired")]
         public int DepartmentId { get; set; }
 
         //[ManyToOne]

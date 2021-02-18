@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Joselito_Technocell.Models;
+using Joselito_Technocell.Helpers;
 
 namespace Joselito_Technocell.Controllers
 {
@@ -15,14 +16,12 @@ namespace Joselito_Technocell.Controllers
     {
         private Joselito_TechnocellDbContext db = new Joselito_TechnocellDbContext();
 
-        // GET: Inventories
         public async Task<ActionResult> Index()
         {
             var inventories = db.Inventories.Include(i => i.Product);
             return View(await inventories.ToListAsync());
         }
 
-        // GET: Inventories/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -37,19 +36,15 @@ namespace Joselito_Technocell.Controllers
             return View(inventory);
         }
 
-        // GET: Inventories/Create
         public ActionResult Create()
         {
-            ViewBag.ProductId = new SelectList(db.Products, "ProductId", "Description");
+            ViewBag.ProductId = new SelectList(Helper.GetProduct(), "ProductId", "Barcode");
             return View();
         }
 
-        // POST: Inventories/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "InventoryId,ProductId,WarehouseId,WarehouseName,Stock")] Inventory inventory)
+        public async Task<ActionResult> Create(Inventory inventory)
         {
             if (ModelState.IsValid)
             {
@@ -58,11 +53,10 @@ namespace Joselito_Technocell.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ProductId = new SelectList(db.Products, "ProductId", "Description", inventory.ProductId);
+            ViewBag.ProductId = new SelectList(Helper.GetProduct(), "ProductId", "Description", inventory.ProductId);
             return View(inventory);
         }
 
-        // GET: Inventories/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,16 +68,12 @@ namespace Joselito_Technocell.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ProductId = new SelectList(db.Products, "ProductId", "Description", inventory.ProductId);
+            ViewBag.ProductId = new SelectList(Helper.GetProduct(), "ProductId", "Description", inventory.ProductId);
             return View(inventory);
         }
-
-        // POST: Inventories/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "InventoryId,ProductId,WarehouseId,WarehouseName,Stock")] Inventory inventory)
+        public async Task<ActionResult> Edit(Inventory inventory)
         {
             if (ModelState.IsValid)
             {
@@ -91,11 +81,10 @@ namespace Joselito_Technocell.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.ProductId = new SelectList(db.Products, "ProductId", "Description", inventory.ProductId);
+            ViewBag.ProductId = new SelectList(Helper.GetProduct(), "ProductId", "Description", inventory.ProductId);
             return View(inventory);
         }
 
-        // GET: Inventories/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -110,7 +99,6 @@ namespace Joselito_Technocell.Controllers
             return View(inventory);
         }
 
-        // POST: Inventories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)

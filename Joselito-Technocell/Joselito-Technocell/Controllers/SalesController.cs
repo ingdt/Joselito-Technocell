@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Joselito_Technocell.Models;
+using Joselito_Technocell.Helpers;
 
 namespace Joselito_Technocell.Controllers
 {
@@ -40,7 +41,7 @@ namespace Joselito_Technocell.Controllers
         // GET: Sales/Create
         public ActionResult Create()
         {
-            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "UserName");
+            ViewBag.CustomerId = new SelectList(Helper.GetCustomers(), "CustomerId", "UserName");
             return View();
         }
 
@@ -49,7 +50,7 @@ namespace Joselito_Technocell.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "SaleId,CompanyId,CustomerId,WarehouseId,StateId,OrderId,Date,Remarks")] Sale sale)
+        public async Task<ActionResult> Create( Sale sale)
         {
             if (ModelState.IsValid)
             {
@@ -58,7 +59,7 @@ namespace Joselito_Technocell.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "UserName", sale.CustomerId);
+            ViewBag.CustomerId = new SelectList(Helper.GetCustomers(), "CustomerId", "UserName", sale.CustomerId);
             return View(sale);
         }
 
@@ -74,7 +75,7 @@ namespace Joselito_Technocell.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "UserName", sale.CustomerId);
+            ViewBag.CustomerId = new SelectList(Helper.GetCustomers(), "CustomerId", "UserName", sale.CustomerId);
             return View(sale);
         }
 
@@ -83,7 +84,7 @@ namespace Joselito_Technocell.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "SaleId,CompanyId,CustomerId,WarehouseId,StateId,OrderId,Date,Remarks")] Sale sale)
+        public async Task<ActionResult> Edit( Sale sale)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +92,7 @@ namespace Joselito_Technocell.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "UserName", sale.CustomerId);
+            ViewBag.CustomerId = new SelectList(Helper.GetCustomers(), "CustomerId", "UserName", sale.CustomerId);
             return View(sale);
         }
 

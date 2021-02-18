@@ -47,7 +47,7 @@ namespace Joselito_Technocell.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "TaxId,Description,Rate,CompanyId")] Tax tax)
+        public async Task<ActionResult> Create(Tax tax)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace Joselito_Technocell.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "TaxId,Description,Rate,CompanyId")] Tax tax)
+        public async Task<ActionResult> Edit(Tax tax)
         {
             if (ModelState.IsValid)
             {

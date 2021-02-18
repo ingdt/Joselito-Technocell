@@ -14,13 +14,12 @@ namespace Joselito_Technocell.Controllers
     {
         private Joselito_TechnocellDbContext db = new Joselito_TechnocellDbContext();
 
-        // GET: Categories1
+
         public ActionResult Index()
         {
             return View(db.Categories.ToList());
         }
 
-        // GET: Categories1/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -35,18 +34,15 @@ namespace Joselito_Technocell.Controllers
             return View(category);
         }
 
-        // GET: Categories1/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Categories1/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CategoryId,Name,Description,CompanyId")] Category category)
+        public ActionResult Create(Category category)
         {
             if (ModelState.IsValid)
             {
@@ -58,7 +54,7 @@ namespace Joselito_Technocell.Controllers
             return View(category);
         }
 
-        // GET: Categories1/Edit/5
+
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -73,12 +69,10 @@ namespace Joselito_Technocell.Controllers
             return View(category);
         }
 
-        // POST: Categories1/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CategoryId,Description,CompanyId")] Category category)
+        public ActionResult Edit(Category category)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +83,7 @@ namespace Joselito_Technocell.Controllers
             return View(category);
         }
 
-        // GET: Categories1/Delete/5
+
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -103,8 +97,7 @@ namespace Joselito_Technocell.Controllers
             }
             return View(category);
         }
-
-        // POST: Categories1/Delete/5
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

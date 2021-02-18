@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Joselito_Technocell.Helpers;
 using Joselito_Technocell.Models;
 
 namespace Joselito_Technocell.Controllers
@@ -14,14 +15,14 @@ namespace Joselito_Technocell.Controllers
     {
         private Joselito_TechnocellDbContext db = new Joselito_TechnocellDbContext();
 
-        // GET: Cities
+
         public ActionResult Index()
         {
             var cities = db.Cities.Include(c => c.Department);
             return View(cities.ToList());
         }
 
-        // GET: Cities/Details/5
+
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -36,19 +37,16 @@ namespace Joselito_Technocell.Controllers
             return View(city);
         }
 
-        // GET: Cities/Create
+
         public ActionResult Create()
         {
-            ViewBag.DepartmentId = new SelectList(db.Departments, "DepartmentId", "Name");
+            ViewBag.DepartmentId = new SelectList(db.Departments.OrderBy(d=> d.Name), "DepartmentId", "Name");
             return View();
         }
 
-        // POST: Cities/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CityId,Name,DepartmentId")] City city)
+        public ActionResult Create(City city)
         {
             if (ModelState.IsValid)
             {
@@ -57,11 +55,10 @@ namespace Joselito_Technocell.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.DepartmentId = new SelectList(db.Departments, "DepartmentId", "Name", city.DepartmentId);
+            ViewBag.DepartmentId = new SelectList(Helper.GetDepartments(), "DepartmentId", "Name", city.DepartmentId);
             return View(city);
         }
 
-        // GET: Cities/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -73,16 +70,13 @@ namespace Joselito_Technocell.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.DepartmentId = new SelectList(db.Departments, "DepartmentId", "Name", city.DepartmentId);
+            ViewBag.DepartmentId = new SelectList(Helper.GetDepartments(), "DepartmentId", "Name", city.DepartmentId);
             return View(city);
         }
 
-        // POST: Cities/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CityId,Name,DepartmentId")] City city)
+        public ActionResult Edit( City city)
         {
             if (ModelState.IsValid)
             {
@@ -90,11 +84,10 @@ namespace Joselito_Technocell.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.DepartmentId = new SelectList(db.Departments, "DepartmentId", "Name", city.DepartmentId);
+            ViewBag.DepartmentId = new SelectList(Helper.GetDepartments(), "DepartmentId", "Name", city.DepartmentId);
             return View(city);
         }
 
-        // GET: Cities/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -109,7 +102,6 @@ namespace Joselito_Technocell.Controllers
             return View(city);
         }
 
-        // POST: Cities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

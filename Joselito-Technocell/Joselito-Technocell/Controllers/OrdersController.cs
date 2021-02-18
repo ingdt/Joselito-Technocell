@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Joselito_Technocell.Models;
+using Joselito_Technocell.Helpers;
 
 namespace Joselito_Technocell.Controllers
 {
@@ -15,14 +16,12 @@ namespace Joselito_Technocell.Controllers
     {
         private Joselito_TechnocellDbContext db = new Joselito_TechnocellDbContext();
 
-        // GET: Orders
         public async Task<ActionResult> Index()
         {
             var orders = db.Orders.Include(o => o.Customer);
             return View(await orders.ToListAsync());
         }
 
-        // GET: Orders/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -37,19 +36,15 @@ namespace Joselito_Technocell.Controllers
             return View(order);
         }
 
-        // GET: Orders/Create
         public ActionResult Create()
         {
-            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "UserName");
+            ViewBag.CustomerId = new SelectList(Helper.GetCustomers(), "CustomerId", "UserName");
             return View();
         }
 
-        // POST: Orders/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "OrderId,CompanyId,CustomerId,StateId,Date,Remarks")] Order order)
+        public async Task<ActionResult> Create(Order order)
         {
             if (ModelState.IsValid)
             {
@@ -58,11 +53,10 @@ namespace Joselito_Technocell.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "UserName", order.CustomerId);
+            ViewBag.CustomerId = new SelectList(Helper.GetCustomers(), "CustomerId", "UserName", order.CustomerId);
             return View(order);
         }
 
-        // GET: Orders/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,16 +68,13 @@ namespace Joselito_Technocell.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "UserName", order.CustomerId);
+            ViewBag.CustomerId = new SelectList(Helper.GetCustomers(), "CustomerId", "UserName", order.CustomerId);
             return View(order);
         }
 
-        // POST: Orders/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "OrderId,CompanyId,CustomerId,StateId,Date,Remarks")] Order order)
+        public async Task<ActionResult> Edit(Order order)
         {
             if (ModelState.IsValid)
             {
@@ -91,11 +82,10 @@ namespace Joselito_Technocell.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "UserName", order.CustomerId);
+            ViewBag.CustomerId = new SelectList(Helper.GetCustomers(), "CustomerId", "UserName", order.CustomerId);
             return View(order);
         }
 
-        // GET: Orders/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -110,7 +100,6 @@ namespace Joselito_Technocell.Controllers
             return View(order);
         }
 
-        // POST: Orders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
