@@ -52,8 +52,24 @@ namespace Joselito_Technocell.Controllers
             if (ModelState.IsValid)
             {
                 db.Taxes.Add(tax);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException != null &&
+                                        ex.InnerException.InnerException != null &&
+                                        ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                    {
+                        ModelState.AddModelError(string.Empty, "The record can't be delete beacuse it has related record");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.Message);
+                    }
+                }
             }
 
             return View(tax);
@@ -84,8 +100,24 @@ namespace Joselito_Technocell.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(tax).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException != null &&
+                                        ex.InnerException.InnerException != null &&
+                                        ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                    {
+                        ModelState.AddModelError(string.Empty, "The record can't be delete beacuse it has related record");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.Message);
+                    }
+                }
             }
             return View(tax);
         }
@@ -112,8 +144,25 @@ namespace Joselito_Technocell.Controllers
         {
             Tax tax = await db.Taxes.FindAsync(id);
             db.Taxes.Remove(tax);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            try
+            {
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null &&
+                                    ex.InnerException.InnerException != null &&
+                                    ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                {
+                    ModelState.AddModelError(string.Empty, "The record can't be delete beacuse it has related record");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+            }
+            return View(tax);
         }
 
         protected override void Dispose(bool disposing)

@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Joselito_Technocell.Helpers;
@@ -16,20 +17,20 @@ namespace Joselito_Technocell.Controllers
         private Joselito_TechnocellDbContext db = new Joselito_TechnocellDbContext();
 
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var cities = db.Cities.Include(c => c.Department);
-            return View(cities.ToList());
+            var cities = await db.Cities.Include(c => c.Department).ToListAsync();
+           return View(cities); 
         }
 
 
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            City city = db.Cities.Find(id);
+            City city = await db.Cities.FindAsync(id);
             if (city == null)
             {
                 return HttpNotFound();
@@ -46,26 +47,42 @@ namespace Joselito_Technocell.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(City city)
+        public  async Task<ActionResult> Create(City city)
         {
             if (ModelState.IsValid)
             {
                 db.Cities.Add(city);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException != null &&
+                                        ex.InnerException.InnerException != null &&
+                                        ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                    {
+                        ModelState.AddModelError(string.Empty, "The record can't be delete beacuse it has related record");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.Message);
+                    }
+                }
             }
 
             ViewBag.DepartmentId = new SelectList(Helper.GetDepartments(), "DepartmentId", "Name", city.DepartmentId);
             return View(city);
         }
 
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            City city = db.Cities.Find(id);
+            City city = await db.Cities.FindAsync(id);
             if (city == null)
             {
                 return HttpNotFound();
@@ -76,25 +93,41 @@ namespace Joselito_Technocell.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit( City city)
+        public async Task<ActionResult> Edit( City city)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(city).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException != null &&
+                                        ex.InnerException.InnerException != null &&
+                                        ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                    {
+                        ModelState.AddModelError(string.Empty, "The record can't be delete beacuse it has related record");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.Message);
+                    }
+                }
             }
             ViewBag.DepartmentId = new SelectList(Helper.GetDepartments(), "DepartmentId", "Name", city.DepartmentId);
             return View(city);
         }
 
-        public ActionResult Delete(int? id)
+        public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            City city = db.Cities.Find(id);
+            City city = await db.Cities.FindAsync(id);
             if (city == null)
             {
                 return HttpNotFound();
@@ -104,12 +137,30 @@ namespace Joselito_Technocell.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            City city = db.Cities.Find(id);
+            City city = await db.Cities.FindAsync(id);
             db.Cities.Remove(city);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null &&
+                                    ex.InnerException.InnerException != null &&
+                                    ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                {
+                    ModelState.AddModelError(string.Empty, "The record can't be delete beacuse it has related record");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+            }
+
+            return View(city);
         }
 
         protected override void Dispose(bool disposing)

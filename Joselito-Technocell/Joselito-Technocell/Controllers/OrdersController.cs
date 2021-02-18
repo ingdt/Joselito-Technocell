@@ -49,8 +49,24 @@ namespace Joselito_Technocell.Controllers
             if (ModelState.IsValid)
             {
                 db.Orders.Add(order);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException != null &&
+                                        ex.InnerException.InnerException != null &&
+                                        ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                    {
+                        ModelState.AddModelError(string.Empty, "The record can't be delete beacuse it has related record");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.Message);
+                    }
+                }
             }
 
             ViewBag.CustomerId = new SelectList(Helper.GetCustomers(), "CustomerId", "UserName", order.CustomerId);
@@ -79,8 +95,24 @@ namespace Joselito_Technocell.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(order).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException != null &&
+                                        ex.InnerException.InnerException != null &&
+                                        ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                    {
+                        ModelState.AddModelError(string.Empty, "The record can't be delete beacuse it has related record");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.Message);
+                    }
+                }
             }
             ViewBag.CustomerId = new SelectList(Helper.GetCustomers(), "CustomerId", "UserName", order.CustomerId);
             return View(order);
@@ -106,8 +138,25 @@ namespace Joselito_Technocell.Controllers
         {
             Order order = await db.Orders.FindAsync(id);
             db.Orders.Remove(order);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            try
+            {
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null &&
+                                    ex.InnerException.InnerException != null &&
+                                    ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                {
+                    ModelState.AddModelError(string.Empty, "The record can't be delete beacuse it has related record");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+            }
+            return View(order);
         }
 
         protected override void Dispose(bool disposing)

@@ -10,7 +10,7 @@ namespace Joselito_Technocell.Helpers
     public class Helper : IDisposable
     {
         private static Joselito_TechnocellDbContext db = new Joselito_TechnocellDbContext();
-
+        #region getComboBox
         internal static IEnumerable GetDepartments()
         {
             var departments = db.Departments.ToList();
@@ -22,7 +22,6 @@ namespace Joselito_Technocell.Helpers
             return departments.OrderBy(d => d.Name).ToList();
         }
 
-
         internal static IEnumerable GetCities()
         {
             var Cities = db.Cities.ToList();
@@ -33,6 +32,7 @@ namespace Joselito_Technocell.Helpers
             });
             return Cities.OrderBy(d => d.Name).ToList();
         }
+
         internal static IEnumerable GetProduct()
         {
             var Products = db.Products.ToList();
@@ -78,11 +78,6 @@ namespace Joselito_Technocell.Helpers
             return Categories.OrderBy(d => d.Name).ToList();
         }
 
-        public void Dispose()
-        {
-            db.Dispose();
-        }
-
         internal static IEnumerable GetCustomers()
         {
             var Customers = db.Customers.ToList();
@@ -92,6 +87,11 @@ namespace Joselito_Technocell.Helpers
                 FirstName = "[Select a Customer ]"
             });
             return Customers.OrderBy(d => d.FirstName).ToList();
+        }
+        #endregion
+        public void Dispose()
+        {
+            db.Dispose();
         }
     }
 }

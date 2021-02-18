@@ -21,7 +21,9 @@ namespace Joselito_Technocell.Models
 
         public string Remarks { get; set; }
 
-       // [ManyToOne]
+        public bool Alcontado { get; set; }
+
+        // [ManyToOne]
         public Customer Customer { get; set; }
 
         public override int GetHashCode()
