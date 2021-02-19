@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Joselito_Technocell.Models
 {
@@ -11,13 +12,14 @@ namespace Joselito_Technocell.Models
         [Display(Name = "Department")]
         [Required(ErrorMessage = "You must enter a {0}")]
         [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
+        [Index("DepartmentNameIndex", IsUnique = true)]
         public string Name { get; set; }
 
        // [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public List<City> Cities { get; set; }
+        public virtual List<City> Cities { get; set; }
 
        // [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public List<Customer> Customers { get; set; }
+        public virtual List<Customer> Customers { get; set; }
 
         public override int GetHashCode()
         {

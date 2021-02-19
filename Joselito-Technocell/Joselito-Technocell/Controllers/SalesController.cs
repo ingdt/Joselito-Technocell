@@ -64,9 +64,9 @@ namespace Joselito_Technocell.Controllers
                 {
                     if (ex.InnerException != null &&
                                         ex.InnerException.InnerException != null &&
-                                        ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                                        ex.InnerException.InnerException.Message.Contains("_Index"))
                     {
-                        ModelState.AddModelError(string.Empty, "The record can't be delete beacuse it has related record");
+                        ModelState.AddModelError(string.Empty, "The are record with the same value");
                     }
                     else
                     {
@@ -114,9 +114,9 @@ namespace Joselito_Technocell.Controllers
                 {
                     if (ex.InnerException != null &&
                                         ex.InnerException.InnerException != null &&
-                                        ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                                        ex.InnerException.InnerException.Message.Contains("_Index"))
                     {
-                        ModelState.AddModelError(string.Empty, "The record can't be delete beacuse it has related record");
+                        ModelState.AddModelError(string.Empty, "The are record with the same value");
                     }
                     else
                     {

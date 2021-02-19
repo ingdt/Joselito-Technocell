@@ -24,7 +24,7 @@ namespace Joselito_Technocell.Models
         public Department Department { get; set; }
 
         //[OneToMany(CascadeOperations = CascadeOperation.All)]
-        public List<Customer> Customers { get; set; }
+        public virtual List<Customer> Customers { get; set; }
 
         public override int GetHashCode()
         {

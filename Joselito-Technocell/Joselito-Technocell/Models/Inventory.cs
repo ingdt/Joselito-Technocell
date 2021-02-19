@@ -11,6 +11,8 @@ namespace Joselito_Technocell.Models
         [Key]
         public int InventoryId { get; set; }
 
+        [Required(ErrorMessage = "The file{0} is required")]
+        [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
         public int ProductId { get; set; }
 
         //[ManyToOne]

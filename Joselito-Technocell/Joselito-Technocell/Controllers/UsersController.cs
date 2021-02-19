@@ -15,13 +15,13 @@ namespace Joselito_Technocell.Controllers
     {
         private Joselito_TechnocellDbContext db = new Joselito_TechnocellDbContext();
 
-        // GET: Users
+        [HttpGet]
         public async Task<ActionResult> Index()
         {
             return View(await db.Users.ToListAsync());
         }
 
-        // GET: Users/Details/5
+        [HttpGet]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,30 +36,43 @@ namespace Joselito_Technocell.Controllers
             return View(user);
         }
 
-        // GET: Users/Create
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Users/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "UserId,UserName,FirstName,LastName,Photo,Phone,Address,DepartmentId,DepartmentName,CityId,CityName,IsAdmin,IsUser,IsCustomer,IsSupplier,IsRemembered,Password")] User user)
+        public async Task<ActionResult> Create(User user)
         {
             if (ModelState.IsValid)
             {
                 db.Users.Add(user);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException != null &&
+                                        ex.InnerException.InnerException != null &&
+                                        ex.InnerException.InnerException.Message.Contains("_Index"))
+                    {
+                        ModelState.AddModelError(string.Empty, "The are record with the same value");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.Message);
+                    }
+                }
             }
 
             return View(user);
         }
 
-        // GET: Users/Edit/5
+        [HttpGet]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,23 +87,36 @@ namespace Joselito_Technocell.Controllers
             return View(user);
         }
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "UserId,UserName,FirstName,LastName,Photo,Phone,Address,DepartmentId,DepartmentName,CityId,CityName,IsAdmin,IsUser,IsCustomer,IsSupplier,IsRemembered,Password")] User user)
+        public async Task<ActionResult> Edit(User user)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(user).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException != null &&
+                                        ex.InnerException.InnerException != null &&
+                                        ex.InnerException.InnerException.Message.Contains("_Index"))
+                    {
+                        ModelState.AddModelError(string.Empty, "The are record with the same value");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.Message);
+                    }
+                }
             }
             return View(user);
         }
 
-        // GET: Users/Delete/5
+        [HttpGet]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -105,15 +131,31 @@ namespace Joselito_Technocell.Controllers
             return View(user);
         }
 
-        // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             User user = await db.Users.FindAsync(id);
             db.Users.Remove(user);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+                        try
+            {
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null &&
+                                    ex.InnerException.InnerException != null &&
+                                    ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                {
+                    ModelState.AddModelError(string.Empty, "The record can't be delete beacuse it has related record");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+            }
+            return View(user);
         }
 
         protected override void Dispose(bool disposing)

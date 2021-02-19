@@ -11,8 +11,12 @@ namespace Joselito_Technocell.Models
         [Key]
         public int CompanyCustomerId { get; set; }
 
+        [Display(Name = "Customer")]
+        [Required(ErrorMessage = "You must enter a {0}")]
         public int CompanyId { get; set; }
 
+        [Display(Name = "Customer")]
+        [Required(ErrorMessage = "You must enter a {0}")]
         public int CustomerId { get; set; }
 
         //[ManyToOne]
