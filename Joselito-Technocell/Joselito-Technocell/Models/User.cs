@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -11,16 +12,33 @@ namespace Joselito_Technocell.Models
         [Key]
         public int UserId { get; set; }
 
+        [Display(Name = "Email")]
+        [Required(ErrorMessage = "You must enter a {0}")]
+        [Index("UserEmailIndex", IsUnique = true)]
+        [DataType (DataType.EmailAddress)]
         public string UserName { get; set; }
 
+        [Display(Name = "Firs Name")]
+        [Required(ErrorMessage = "You must enter a {0}")]
+        [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
         public string FirstName { get; set; }
 
+        [Display(Name = "Last Name")]
+        [Required(ErrorMessage = "You must enter a {0}")]
+        [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
         public string LastName { get; set; }
 
+        [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
+        [DataType(DataType.ImageUrl)]
         public string Photo { get; set; }
 
+        [Required(ErrorMessage = "You must enter a {0}")]
+        [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
+        [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
 
+        [Required(ErrorMessage = "You must enter a {0}")]
+        [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
         public string Address { get; set; }
 
         public int DepartmentId { get; set; }
@@ -31,8 +49,11 @@ namespace Joselito_Technocell.Models
 
         public string CityName { get; set; }
 
-       // [ManyToOne]
-        public Company Company { get; set; }
+        [NotMapped]
+        public HttpPostedFileBase PhotoFile { get; set; }
+        // [ManyToOne]
+        public virtual Company Company { get; set; }
+        public virtual City City { get; set; }
 
         public bool IsAdmin { get; set; }
 
@@ -48,7 +69,7 @@ namespace Joselito_Technocell.Models
 
         public string FullName { get { return string.Format("{0} {1}", FirstName, LastName); } }
 
-        public string PhotoFullPath { get { return string.Format("http://zulu-software.com/ECommerce{0}", Photo.Substring(1)); } }
+        public string PhotoFullPath { get;}
 
         public override int GetHashCode()
         {

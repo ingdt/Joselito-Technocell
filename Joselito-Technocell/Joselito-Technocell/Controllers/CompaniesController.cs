@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Joselito_Technocell.Models;
+using Joselito_Technocell.Helpers;
 
 namespace Joselito_Technocell.Controllers
 {
@@ -53,6 +54,18 @@ namespace Joselito_Technocell.Controllers
                 try
                 {
                     await db.SaveChangesAsync();
+                    if (company.LogoFile != null)
+                    {
+                        var folder = "~/Content/LogoFile";
+                        var fileResponse = Helper.UploadPhoto(company.LogoFile, folder, string.Format("{0}.jpg", company.CompanyId));
+                        if (fileResponse)
+                        {
+                            var pic = string.Format("{0}/{1}.jpg", folder, company.CompanyId);
+                            company.Logo = pic;
+                            db.Entry(company).State = EntityState.Modified;
+                            await db.SaveChangesAsync();
+                        }
+                    }
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)
@@ -95,9 +108,19 @@ namespace Joselito_Technocell.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(company).State = EntityState.Modified;
+                if (company.LogoFile != null)
+                {
+                    var folder = "~/Content/LogoFile";
+                    var fileResponse = Helper.UploadPhoto(company.LogoFile, folder, string.Format("{0}.jpg", company.CompanyId));
+                    if (fileResponse)
+                    {
+                        var pic = string.Format("{0}/{1}.jpg", folder, company.CompanyId);
+                        company.Logo = pic;
+                    }
+                }
                 try
                 {
+                    db.Entry(company).State = EntityState.Modified;
                     await db.SaveChangesAsync();
                     return RedirectToAction("Index");
                 }

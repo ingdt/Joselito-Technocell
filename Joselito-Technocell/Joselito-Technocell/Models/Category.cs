@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -14,6 +15,7 @@ namespace Joselito_Technocell.Models
         [Display(Name = "Name")]
         [Required(ErrorMessage = "You must enter a {0}")]
         [StringLength(256, ErrorMessage ="The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
+        [Index("CategoryNameIndex", 2, IsUnique = true)]
         public string Name { get; set; }
 
         [Display(Name = "Description")]
@@ -23,6 +25,7 @@ namespace Joselito_Technocell.Models
 
         [Required(ErrorMessage = "You must enter a {0}")]
         [Display(Name = "Company")]
+        [Index("CategoryDepartmentIdIndex", 1, IsUnique = true)]
         public int CompanyId { get; set; }
 
         public virtual Department Department { get; set; }

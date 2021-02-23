@@ -41,7 +41,7 @@ namespace Joselito_Technocell.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.DepartmentId = new SelectList(db.Departments.OrderBy(d=> d.Name), "DepartmentId", "Name");
+            ViewBag.DepartmentId = new SelectList(Helper.GetDepartments(), "DepartmentId", "Name");
             return View();
         }
 

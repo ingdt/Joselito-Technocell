@@ -27,7 +27,6 @@ namespace Joselito_Technocell.Models
         [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
         public string Address { get; set; }
 
-        [Required(ErrorMessage = "You must enter a {0}")]
         [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
         [DataType(DataType.ImageUrl)]
         public string Logo { get; set; }
@@ -39,6 +38,9 @@ namespace Joselito_Technocell.Models
         [Required(ErrorMessage = "The file{0} is required")]
         [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
         public int CityId { get; set; }
+
+        [NotMapped]
+        public HttpPostedFileBase LogoFile { get; set; }
 
         public virtual City City { get; set; }
         

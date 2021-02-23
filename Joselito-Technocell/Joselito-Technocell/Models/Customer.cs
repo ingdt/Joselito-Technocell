@@ -26,7 +26,6 @@ namespace Joselito_Technocell.Models
         [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} characters")]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "You must enter a {0}")]
         [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
         [DataType(DataType.ImageUrl)]
         public string Photo { get; set; }

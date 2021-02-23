@@ -7,6 +7,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Joselito_Technocell.Helpers;
 using Joselito_Technocell.Models;
 
 namespace Joselito_Technocell.Controllers
@@ -37,6 +38,7 @@ namespace Joselito_Technocell.Controllers
 
         public ActionResult Create()
         {
+            ViewBag.CompanyId = new SelectList(Helper.GetCompanies(), "CompanyId", "Name");
             return View();
         }
 
@@ -67,7 +69,7 @@ namespace Joselito_Technocell.Controllers
                     }
                 }
             }
-
+            ViewBag.CompanyId = new SelectList(Helper.GetCompanies(), "CompanyId", "Name");
             return View(category);
         }
 
@@ -83,6 +85,7 @@ namespace Joselito_Technocell.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CompanyId = new SelectList(Helper.GetCompanies(), "CompanyId", "Name");
             return View(category);
         }
 
@@ -113,6 +116,7 @@ namespace Joselito_Technocell.Controllers
                     }
                 }
             }
+            ViewBag.CompanyId = new SelectList(Helper.GetCompanies(), "CompanyId", "Name");
             return View(category);
         }
 

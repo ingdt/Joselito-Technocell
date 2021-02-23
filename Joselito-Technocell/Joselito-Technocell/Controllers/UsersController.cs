@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Joselito_Technocell.Models;
+using Joselito_Technocell.Helpers;
 
 namespace Joselito_Technocell.Controllers
 {
@@ -39,6 +40,8 @@ namespace Joselito_Technocell.Controllers
         [HttpGet]
         public ActionResult Create()
         {
+            ViewBag.CityId = new SelectList(Helper.GetCities(), "CityId", "Name");
+            ViewBag.CompanyId = new SelectList(Helper.GetCompanies(), "CompanyId", "Name");
             return View();
         }
 
@@ -52,6 +55,7 @@ namespace Joselito_Technocell.Controllers
                 try
                 {
                     await db.SaveChangesAsync();
+                    UserHelper.CreateUserASP(user.UserName, "User");
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)
@@ -68,7 +72,8 @@ namespace Joselito_Technocell.Controllers
                     }
                 }
             }
-
+            ViewBag.CityId = new SelectList(Helper.GetCities(), "CityId", "Name", user.CityId);
+            ViewBag.CompanyId = new SelectList(Helper.GetCompanies(), "CompanyId", "Name", user.CityId);
             return View(user);
         }
 
@@ -84,6 +89,9 @@ namespace Joselito_Technocell.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CityId = new SelectList(Helper.GetCities(), "CityId", "Name", user.CityId);
+            ViewBag.CompanyId = new SelectList(Helper.GetCompanies(), "CompanyId", "Name", user.CityId);
+
             return View(user);
         }
 
@@ -93,7 +101,24 @@ namespace Joselito_Technocell.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (user.Photo != null)
+                {
+                    var folder = "~/Content/UserFile";
+                    var fileResponse = Helper.UploadPhoto(user.PhotoFile, folder, string.Format("{0}.jpg", user.UserId));
+                    if (fileResponse)
+                    {
+                        var pic = string.Format("{0}/{1}.jpg", folder, user.UserId);
+                        user.Photo = pic;
+                    }
+                }
                 db.Entry(user).State = EntityState.Modified;
+                var db2 = new Joselito_TechnocellDbContext();
+                var currentUser = db2.Users.Find(user.UserId);
+                if (currentUser.UserName != user.UserName)
+                {
+                    UserHelper.UpdateUserName(currentUser.UserName, user.UserName);
+                }
+                db2.Dispose(); 
                 try
                 {
                     await db.SaveChangesAsync();
@@ -113,6 +138,9 @@ namespace Joselito_Technocell.Controllers
                     }
                 }
             }
+            ViewBag.CityId = new SelectList(Helper.GetCities(), "CityId", "Name", user.CityId);
+            ViewBag.CompanyId = new SelectList(Helper.GetCompanies(), "CompanyId", "Name", user.CityId);
+
             return View(user);
         }
 
@@ -137,8 +165,9 @@ namespace Joselito_Technocell.Controllers
         {
             User user = await db.Users.FindAsync(id);
             db.Users.Remove(user);
-                        try
+            try
             {
+                UserHelper.DeleteUser(user.UserName);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
