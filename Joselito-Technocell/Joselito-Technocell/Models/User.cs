@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Web;
 
 namespace Joselito_Technocell.Models
@@ -14,6 +11,7 @@ namespace Joselito_Technocell.Models
 
         [Display(Name = "Email")]
         [Required(ErrorMessage = "You must enter a {0}")]
+        [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
         [Index("UserEmailIndex", IsUnique = true)]
         [DataType (DataType.EmailAddress)]
         public string UserName { get; set; }
@@ -41,19 +39,8 @@ namespace Joselito_Technocell.Models
         [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
         public string Address { get; set; }
 
-        public int DepartmentId { get; set; }
-
-        public string DepartmentName { get; set; }
-
-        public int CityId { get; set; }
-
-        public string CityName { get; set; }
-
         [NotMapped]
         public HttpPostedFileBase PhotoFile { get; set; }
-        // [ManyToOne]
-        public virtual Company Company { get; set; }
-        public virtual City City { get; set; }
 
         public bool IsAdmin { get; set; }
 

@@ -18,7 +18,7 @@ namespace Joselito_Technocell.Controllers
 
         public async Task<ActionResult> Index()
         {
-            var products = db.Products.Include(p => p.Category).Include(p => p.Company).Include(p => p.Tax);
+            var products = db.Products.Include(p => p.Category);
             return View(await products.ToListAsync());
         }
 
@@ -39,8 +39,6 @@ namespace Joselito_Technocell.Controllers
         public ActionResult Create()
         {
             ViewBag.CategoryId = new SelectList(Helper.GetCategories(), "CategoryId", "Name");
-            ViewBag.CompanyId = new SelectList(Helper.GetCompanies(), "CompanyId", "Name");
-            ViewBag.TaxId = new SelectList(Helper.GetTaxes(), "TaxId", "Description");
             return View();
         }
 
@@ -72,8 +70,6 @@ namespace Joselito_Technocell.Controllers
             }
 
             ViewBag.CategoryId = new SelectList(Helper.GetCategories(), "CategoryId", "Name", product.CategoryId);
-            ViewBag.CompanyId = new SelectList(Helper.GetCompanies(), "CompanyId", "Name", product.CompanyId);
-            ViewBag.TaxId = new SelectList(Helper.GetTaxes(), "TaxId", "Description", product.TaxId);
             return View(product);
         }
 
@@ -89,8 +85,6 @@ namespace Joselito_Technocell.Controllers
                 return HttpNotFound();
             }
             ViewBag.CategoryId = new SelectList(Helper.GetCategories(), "CategoryId", "Name", product.CategoryId);
-            ViewBag.CompanyId = new SelectList(Helper.GetCompanies(), "CompanyId", "Name", product.CompanyId);
-            ViewBag.TaxId = new SelectList(Helper.GetTaxes(), "TaxId", "Description", product.TaxId);
             return View(product);
         }
 
@@ -121,8 +115,6 @@ namespace Joselito_Technocell.Controllers
                 }
             }
             ViewBag.CategoryId = new SelectList(Helper.GetCategories(), "CategoryId", "Name", product.CategoryId);
-            ViewBag.CompanyId = new SelectList(Helper.GetCompanies(), "CompanyId", "Name", product.CompanyId);
-            ViewBag.TaxId = new SelectList(Helper.GetTaxes(), "TaxId", "Description", product.TaxId);
             return View(product);
         }
 

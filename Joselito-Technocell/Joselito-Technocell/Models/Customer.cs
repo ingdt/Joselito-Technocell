@@ -11,12 +11,7 @@ namespace Joselito_Technocell.Models
     {
         [Key]//, AutoIncrement]
         public int CustomerId { get; set; }
-
-        [Display(Name = "User Name")]
-        [Required(ErrorMessage = "You must enter a {0}")]
-        [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
-        public string UserName { get; set; }
-
+    
         [Display(Name = "First Name")]
         [Required(ErrorMessage = "You must enter a {0}")]
         [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 1)]
@@ -41,23 +36,6 @@ namespace Joselito_Technocell.Models
         public double Latitude { get; set; }
 
         public double Longitude { get; set; }
-
-        [Required(ErrorMessage = "The file{0} is required")]
-        [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
-        public int DepartmentId { get; set; }
-
-        [Required(ErrorMessage = "The file{0} is required")]
-        [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
-        public int CityId { get; set; }
-
-       // [ManyToOne]
-        public Department Department { get; set; }
-
-       // [ManyToOne]
-        public City City { get; set; }
-
-       // [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public List<CompanyCustomer> CompanyCustomers { get; set; }
 
        // [OneToMany(CascadeOperations = CascadeOperation.All)]
         public List<Order> Orders { get; set; }

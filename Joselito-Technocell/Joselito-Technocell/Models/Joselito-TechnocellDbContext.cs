@@ -20,12 +20,6 @@ namespace Joselito_Technocell.Models
 
         public System.Data.Entity.DbSet<Joselito_Technocell.Models.Category> Categories { get; set; }
 
-        public System.Data.Entity.DbSet<Joselito_Technocell.Models.City> Cities { get; set; }
-
-        public System.Data.Entity.DbSet<Joselito_Technocell.Models.Department> Departments { get; set; }
-
-        public System.Data.Entity.DbSet<Joselito_Technocell.Models.Company> Companies { get; set; }
-
         public System.Data.Entity.DbSet<Joselito_Technocell.Models.Customer> Customers { get; set; }
 
         public System.Data.Entity.DbSet<Joselito_Technocell.Models.Inventory> Inventories { get; set; }
@@ -39,5 +33,9 @@ namespace Joselito_Technocell.Models
         public System.Data.Entity.DbSet<Joselito_Technocell.Models.Sale> Sales { get; set; }
 
         public System.Data.Entity.DbSet<Joselito_Technocell.Models.User> Users { get; set; }
+
+        public System.Data.Entity.DbSet<Joselito_Technocell.Models.Supplier> Suppliers { get; set; }
+
+        public System.Data.Entity.DbSet<Joselito_Technocell.Models.OrdenDetails> OrdenDetails { get; set; }
     }
 }

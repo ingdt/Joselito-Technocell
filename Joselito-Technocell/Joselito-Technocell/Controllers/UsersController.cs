@@ -40,8 +40,6 @@ namespace Joselito_Technocell.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            ViewBag.CityId = new SelectList(Helper.GetCities(), "CityId", "Name");
-            ViewBag.CompanyId = new SelectList(Helper.GetCompanies(), "CompanyId", "Name");
             return View();
         }
 
@@ -72,8 +70,6 @@ namespace Joselito_Technocell.Controllers
                     }
                 }
             }
-            ViewBag.CityId = new SelectList(Helper.GetCities(), "CityId", "Name", user.CityId);
-            ViewBag.CompanyId = new SelectList(Helper.GetCompanies(), "CompanyId", "Name", user.CityId);
             return View(user);
         }
 
@@ -89,8 +85,6 @@ namespace Joselito_Technocell.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CityId = new SelectList(Helper.GetCities(), "CityId", "Name", user.CityId);
-            ViewBag.CompanyId = new SelectList(Helper.GetCompanies(), "CompanyId", "Name", user.CityId);
 
             return View(user);
         }
@@ -138,8 +132,6 @@ namespace Joselito_Technocell.Controllers
                     }
                 }
             }
-            ViewBag.CityId = new SelectList(Helper.GetCities(), "CityId", "Name", user.CityId);
-            ViewBag.CompanyId = new SelectList(Helper.GetCompanies(), "CompanyId", "Name", user.CityId);
 
             return View(user);
         }
