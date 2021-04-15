@@ -34,16 +34,6 @@ namespace Joselito_Technocell.Models
         public bool IsService { get; set; }
 
 
-        [Display(Name = "Supplier")]
-        public int? SupplierId { get; set; }
-
-        public Supplier supplier { get; set; }
-
-        public virtual IEnumerable<OrdenDetails>  OrdenDetails { get; set; }
-
-        public virtual IEnumerable<Category>  Categories { get; set; }
-
-
         public int CategoryId { get; set; }
 
        // [ManyToOne]

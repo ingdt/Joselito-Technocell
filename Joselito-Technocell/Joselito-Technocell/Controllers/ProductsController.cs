@@ -18,8 +18,25 @@ namespace Joselito_Technocell.Controllers
 
         public async Task<ActionResult> Index()
         {
-            var products = db.Products.Include(p => p.Category);
-            return View(await products.ToListAsync());
+            try
+            {
+                return View(await db.Products.ToListAsync());
+
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null &&
+                                    ex.InnerException.InnerException != null &&
+                                    ex.InnerException.InnerException.Message.Contains("_Index"))
+                {
+                    ModelState.AddModelError(string.Empty, "The are record with the same value");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+            }
+            return RedirectToAction("Home");
         }
 
         public async Task<ActionResult> Details(int? id)

@@ -5,10 +5,10 @@ using System.Web;
 
 namespace Joselito_Technocell.Models
 {
-    public class Cashier:User
+    public class Deparment
     {
-        public int Id_Cashier { get; set; }
+        public int DeparmentId { get; set; }
 
-       
+        public string Descripcion { get; set; }
     }
 }
