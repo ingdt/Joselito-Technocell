@@ -30,7 +30,7 @@ namespace Joselito_Technocell.Models
 
         public System.Data.Entity.DbSet<Joselito_Technocell.Models.Tax> Taxes { get; set; }
 
-        public System.Data.Entity.DbSet<Joselito_Technocell.Models.Sale> Sales { get; set; }
+       // public System.Data.Entity.DbSet<Joselito_Technocell.Models.Sale> Sales { get; set; }
 
         public System.Data.Entity.DbSet<Joselito_Technocell.Models.User> Users { get; set; }
 

@@ -41,7 +41,7 @@ namespace Joselito_Technocell.Models
         public List<Order> Orders { get; set; }
 
       //  [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public List<Sale> Sales { get; set; }
+     //   public List<Sale> Sales { get; set; }
 
         public bool IsUpdated { get; set; }
 
