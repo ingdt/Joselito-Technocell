@@ -11,8 +11,6 @@ namespace Joselito_Technocell.Models
         [Key]
         public int OrderId { get; set; }
 
-        public int CompanyId { get; set; }
-
         public int CustomerId { get; set; }
 
         public int StateId { get; set; }

@@ -18,8 +18,25 @@ namespace Joselito_Technocell.Controllers
 
         public async Task<ActionResult> Index()
         {
-            var products = db.Products.Include(p => p.Category).Include(p => p.Company).Include(p => p.Tax);
-            return View(await products.ToListAsync());
+            try
+            {
+                return View(await db.Products.ToListAsync());
+
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null &&
+                                    ex.InnerException.InnerException != null &&
+                                    ex.InnerException.InnerException.Message.Contains("_Index"))
+                {
+                    ModelState.AddModelError(string.Empty, "The are record with the same value");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+            }
+            return RedirectToAction("Home");
         }
 
         public async Task<ActionResult> Details(int? id)
@@ -39,8 +56,6 @@ namespace Joselito_Technocell.Controllers
         public ActionResult Create()
         {
             ViewBag.CategoryId = new SelectList(Helper.GetCategories(), "CategoryId", "Name");
-            ViewBag.CompanyId = new SelectList(Helper.GetCompanies(), "CompanyId", "Name");
-            ViewBag.TaxId = new SelectList(Helper.GetTaxes(), "TaxId", "Description");
             return View();
         }
 
@@ -60,9 +75,9 @@ namespace Joselito_Technocell.Controllers
                 {
                     if (ex.InnerException != null &&
                                         ex.InnerException.InnerException != null &&
-                                        ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                                        ex.InnerException.InnerException.Message.Contains("_Index"))
                     {
-                        ModelState.AddModelError(string.Empty, "The record can't be delete beacuse it has related record");
+                        ModelState.AddModelError(string.Empty, "The are record with the same value");
                     }
                     else
                     {
@@ -72,8 +87,6 @@ namespace Joselito_Technocell.Controllers
             }
 
             ViewBag.CategoryId = new SelectList(Helper.GetCategories(), "CategoryId", "Name", product.CategoryId);
-            ViewBag.CompanyId = new SelectList(Helper.GetCompanies(), "CompanyId", "Name", product.CompanyId);
-            ViewBag.TaxId = new SelectList(Helper.GetTaxes(), "TaxId", "Description", product.TaxId);
             return View(product);
         }
 
@@ -89,8 +102,6 @@ namespace Joselito_Technocell.Controllers
                 return HttpNotFound();
             }
             ViewBag.CategoryId = new SelectList(Helper.GetCategories(), "CategoryId", "Name", product.CategoryId);
-            ViewBag.CompanyId = new SelectList(Helper.GetCompanies(), "CompanyId", "Name", product.CompanyId);
-            ViewBag.TaxId = new SelectList(Helper.GetTaxes(), "TaxId", "Description", product.TaxId);
             return View(product);
         }
 
@@ -110,9 +121,9 @@ namespace Joselito_Technocell.Controllers
                 {
                     if (ex.InnerException != null &&
                                         ex.InnerException.InnerException != null &&
-                                        ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                                        ex.InnerException.InnerException.Message.Contains("_Index"))
                     {
-                        ModelState.AddModelError(string.Empty, "The record can't be delete beacuse it has related record");
+                        ModelState.AddModelError(string.Empty, "The are record with the same value");
                     }
                     else
                     {
@@ -121,8 +132,6 @@ namespace Joselito_Technocell.Controllers
                 }
             }
             ViewBag.CategoryId = new SelectList(Helper.GetCategories(), "CategoryId", "Name", product.CategoryId);
-            ViewBag.CompanyId = new SelectList(Helper.GetCompanies(), "CompanyId", "Name", product.CompanyId);
-            ViewBag.TaxId = new SelectList(Helper.GetTaxes(), "TaxId", "Description", product.TaxId);
             return View(product);
         }
 

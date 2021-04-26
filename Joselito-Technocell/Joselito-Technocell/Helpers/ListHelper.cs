@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -11,27 +12,6 @@ namespace Joselito_Technocell.Helpers
     {
         private static Joselito_TechnocellDbContext db = new Joselito_TechnocellDbContext();
         #region getComboBox
-        internal static IEnumerable GetDepartments()
-        {
-            var departments = db.Departments.ToList();
-            departments.Add(new Department
-            {
-                DepartmentId = 0,
-                Name = "[Select a departmant]"
-            });
-            return departments.OrderBy(d => d.Name).ToList();
-        }
-
-        internal static IEnumerable GetCities()
-        {
-            var Cities = db.Cities.ToList();
-            Cities.Add(new City
-            {
-                CityId = 0,
-                Name = "[Select a City ]"
-            });
-            return Cities.OrderBy(d => d.Name).ToList();
-        }
 
         internal static IEnumerable GetProduct()
         {
@@ -42,18 +22,6 @@ namespace Joselito_Technocell.Helpers
                 BarCode = "[Select a Product ]"
             });
             return Products.OrderBy(d => d.BarCode).ToList();
-        }
-
-        internal static IEnumerable GetCompanies()
-        {
-            var Companies = db.Companies.ToList();
-            Companies.Add(new Company
-            {
-                CompanyId = 0,
-                
-                Name= "[Select a Product ]"
-            });
-            return Companies.OrderBy(d => d.Name).ToList();
         }
 
         internal static IEnumerable GetTaxes()
@@ -89,8 +57,39 @@ namespace Joselito_Technocell.Helpers
             return Customers.OrderBy(d => d.FirstName).ToList();
         }
         #endregion
+        #region UploadPhoto
+        public static bool UploadPhoto(HttpPostedFileBase file, string folder, string name)
+        {
+            if (file == null|| string.IsNullOrEmpty(folder) || string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+            string path = string.Empty;
+            string pic = string.Empty;
 
+            try
+            {
+                if (file != null)
+                {
+                    path = Path.Combine(HttpContext.Current.Server.MapPath(folder), name);
+                    file.SaveAs(path);
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        file.InputStream.CopyTo(ms);
+                        byte[] array = ms.GetBuffer();
+                    }
+                }
+                return true;
 
+            }
+            catch
+            {
+
+                return false;
+            }
+        }
+
+        #endregion
         public void Dispose()
         {
             db.Dispose();

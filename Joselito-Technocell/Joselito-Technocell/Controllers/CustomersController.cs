@@ -19,8 +19,7 @@ namespace Joselito_Technocell.Controllers
 
         public async Task<ActionResult> Index()
         {
-            var customers = db.Customers.Include(c => c.City).Include(c => c.Department);
-            return View(await customers.ToListAsync());
+            return View(await db.Customers.ToListAsync());
         }
 
         public async Task<ActionResult> Details(int? id)
@@ -39,8 +38,6 @@ namespace Joselito_Technocell.Controllers
         
         public ActionResult Create()
         {
-            ViewBag.CityId = new SelectList(Helper.GetCities(), "CityId", "Name");
-            ViewBag.DepartmentId = new SelectList(Helper.GetDepartments(), "DepartmentId", "Name");
             return View();
         }
 
@@ -60,9 +57,9 @@ namespace Joselito_Technocell.Controllers
                 {
                     if (ex.InnerException != null &&
                                         ex.InnerException.InnerException != null &&
-                                        ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                                        ex.InnerException.InnerException.Message.Contains("_Index"))
                     {
-                        ModelState.AddModelError(string.Empty, "The record can't be delete beacuse it has related record");
+                        ModelState.AddModelError(string.Empty, "The are record with the same value");
                     }
                     else
                     {
@@ -71,8 +68,6 @@ namespace Joselito_Technocell.Controllers
                 }
             }
 
-            ViewBag.CityId = new SelectList(Helper.GetCities(), "CityId", "Name", customer.CityId);
-            ViewBag.DepartmentId = new SelectList(Helper.GetDepartments(), "DepartmentId", "Name", customer.DepartmentId);
             return View(customer);
         }
 
@@ -88,8 +83,6 @@ namespace Joselito_Technocell.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CityId = new SelectList(Helper.GetCities(), "CityId", "Name", customer.CityId);
-            ViewBag.DepartmentId = new SelectList(Helper.GetDepartments(), "DepartmentId", "Name", customer.DepartmentId);
             return View(customer);
         }
 
@@ -109,9 +102,9 @@ namespace Joselito_Technocell.Controllers
                 {
                     if (ex.InnerException != null &&
                                         ex.InnerException.InnerException != null &&
-                                        ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                                        ex.InnerException.InnerException.Message.Contains("_Index"))
                     {
-                        ModelState.AddModelError(string.Empty, "The record can't be delete beacuse it has related record");
+                        ModelState.AddModelError(string.Empty, "The are record with the same value");
                     }
                     else
                     {
@@ -119,8 +112,6 @@ namespace Joselito_Technocell.Controllers
                     }
                 }
             }
-            ViewBag.CityId = new SelectList(Helper.GetCities(), "CityId", "Name", customer.CityId);
-            ViewBag.DepartmentId = new SelectList(Helper.GetDepartments(), "DepartmentId", "Name", customer.DepartmentId);
             return View(customer);
         }
 

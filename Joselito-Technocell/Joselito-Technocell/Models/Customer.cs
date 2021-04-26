@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -10,41 +11,37 @@ namespace Joselito_Technocell.Models
     {
         [Key]//, AutoIncrement]
         public int CustomerId { get; set; }
-
-        public string UserName { get; set; }
-
+    
+        [Display(Name = "First Name")]
+        [Required(ErrorMessage = "You must enter a {0}")]
+        [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 1)]
         public string FirstName { get; set; }
 
+        [Display(Name = "Last Name")]
+        [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} characters")]
         public string LastName { get; set; }
 
+        [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
+        [DataType(DataType.ImageUrl)]
         public string Photo { get; set; }
 
-        public string Phone { get; set; }
+        [Required(ErrorMessage = "You must enter a {0}")]
+        [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
+        [DataType(DataType.PhoneNumber)] public string Phone { get; set; }
 
+        [Required(ErrorMessage = "You must enter a {0}")]
+        [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
         public string Address { get; set; }
 
         public double Latitude { get; set; }
 
         public double Longitude { get; set; }
 
-        public int DepartmentId { get; set; }
-
-        public int CityId { get; set; }
-
-       // [ManyToOne]
-        public Department Department { get; set; }
-
-       // [ManyToOne]
-        public City City { get; set; }
-
-       // [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public List<CompanyCustomer> CompanyCustomers { get; set; }
-
        // [OneToMany(CascadeOperations = CascadeOperation.All)]
         public List<Order> Orders { get; set; }
 
       //  [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public List<Sale> Sales { get; set; }
+     //   public List<Sale> Sales { get; set; }
 
         public bool IsUpdated { get; set; }
 

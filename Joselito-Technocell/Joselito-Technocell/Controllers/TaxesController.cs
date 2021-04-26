@@ -15,13 +15,11 @@ namespace Joselito_Technocell.Controllers
     {
         private Joselito_TechnocellDbContext db = new Joselito_TechnocellDbContext();
 
-        // GET: Taxes
         public async Task<ActionResult> Index()
         {
             return View(await db.Taxes.ToListAsync());
         }
 
-        // GET: Taxes/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,15 +34,13 @@ namespace Joselito_Technocell.Controllers
             return View(tax);
         }
 
-        // GET: Taxes/Create
+
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Taxes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Tax tax)
@@ -61,9 +57,9 @@ namespace Joselito_Technocell.Controllers
                 {
                     if (ex.InnerException != null &&
                                         ex.InnerException.InnerException != null &&
-                                        ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                                        ex.InnerException.InnerException.Message.Contains("_Index"))
                     {
-                        ModelState.AddModelError(string.Empty, "The record can't be delete beacuse it has related record");
+                        ModelState.AddModelError(string.Empty, "The are record with the same value");
                     }
                     else
                     {
@@ -75,7 +71,6 @@ namespace Joselito_Technocell.Controllers
             return View(tax);
         }
 
-        // GET: Taxes/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -90,9 +85,6 @@ namespace Joselito_Technocell.Controllers
             return View(tax);
         }
 
-        // POST: Taxes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(Tax tax)
@@ -109,9 +101,9 @@ namespace Joselito_Technocell.Controllers
                 {
                     if (ex.InnerException != null &&
                                         ex.InnerException.InnerException != null &&
-                                        ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                                        ex.InnerException.InnerException.Message.Contains("_Index"))
                     {
-                        ModelState.AddModelError(string.Empty, "The record can't be delete beacuse it has related record");
+                        ModelState.AddModelError(string.Empty, "The are record with the same value");
                     }
                     else
                     {
@@ -122,7 +114,6 @@ namespace Joselito_Technocell.Controllers
             return View(tax);
         }
 
-        // GET: Taxes/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,7 +128,6 @@ namespace Joselito_Technocell.Controllers
             return View(tax);
         }
 
-        // POST: Taxes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)

@@ -1,4 +1,4 @@
-﻿@model Joselito_Technocell.Models.Order
+﻿@model Joselito_Technocell.Models.OrdenDetails
 
 @{
     ViewBag.Title = "Details";
@@ -7,52 +7,52 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Order</h4>
+    <h4>OrdenDetails</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Customer.UserName)
+            @Html.DisplayNameFor(model => model.Order.Date)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Customer.UserName)
+            @Html.DisplayFor(model => model.Order.Date)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CompanyId)
+            @Html.DisplayNameFor(model => model.Product.Description)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.CompanyId)
+            @Html.DisplayFor(model => model.Product.Description)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.StateId)
+            @Html.DisplayNameFor(model => model.Comentary)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.StateId)
+            @Html.DisplayFor(model => model.Comentary)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Date)
+            @Html.DisplayNameFor(model => model.Registro)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Date)
+            @Html.DisplayFor(model => model.Registro)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Remarks)
+            @Html.DisplayNameFor(model => model.Unidad)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Remarks)
+            @Html.DisplayFor(model => model.Unidad)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.OrderId }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.OrdenDetailsId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

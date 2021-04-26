@@ -8,24 +8,18 @@ namespace Joselito_Technocell.Models
 {
     public class Inventory
     {
-        [Key]
         public int InventoryId { get; set; }
 
-        public int ProductId { get; set; }
+       public string Name { get; set; }
 
-        //[ManyToOne]
-        public Product Product { get; set; }
+        public string description { get; set; }
 
-        public int WarehouseId { get; set; }
+        public string ubication { get; set; }
 
-        public string WarehouseName { get; set; }
+        public virtual ICollection<Stock> Stocks { get; set; }
 
-        public double Stock { get; set; }
-
-        public override int GetHashCode()
-        {
-            return InventoryId;
-        }
+    
+      
     }
 
 }
