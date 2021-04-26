@@ -25,11 +25,6 @@ namespace Joselito_Technocell.Models
 
         //[OneToMany(CascadeOperations = CascadeOperation.All)]
         public virtual List<Product> Products { get; set; }
-
-        public override int GetHashCode()
-        {
-            return CategoryId;
-        }
     }
 
 }
