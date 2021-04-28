@@ -24,7 +24,7 @@ namespace Joselito_Technocell.Models
         public string Description { get; set; }
 
         //[OneToMany(CascadeOperations = CascadeOperation.All)]
-        public virtual List<Product> Products { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 
 }

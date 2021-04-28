@@ -7,7 +7,8 @@ namespace Joselito_Technocell.Models
 {
     public class TipoUnidadeMedidas
     {
-        public int TipoUnidadeId { get; set; }
+        [key]
+        public int TipoUnidadeMedidasId { get; set; }
 
         public string Name { get; set; }
 
@@ -15,6 +16,7 @@ namespace Joselito_Technocell.Models
 
         public string Simbol { get; set; }
 
+        public virtual ICollection<RegistroAlmacen> RegistroAlmacens { get; set; }
     }
 
 }

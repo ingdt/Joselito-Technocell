@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Joselito_Technocell.Helpers;
 using Joselito_Technocell.Models;
 
 namespace Joselito_Technocell.Controllers
@@ -16,13 +15,14 @@ namespace Joselito_Technocell.Controllers
     {
         private Joselito_TechnocellDbContext db = new Joselito_TechnocellDbContext();
 
-
+        // GET: Categories
         public async Task<ActionResult> Index()
         {
             return View(await db.Categories.ToListAsync());
         }
 
-        public async Task<ActionResult>Details(int? id)
+        // GET: Categories/Details/5
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -36,42 +36,30 @@ namespace Joselito_Technocell.Controllers
             return View(category);
         }
 
+        // GET: Categories/Create
         public ActionResult Create()
         {
             return View();
         }
 
-
+        // POST: Categories/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Category category)
+        public async Task<ActionResult> Create([Bind(Include = "CategoryId,Name,Description")] Category category)
         {
             if (ModelState.IsValid)
             {
                 db.Categories.Add(category);
-                try
-                {
-                    await db.SaveChangesAsync();
-                    return RedirectToAction("Index");
-                }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException != null &&
-                                        ex.InnerException.InnerException != null &&
-                                        ex.InnerException.InnerException.Message.Contains("_Index"))
-                    {
-                        ModelState.AddModelError(string.Empty, "The are record with the same value");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
-                }
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
+
             return View(category);
         }
 
-
+        // GET: Categories/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,37 +74,23 @@ namespace Joselito_Technocell.Controllers
             return View(category);
         }
 
-
+        // POST: Categories/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Category category)
+        public async Task<ActionResult> Edit([Bind(Include = "CategoryId,Name,Description")] Category category)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(category).State = EntityState.Modified;
-                try
-                {
-                    await db.SaveChangesAsync();
-                    return RedirectToAction("Index");
-                }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException != null &&
-                                        ex.InnerException.InnerException != null &&
-                                        ex.InnerException.InnerException.Message.Contains("_Index"))
-                    {
-                        ModelState.AddModelError(string.Empty, "The are record with the same value");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
-                }
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
             return View(category);
         }
 
-
+        // GET: Categories/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,32 +104,16 @@ namespace Joselito_Technocell.Controllers
             }
             return View(category);
         }
-        
+
+        // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Category category = db.Categories.Find(id);
+            Category category = await db.Categories.FindAsync(id);
             db.Categories.Remove(category);
-            try
-            {
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                if (ex.InnerException != null &&
-                                    ex.InnerException.InnerException != null &&
-                                    ex.InnerException.InnerException.Message.Contains("_Index"))
-                {
-                    ModelState.AddModelError(string.Empty, "The are record with the same value");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, ex.Message);
-                }
-            }
-            return View(category);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

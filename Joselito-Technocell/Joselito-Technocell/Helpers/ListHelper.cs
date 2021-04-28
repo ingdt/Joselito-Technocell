@@ -24,16 +24,16 @@ namespace Joselito_Technocell.Helpers
             return Products.OrderBy(d => d.BarCode).ToList();
         }
 
-        internal static IEnumerable GetTaxes()
-        {
-            var Taxes = db.Taxes.ToList();
-            Taxes.Add(new Tax
-            {
-                TaxId = 0,
-                Description = "[Select a Taxes ]"
-            });
-            return Taxes.OrderBy(d => d.Description).ToList();
-        }
+        //internal static IEnumerable GetTaxes()
+        //{
+        //    var Taxes = db.Taxes.ToList();
+        //    Taxes.Add(new Tax
+        //    {
+        //        TaxId = 0,
+        //        Description = "[Select a Taxes ]"
+        //    });
+        //    return Taxes.OrderBy(d => d.Description).ToList();
+        //}
 
         internal static IEnumerable GetCategories()
         {
@@ -46,16 +46,16 @@ namespace Joselito_Technocell.Helpers
             return Categories.OrderBy(d => d.Name).ToList();
         }
 
-        internal static IEnumerable GetCustomers()
-        {
-            var Customers = db.Customers.ToList();
-            Customers.Add(new Customer
-            {
-                CustomerId = 0,
-                FirstName = "[Select a Customer ]"
-            });
-            return Customers.OrderBy(d => d.FirstName).ToList();
-        }
+        //internal static IEnumerable GetCustomers()
+        //{
+        //    var Customers = db.Customers.ToList();
+        //    Customers.Add(new Customer
+        //    {
+        //        CustomerId = 0,
+        //        FirstName = "[Select a Customer ]"
+        //    });
+        //    return Customers.OrderBy(d => d.FirstName).ToList();
+        //}
         #endregion
         #region UploadPhoto
         public static bool UploadPhoto(HttpPostedFileBase file, string folder, string name)

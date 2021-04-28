@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Joselito_Technocell.Models
 {
     public class Requisitions
     {
-        public int RequesicionId { get; set; }
+        [key]
+        public int RequisitionsId { get; set; }
 
         public DateTime FechadePedido { get; set; }
 
@@ -15,15 +14,15 @@ namespace Joselito_Technocell.Models
 
         public string Cantidad { get; set; }
 
-        public int Unidad { get; set; } 
+        public int Unidad { get; set; }
 
         public string Articulo { get; set; }
 
-        public virtual ICollection<Product> Products { get; set; }
 
         public int DeparmentId { get; set; }
 
         public virtual Deparment Deparment { get; set; }
+       // public virtual ICollection<Product> Products { get; set; }
 
     }
 }

@@ -25,20 +25,18 @@ namespace Joselito_Technocell.Models
 
         public string Image { get; set; }
 
-
+        [NotMapped]
         public HttpPostedFileBase ImageFile { get; set; }
-
-        public double? Stock { get; set; }
 
         [Display(Name = "Is Service")]
         public bool IsService { get; set; }
 
-
         public int CategoryId { get; set; }
 
-       // [ManyToOne]
+        // [ManyToOne]
         public Category Category { get; set; }
 
+        public virtual ICollection<RegistroAlmacen> RegistroAlmacens { get; set; }
 
         public string ImageFullPath { get { return string.Format("http://zulu-software.com/ECommerce{0}", Image.Substring(1)); } }
 
