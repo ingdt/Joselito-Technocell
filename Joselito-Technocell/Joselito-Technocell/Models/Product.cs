@@ -17,7 +17,7 @@ namespace Joselito_Technocell.Models
         public string Description { get; set; }
 
         [Display(Name = "Bar Code")]
-        [Index("ProductBarCodeIndex", IsUnique = true)]
+        //[Index("ProductBarCodeIndex", IsUnique = true)]
         public string BarCode { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
@@ -34,7 +34,7 @@ namespace Joselito_Technocell.Models
         public int CategoryId { get; set; }
 
         // [ManyToOne]
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
 
         public virtual ICollection<RegistroAlmacen> RegistroAlmacens { get; set; }
 
