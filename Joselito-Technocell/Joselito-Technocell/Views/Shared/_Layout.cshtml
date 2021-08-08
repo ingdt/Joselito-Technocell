@@ -25,7 +25,7 @@
                     <li>@Html.ActionLink("Cliente", "Index", "Customers")</li>
                     <li>@Html.ActionLink("Inventario", "Index", "Inventories")</li>
 
-                </ul>         
+                </ul>
                 <ul class="nav navbar-nav">
 
                     <li>@Html.ActionLink("Ordenes", "Index", "Orders")</li>
@@ -39,6 +39,14 @@
         </div>
     </div>
     <div class="container body-content">
+        <div class="col-12">
+            @if (@ViewBag.Messange != null)
+            {
+                <script>
+                    alert("@ViewBag.Messange")
+                </script>
+            }
+        </div>
         @RenderBody()
         <hr />
         <footer>

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Joselito_Technocell.Models.Requisitions>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Deparment.Descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechadePedido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechadeEntrega)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cantidad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Unidad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Articulo)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Deparment.Descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechadePedido)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechadeEntrega)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cantidad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unidad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Articulo)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.RequisitionsId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.RequisitionsId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.RequisitionsId })
+        </td>
+    </tr>
+}
+
+</table>
