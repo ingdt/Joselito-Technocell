@@ -1,4 +1,4 @@
-﻿@model Joselito_Technocell.Models.Supplier
+﻿@model Joselito_Technocell.Models.User
 
 @{
     ViewBag.Title = "Details";
@@ -7,23 +7,15 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Supplier</h4>
+    <h4>User</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.City.Name)
+            @Html.DisplayNameFor(model => model.UserName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.City.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Company.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Company.Name)
+            @Html.DisplayFor(model => model.UserName)
         </dd>
 
         <dt>
@@ -67,32 +59,56 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Latitude)
+            @Html.DisplayNameFor(model => model.IsAdmin)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Latitude)
+            @Html.DisplayFor(model => model.IsAdmin)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Longitude)
+            @Html.DisplayNameFor(model => model.IsUser)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Longitude)
+            @Html.DisplayFor(model => model.IsUser)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.IsUpdated)
+            @Html.DisplayNameFor(model => model.IsCustomer)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.IsUpdated)
+            @Html.DisplayFor(model => model.IsCustomer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsSupplier)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsSupplier)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsRemembered)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsRemembered)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Password)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.SupplierId }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.UserId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
