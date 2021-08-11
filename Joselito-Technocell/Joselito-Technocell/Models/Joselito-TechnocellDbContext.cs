@@ -28,6 +28,8 @@ namespace Joselito_Technocell.Models
         public DbSet<Deparment> Deparments { get; set; }
         public DbSet<Requisitions> Requisitions { get; set; }
         public DbSet<User> Users { get; set; }
+
+        public System.Data.Entity.DbSet<Joselito_Technocell.Models.DetalleRequisition> DetalleRequisitions { get; set; }
         //public DbSet<Customer> Customers { get; set; }
         //public DbSet<Order> Orders { get; set; }
         //public DbSet<Tax> Taxes { get; set; }

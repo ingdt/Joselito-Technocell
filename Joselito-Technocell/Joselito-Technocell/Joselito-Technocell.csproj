@@ -183,9 +183,18 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AddressesController.cs" />
+    <Compile Include="Controllers\AnaquelsController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\CompaniesController.cs" />
+    <Compile Include="Controllers\DeparmentsController.cs" />
+    <Compile Include="Controllers\DetalleRequisitionsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InventoriesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\RequisitionsController.cs" />
+    <Compile Include="Controllers\TipoUnidadeMedidasController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -205,6 +214,7 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Deparment.cs" />
+    <Compile Include="Models\DetalleRequisition.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Inventory.cs" />
     <Compile Include="Models\Joselito-TechnocellDbContext.cs" />
@@ -424,6 +434,40 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Companies\Index.cshtml" />
+    <Content Include="Views\Companies\Create.cshtml" />
+    <Content Include="Views\Companies\Delete.cshtml" />
+    <Content Include="Views\Companies\Details.cshtml" />
+    <Content Include="Views\Companies\Edit.cshtml" />
+    <Content Include="Views\Deparments\Create.cshtml" />
+    <Content Include="Views\Deparments\Delete.cshtml" />
+    <Content Include="Views\Deparments\Details.cshtml" />
+    <Content Include="Views\Deparments\Edit.cshtml" />
+    <Content Include="Views\Deparments\Index.cshtml" />
+    <Content Include="Views\Anaquels\Create.cshtml" />
+    <Content Include="Views\Anaquels\Delete.cshtml" />
+    <Content Include="Views\Anaquels\Details.cshtml" />
+    <Content Include="Views\Anaquels\Edit.cshtml" />
+    <Content Include="Views\Anaquels\Index.cshtml" />
+    <Content Include="Views\TipoUnidadeMedidas\Create.cshtml" />
+    <Content Include="Views\TipoUnidadeMedidas\Delete.cshtml" />
+    <Content Include="Views\TipoUnidadeMedidas\Details.cshtml" />
+    <Content Include="Views\TipoUnidadeMedidas\Edit.cshtml" />
+    <Content Include="Views\TipoUnidadeMedidas\Index.cshtml" />
+    <Content Include="Views\Addresses\Create.cshtml" />
+    <Content Include="Views\Addresses\Delete.cshtml" />
+    <Content Include="Views\Addresses\Details.cshtml" />
+    <Content Include="Views\Addresses\Edit.cshtml" />
+    <Content Include="Views\Addresses\Index.cshtml" />
+    <Content Include="Views\Requisitions\Delete.cshtml" />
+    <Content Include="Views\Requisitions\Details.cshtml" />
+    <Content Include="Views\Requisitions\Edit.cshtml" />
+    <Content Include="Views\Requisitions\Index.cshtml" />
+    <Content Include="Views\DetalleRequisitions\Create.cshtml" />
+    <Content Include="Views\DetalleRequisitions\Delete.cshtml" />
+    <Content Include="Views\DetalleRequisitions\Details.cshtml" />
+    <Content Include="Views\DetalleRequisitions\Edit.cshtml" />
+    <Content Include="Views\Requisitions\Create.cshtml" />
+    <Content Include="Views\DetalleRequisitions\_Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

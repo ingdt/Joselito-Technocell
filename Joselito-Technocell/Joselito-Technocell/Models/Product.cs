@@ -14,6 +14,10 @@ namespace Joselito_Technocell.Models
 
         [Required(ErrorMessage = "You must enter a {0}")]
         [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
+        public string Name { get; set; }
+        
+        [Required(ErrorMessage = "You must enter a {0}")]
+        [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
         public string Description { get; set; }
 
         [Display(Name = "Bar Code")]
@@ -35,6 +39,7 @@ namespace Joselito_Technocell.Models
 
         // [ManyToOne]
         public virtual Category Category { get; set; }
+        public virtual ICollection<DetalleRequisition> Detalles { get; set; }
 
         public virtual ICollection<RegistroAlmacen> RegistroAlmacens { get; set; }
 

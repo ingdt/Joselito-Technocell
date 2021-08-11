@@ -1,4 +1,4 @@
-﻿@model Joselito_Technocell.Models.Inventory
+﻿@model Joselito_Technocell.Models.TipoUnidadeMedidas
 
 @{
     ViewBag.Title = "Details";
@@ -7,15 +7,15 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Inventory</h4>
+    <h4>TipoUnidadeMedidas</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Companys.Name)
+            @Html.DisplayNameFor(model => model.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Companys.Name)
+            @Html.DisplayFor(model => model.Name)
         </dd>
 
         <dt>
@@ -27,16 +27,16 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Latitud)
+            @Html.DisplayNameFor(model => model.Simbol)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Latitud)
+            @Html.DisplayFor(model => model.Simbol)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.InventoryId }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TipoUnidadeMedidasId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
