@@ -467,7 +467,7 @@
     <Content Include="Views\DetalleRequisitions\Details.cshtml" />
     <Content Include="Views\DetalleRequisitions\Edit.cshtml" />
     <Content Include="Views\Requisitions\Create.cshtml" />
-    <Content Include="Views\DetalleRequisitions\_Index.cshtml" />
+    <Content Include="Views\DetalleRequisitions\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

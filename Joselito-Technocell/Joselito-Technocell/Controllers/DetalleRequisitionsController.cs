@@ -15,13 +15,12 @@ namespace Joselito_Technocell.Controllers
     {
         private Joselito_TechnocellDbContext db = new Joselito_TechnocellDbContext();
 
-        // GET: DetalleRequisitions
+        [ChildActionOnly]
         public async Task<ActionResult> Index(int? id)
         {
-            var detalleRequisitions = db.DetalleRequisitions.Include(d => d.Product).Include(d => d.Requisitions);
-            return View(await detalleRequisitions.ToListAsync());
+            var list = db.DetalleRequisitions.Where(c => c.RequisitionsId == id).ToList();
+            return View(list);
         }
-
         // GET: DetalleRequisitions/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -40,10 +39,10 @@ namespace Joselito_Technocell.Controllers
         // GET: DetalleRequisitions/Create
         public ActionResult Create(int id)
         {
-            var detelle = new DetalleRequisition();
-            detelle.RequisitionsId = id;
+            var detalle = new DetalleRequisition();
+            detalle.RequisitionsId = id;
             ViewBag.productId = new SelectList(db.Products, "ProductId", "Name");
-            return View(detelle);
+            return View(detalle);
         }
 
         // POST: DetalleRequisitions/Create
@@ -69,7 +68,7 @@ namespace Joselito_Technocell.Controllers
                 ViewBag.productId = new SelectList(db.Products, "ProductId", "Name", detalleRequisition.productId);
                 return View(detalleRequisition);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Requisitions");
         }
 
         // GET: DetalleRequisitions/Edit/5
