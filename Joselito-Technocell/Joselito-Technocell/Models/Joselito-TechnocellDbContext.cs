@@ -24,10 +24,11 @@ namespace Joselito_Technocell.Models
         public DbSet<Inventory> Inventories { get; set; }
         public DbSet<Anaquel> Anaquels { get; set; }
         public DbSet<RegistroAlmacen> registroAlmacens { get; set; }
+        public DbSet<RegistroAlmacen> salidaAlmacens { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Deparment> Deparments { get; set; }
         public DbSet<Requisitions> Requisitions { get; set; }
-        public DbSet<User> Users { get; set; }
+        // public DbSet<User> Users { get; set; }
 
         public System.Data.Entity.DbSet<Joselito_Technocell.Models.DetalleRequisition> DetalleRequisitions { get; set; }
         //public DbSet<Customer> Customers { get; set; }
