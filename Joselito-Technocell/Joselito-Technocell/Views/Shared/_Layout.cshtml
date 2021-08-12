@@ -21,7 +21,10 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Crear usuario.", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
                     <li>@Html.ActionLink("Categorias", "Index", "Categories")</li>
+                    <li>@Html.ActionLink("Add Rol", "AsignarRol", "Account")</li>
+                    <li>@Html.ActionLink("Restablecer Contrasena", "ForgotPassword", "Account")</li>
                     <li>@Html.ActionLink("Company", "Index", "Companies")</li>
                     <li>@Html.ActionLink("Addres", "Index", "Addresses")</li>
                     <li>@Html.ActionLink("Departamento", "Index", "Deparments")</li>

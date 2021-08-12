@@ -25,7 +25,61 @@ namespace Joselito_Technocell.Helpers
                 roleManager.Create(new IdentityRole(roleName));
             }
         }
+        public static List<IdentityRole> getRoles()
+        {
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(userContext));
+            var model = new List<IdentityRole>();
+            model = roleManager.Roles.ToList();
+            return model;
+        }
+        public static void addRol(string roleNeme, string email)
+        {
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(userContext));
+            var userASP = userManager.FindByName(email);
+            var rol = roleManager.FindByName(roleNeme);
+            bool a = true;
+            if (roleManager.RoleExists(roleNeme))
+            {
+                var roles = userASP.Roles.ToArray();
+                foreach (var item in roles)
+                {
+                    if (item.RoleId == rol.Id)
+                    {
+                        a = false;
+                    }
+                }
+                if (a)
+                {
+                    userManager.AddToRole(userASP.Id, roleNeme);
+                }
+            }
 
+        } 
+        public static void removeRol(string roleNeme, string email)
+        {
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(userContext));
+            var userASP = userManager.FindByName(email);
+            var rol = roleManager.FindByName(roleNeme);
+            bool a = false;
+            if (roleManager.RoleExists(roleNeme))
+            {
+                var roles = userASP.Roles.ToArray();
+                foreach (var item in roles)
+                {
+                    if (item.RoleId == rol.Id)
+                    {
+                        a = true;
+                    }
+                }
+                if (a)
+                {
+                    userManager.RemoveFromRole(userASP.Id, roleNeme);
+                }
+            }
+
+        }
         public static void CheckSuperUser()
         {
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
@@ -34,24 +88,11 @@ namespace Joselito_Technocell.Helpers
             var userASP = userManager.FindByName(email);
             if (userASP == null)
             {
-                CreateUserASP(email, "Admin", password);
+                CreateUserASP(email, "AD-ROOT", password);
                 return;
             }
 
-            userManager.AddToRole(userASP.Id, "Admin");
-        }
-        public static void CreateUserASP(string email, string roleName)
-        {
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
-
-            var userASP = new ApplicationUser
-            {
-                Email = email,
-                UserName = email,
-            };
-
-            userManager.Create(userASP, email);
-            userManager.AddToRole(userASP.Id, roleName);
+            userManager.AddToRole(userASP.Id, "AD-ROOT");
         }
 
         public static void CreateUserASP(string email, string roleName, string password)

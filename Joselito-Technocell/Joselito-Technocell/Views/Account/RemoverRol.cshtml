@@ -1,8 +1,8 @@
-﻿@model Joselito_Technocell.Models.RegisterViewModel
+﻿@model Joselito_Technocell.Models.UserRolViewModels
 @{
-    ViewBag.Title = "Registrarse";
+    ViewBag.Title = "Remover Rol";
 }
-@using (Html.BeginForm("AsignarRol", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("RemoverRol", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
     <h4>Cree una cuenta nueva.</h4>
@@ -14,16 +14,12 @@
             @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
         </div>
     </div>
+
     <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(model => model.Rol, "Rol", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            @Html.DropDownList("Rol", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Rol, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
