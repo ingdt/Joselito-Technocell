@@ -227,7 +227,7 @@ namespace Joselito_Technocell.Controllers
         {
             if (ModelState.IsValid)
             {
-                UserHelper.addRol(model.Email, model.Rol);
+                UserHelper.addRol( model.Rol, model.Email);
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.Rol = new SelectList(UserHelper.getRoles(), "Name", "Name");
