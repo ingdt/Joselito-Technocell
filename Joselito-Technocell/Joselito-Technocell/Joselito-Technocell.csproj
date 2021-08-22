@@ -185,6 +185,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AddressesController.cs" />
     <Compile Include="Controllers\AnaquelsController.cs" />
+    <Compile Include="Models\Caja.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\DeparmentsController.cs" />
@@ -214,7 +215,9 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Deparment.cs" />
+    <Compile Include="Models\DetalleFactura.cs" />
     <Compile Include="Models\DetalleRequisition.cs" />
+    <Compile Include="Models\Factura.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Inventory.cs" />
     <Compile Include="Models\Joselito-TechnocellDbContext.cs" />
@@ -224,6 +227,7 @@
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\RegistroAlmacen.cs" />
     <Compile Include="Models\Requisitions.cs" />
+    <Compile Include="Models\State.cs" />
     <Compile Include="Models\TipoUnidadeMedidas.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserRolViewModels.cs" />
