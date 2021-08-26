@@ -39,7 +39,7 @@ namespace Joselito_Technocell.Controllers
         // GET: Categories/Create
         public ActionResult Create()
         {
-            return View();
+            return View(new Category());
         }
 
         // POST: Categories/Create
