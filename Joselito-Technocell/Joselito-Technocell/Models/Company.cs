@@ -11,10 +11,6 @@ namespace Joselito_Technocell.Models
         public int CompanyId { get; set; }
         public string Name { get; set; }
         public DateTime FechaReguistro { get; set; }
-        public int AddressId { get;  set; }
-        public Address Address { get; set; }
-        //relation//
-        public virtual ICollection<Inventory> Inventories { get; set; }
-        public virtual ICollection<Deparment> Deparments { get; set; }
+        public string Address { get; set; }
     }
 }

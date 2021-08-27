@@ -12,11 +12,6 @@ namespace Joselito_Technocell.Models
         public string Latitud { get; set; }
 
         public virtual ICollection<Anaquel> Anaqueles { get; set; }
-        public int CompanyId { get; set; }
-        public virtual Company Companys { get; set; }
-
-
 
     }
-
 }

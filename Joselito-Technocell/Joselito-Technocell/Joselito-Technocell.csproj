@@ -184,10 +184,10 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AddressesController.cs" />
     <Compile Include="Controllers\AnaquelsController.cs" />
+    <Compile Include="Controllers\DeparmentsController.cs" />
     <Compile Include="Models\Caja.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
-    <Compile Include="Controllers\DeparmentsController.cs" />
     <Compile Include="Controllers\DetalleRequisitionsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoriesController.cs" />
@@ -3337,11 +3337,6 @@
     <Content Include="Views\Companies\Delete.cshtml" />
     <Content Include="Views\Companies\Details.cshtml" />
     <Content Include="Views\Companies\Edit.cshtml" />
-    <Content Include="Views\Deparments\Create.cshtml" />
-    <Content Include="Views\Deparments\Delete.cshtml" />
-    <Content Include="Views\Deparments\Details.cshtml" />
-    <Content Include="Views\Deparments\Edit.cshtml" />
-    <Content Include="Views\Deparments\Index.cshtml" />
     <Content Include="Views\Anaquels\Create.cshtml" />
     <Content Include="Views\Anaquels\Delete.cshtml" />
     <Content Include="Views\Anaquels\Details.cshtml" />
@@ -3377,6 +3372,11 @@
     <Content Include="Views\Shared\_AppLayout.cshtml" />
     <Content Include="Views\Shared\_sideBar.cshtml" />
     <Content Include="Views\Shared\_navBar.cshtml" />
+    <Content Include="Views\Deparments\Create.cshtml" />
+    <Content Include="Views\Deparments\Delete.cshtml" />
+    <Content Include="Views\Deparments\Details.cshtml" />
+    <Content Include="Views\Deparments\Edit.cshtml" />
+    <Content Include="Views\Deparments\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
