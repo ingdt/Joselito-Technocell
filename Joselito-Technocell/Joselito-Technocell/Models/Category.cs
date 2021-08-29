@@ -12,15 +12,15 @@ namespace Joselito_Technocell.Models
         [Key]
         public int CategoryId { get; set; }
 
-        [Display(Name = "Name")]
+        [Display(Name = "Categoria")]
         [Required(ErrorMessage = "You must enter a {0}")]
         [StringLength(256, ErrorMessage ="The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 2)]
         [Index("Category_Name_Index", IsUnique = true)]
         public string Name { get; set; }
 
-        [Display(Name = "Description")]
-        [Required(ErrorMessage = "You must enter a {0}")]
-        [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
+        [Display(Name = "Descripcion")]
+        [Required(ErrorMessage = "El campo {0} es requerido")]
+        [StringLength(256, ErrorMessage = "El campo {0} puede contener un maximo {1} y un minimo {2} de caracteres", MinimumLength = 3)]
         public string Description { get; set; }
 
         //[OneToMany(CascadeOperations = CascadeOperation.All)]

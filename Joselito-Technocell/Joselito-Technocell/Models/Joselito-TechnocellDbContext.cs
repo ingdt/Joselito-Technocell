@@ -18,10 +18,6 @@ namespace Joselito_Technocell.Models
         }
 
         public DbSet<Category> Categories { get; set; }
-        public DbSet<TipoUnidadeMedidas> TipoUnidadesategories { get; set; }
-        public DbSet<Company> Companies { get; set; }
-        public DbSet<Inventory> Inventories { get; set; }
-        public DbSet<Anaquel> Anaquels { get; set; }
         public DbSet<RegistroAlmacen> registroAlmacens { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Requisitions> Requisitions { get; set; }

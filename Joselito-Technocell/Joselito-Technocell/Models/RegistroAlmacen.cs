@@ -13,7 +13,5 @@ namespace Joselito_Technocell.Models
         public int TipoUnidadMedida { get; set; }
         public DateTime FechaRegistro { get; set; }
         public virtual Product Product { get; set; }
-        public virtual Anaquel Anaquel{ get; set; }
-        public virtual TipoUnidadeMedidas TipoUnidadeMedidas { get; set; }
     }
 }

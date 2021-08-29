@@ -14,7 +14,6 @@ namespace Joselito_Technocell.Models
 
         public int DeparmentId { get; set; }
 
-        public virtual Deparment Deparment { get; set; }
         public virtual ICollection< DetalleRequisition> Detalle { get; set; }
     }
 }
