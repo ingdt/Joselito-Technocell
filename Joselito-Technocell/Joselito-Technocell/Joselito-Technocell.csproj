@@ -183,6 +183,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ProductosController.cs" />
+    <Compile Include="Controllers\RequisicionesController.cs" />
+    <Compile Include="Controllers\SuplidoresController.cs" />
     <Compile Include="Models\Caja.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\DetalleRequisitionsController.cs" />
@@ -214,6 +216,7 @@
     <Compile Include="Models\RegistroAlmacen.cs" />
     <Compile Include="Models\Requisitions.cs" />
     <Compile Include="Models\State.cs" />
+    <Compile Include="Models\Suplidor.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserRolViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -3323,6 +3326,13 @@
     <Content Include="Views\Productos\Details.cshtml" />
     <Content Include="Views\Productos\Edit.cshtml" />
     <Content Include="Views\Productos\Index.cshtml" />
+    <Content Include="Views\Shared\_loginLayout.cshtml" />
+    <Content Include="Views\Requisiciones\Index.cshtml" />
+    <Content Include="Views\Suplidores\Create.cshtml" />
+    <Content Include="Views\Suplidores\Delete.cshtml" />
+    <Content Include="Views\Suplidores\Details.cshtml" />
+    <Content Include="Views\Suplidores\Edit.cshtml" />
+    <Content Include="Views\Suplidores\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
