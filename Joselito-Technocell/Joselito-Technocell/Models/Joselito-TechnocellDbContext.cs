@@ -22,6 +22,7 @@ namespace Joselito_Technocell.Models
         public DbSet<Product> Products { get; set; }
         public DbSet<Requisitions> Requisitions { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
 
         public System.Data.Entity.DbSet<Joselito_Technocell.Models.DetalleRequisition> DetalleRequisitions { get; set; }
 
