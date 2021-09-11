@@ -1,4 +1,5 @@
-﻿@model Joselito_Technocell.Models.Requisitions
+﻿@model IEnumerable<Joselito_Technocell.Models.Requisitions>
+
 @{
     ViewBag.Title = "Requisiciones";
 }
@@ -8,10 +9,10 @@
         <div class="header-body">
             <div class="row align-items-center py-4">
                 <div class="col-lg-6 col-7">
-                    <h6 class="h2 text-white d-inline-block mb-0">Categorias</h6>
+                    <h6 class="h2 text-white d-inline-block mb-0">@ViewBag.Title</h6>
                 </div>
                 <div class="col-lg-6 col-5 text-right">
-                    @Html.ActionLink("Nueva categoria", "Create", null, new { @class = "btn btn-sm btn-neutral" })
+                    @Html.ActionLink("Nueva Requisicion", "Create", null, new { @class = "btn btn-sm btn-neutral" })
                 </div>
             </div>
         </div>
@@ -21,41 +22,49 @@
 
 <div class="container-fluid mt--6">
     <div class="card">
-        <div class="card-header">
-            <center>
-                <h3>
-                    Crear requisicion
-                </h3>
-            </center>
-        </div>
-        <div>
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
+        <center>
+            <h3 class="pt-5">Listado de @ViewBag.Title</h3>
+        </center>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-flush" id="datatable-basic">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Suplidor.SuplidorNombre)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FechadePedido)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FechadeEntrega)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
 
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Suplidor.SuplidorNombre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FechadePedido)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FechadeEntrega)
+                                </td>
+                                <td>
+                                    <a href="~/requisiciones/Details/@item.RequisitionsId" class="btn btn-warning btn-sm"></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.SuplidorId, "Suplidor", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-12">
-                                @Html.DropDownList("SuplidorId", null, "-- Seleccione un suplidor --", htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.SuplidorId, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.FechadePedido, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-12">
-                                @Html.EditorFor(model => model.FechadeEntrega, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.FechadePedido, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                </div>                
-            }
+                </table>
+            </div>
         </div>
     </div>
 </div>

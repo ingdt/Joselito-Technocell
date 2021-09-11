@@ -6,7 +6,7 @@ namespace Joselito_Technocell.Models
 {
     public class Requisitions
     {
-        [key]
+        [Key]
         public int RequisitionsId { get; set; }
 
         [DataType(DataType.Date)]
@@ -16,6 +16,8 @@ namespace Joselito_Technocell.Models
         [DataType(DataType.Date)]
         [Display(Name = "Fecha de entrega")]
         public DateTime? FechadeEntrega { get; set; }
+
+        public EstadoRequisicion Estado { get; set; }
 
         [Display(Name = "Suplidor")]
         public int SuplidorId { get; set; }

@@ -1,0 +1,42 @@
+﻿@model Joselito_Technocell.Models.Requisitions
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Requisitions</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Suplidor.SuplidorNombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Suplidor.SuplidorNombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechadePedido)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechadePedido)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechadeEntrega)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechadeEntrega)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.RequisitionsId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

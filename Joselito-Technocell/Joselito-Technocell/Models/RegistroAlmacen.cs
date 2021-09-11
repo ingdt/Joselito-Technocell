@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace Joselito_Technocell.Models
 {
     public class RegistroAlmacen
     {
-        [key]
+        [Key]
         public int RegistroAlmacenId { get; set; }
         public int ProductosId { get; set; }
         public string codigo { get; set; }
