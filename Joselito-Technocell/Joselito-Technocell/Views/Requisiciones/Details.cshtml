@@ -1,42 +1,112 @@
 ﻿@model Joselito_Technocell.Models.Requisitions
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = $"Requisición #{Model.RequisitionsId}";
+
+    Joselito_Technocell.Models.Joselito_TechnocellDbContext db = new Joselito_Technocell.Models.Joselito_TechnocellDbContext();
+
+    decimal total = 0;
 }
 
-<h2>Details</h2>
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">@ViewBag.Title</h6>
+                </div>
+                <div class="col-lg-6 col-5 text-right">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div>
-    <h4>Requisitions</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Suplidor.SuplidorNombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Suplidor.SuplidorNombre)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FechadePedido)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FechadePedido)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FechadeEntrega)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FechadeEntrega)
-        </dd>
-
-    </dl>
+    <div class="container-fluid mt--6">
+        <div class="card">
+            <center>
+                <h3 class="pt-5">Informacion de la requisicion</h3>
+            </center>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p style="text-align: right"><b>Proveedor: </b>@Model.Suplidor.SuplidorNombre</p>
+                        <p style="text-align: right"><b>Estado: </b>@Model.Estado.ToString()</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><b>Fecha de creacion: </b>@Model.FechadePedido.ToLongDateString() @Model.FechadePedido.ToShortTimeString()</p>
+                        <p><b>Fecha de entrega: </b>@(Model.FechadeEntrega == null ? "N/A" : $"{Model.FechadeEntrega?.ToLongDateString()} {Model.FechadeEntrega?.ToShortTimeString()}")</p>
+                    </div>
+                </div>
+                <p>
+                    @Html.ActionLink("Volver", "Index")
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.RequisitionsId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<div class="container-fluid mt-1 ">
+    <div class="card">
+        <center>
+            <h3 class="pt-5">Listado de productos</h3>
+        </center>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-flush" id="">
+                    <thead>
+                        <tr>
+                            <th>
+                                Producto
+                            </th>
+                            <th>
+                                Precio
+                            </th>
+                            <th>
+                                Cantidad
+                            </th>
+                            <th>
+                                Subtotal
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.Detalle)
+                        {
+                            if (item.Product == null)
+                            {
+                                item.Product = db.Products.Find(item.productId);
+                            }
+
+                            var sub = item.Cantidad * item.Precio;
+
+                            total += sub;
+
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Product.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Precio)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Cantidad)
+                                </td>
+                                <td>
+                                    @sub.ToString("C")
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+                <center>
+                    <h3><b>Total|@total.ToString("C")</b></h3>
+                </center>
+            </div>
+        </div>
+    </div>
+</div>

@@ -29,7 +29,10 @@ namespace Joselito_Technocell.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Requisitions requisitions = await db.Requisitions.FindAsync(id);
+            Requisitions requisitions = await db.Requisitions
+                .Include(a=> a.Detalle)
+                .Include(a=> a.Suplidor)
+                .FirstOrDefaultAsync(a=> a.RequisitionsId == id);
             if (requisitions == null)
             {
                 return HttpNotFound();
