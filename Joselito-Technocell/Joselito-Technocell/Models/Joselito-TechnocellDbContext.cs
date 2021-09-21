@@ -27,6 +27,8 @@ namespace Joselito_Technocell.Models
         public System.Data.Entity.DbSet<Joselito_Technocell.Models.DetalleRequisition> DetalleRequisitions { get; set; }
 
         public System.Data.Entity.DbSet<Joselito_Technocell.Models.Suplidor> Suplidors { get; set; }
+
+        public System.Data.Entity.DbSet<Joselito_Technocell.Models.Inventario> Inventarios { get; set; }
         //public DbSet<Customer> Customers { get; set; }
         //public DbSet<Order> Orders { get; set; }
         //public DbSet<Tax> Taxes { get; set; }

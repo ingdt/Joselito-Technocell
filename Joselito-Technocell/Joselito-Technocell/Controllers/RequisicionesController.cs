@@ -89,9 +89,8 @@ namespace Joselito_Technocell.Controllers
 
             Session["requisition"] = requisition;
             ViewBag.SuplidorId = new SelectList(db.Suplidors, "SuplidorId", "SuplidorNombre");
-            var products = db.Products.OrderBy(a => a.Name);
+            var products = db.Products.Where(a=> a.IsService == false).OrderBy(a => a.Name);
             ViewBag.Products = products;
-
 
             return View(requisition);
         }
@@ -121,6 +120,24 @@ namespace Joselito_Technocell.Controllers
                             item.RequisitionsId = requisitions.RequisitionsId;
                             item.Product = null;
                             db.DetalleRequisitions.Add(item);
+
+                            var inventario = db.Inventarios.FirstOrDefault(a=> a.ProductId == item.productId);
+
+                            if (inventario == null)
+                            {
+                                inventario = new Inventario
+                                {
+                                    Cantidad = item.Cantidad,
+                                    ProductId = item.productId,
+                                };
+
+                                db.Inventarios.Add(inventario);
+                            }
+                            else
+                            {
+                                inventario.Cantidad += item.Cantidad;
+                                db.Entry(inventario).State = EntityState.Modified;
+                            }
                         }
 
                         await db.SaveChangesAsync();

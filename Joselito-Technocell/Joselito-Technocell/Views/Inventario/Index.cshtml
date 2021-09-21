@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Joselito_Technocell.Models.Inventario>
+
+@{
+    ViewBag.Title = "Inventario";
+}
+
+
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">@ViewBag.Title</h6>
+                </div>
+                <div class="col-lg-6 col-5 text-right">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--6">
+    <div class="card">
+        <center>
+            <h3 class="pt-5">- Listado -</h3>
+        </center>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-flush" id="datatable-basic">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Producto.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Producto.Description)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Cantidad)
+                            </th>
+                            <th>
+                                Acciones
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Producto.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Producto.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Cantidad)
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

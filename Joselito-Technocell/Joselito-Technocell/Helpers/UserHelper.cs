@@ -88,11 +88,11 @@ namespace Joselito_Technocell.Helpers
             var userASP = userManager.FindByName(email);
             if (userASP == null)
             {
-                CreateUserASP(email, "AD-ROOT", password);
+                CreateUserASP(email, "Admin", password);
                 return;
             }
 
-            userManager.AddToRole(userASP.Id, "AD-ROOT");
+            userManager.AddToRole(userASP.Id, "Admin");
         }
 
         public static void CreateUserASP(string email, string roleName, string password)

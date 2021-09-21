@@ -27,13 +27,8 @@ namespace Joselito_Technocell
 
         private void CheckRolesAndSuperUser()
         {
-            UserHelper.CheckRole("AD-ROOT");
-            UserHelper.CheckRole("AD-ALMACEN");
-            UserHelper.CheckRole("AU-ALMACEN");
-            UserHelper.CheckRole("AD-CAJA");
-            UserHelper.CheckRole("AU-CAJA");
-            UserHelper.CheckRole("AD-CONT");
-            UserHelper.CheckRole("AU-CONT");
+            UserHelper.CheckRole("Admin");
+            UserHelper.CheckRole("Vendedor");
             UserHelper.CheckSuperUser();
         }
     }
