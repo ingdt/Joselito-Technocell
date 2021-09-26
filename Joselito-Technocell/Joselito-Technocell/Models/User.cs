@@ -1,66 +1,41 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace Joselito_Technocell.Models
 {
-    public class User
+    public class User : IdentityUser
     {
-        [Key]
-        public int UserId { get; set; }
 
-        [Display(Name = "Email")]
-        [Required(ErrorMessage = "You must enter a {0}")]
-        [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
-        [Index("UserEmailIndex", IsUnique = true)]
-        [DataType (DataType.EmailAddress)]
-        public string UserName { get; set; }
-
-        [Display(Name = "Firs Name")]
-        [Required(ErrorMessage = "You must enter a {0}")]
-        [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
+        [Display(Name = "Nombres")]
+        [Required(ErrorMessage = "el campo {0} es requerido")]
         public string FirstName { get; set; }
 
-        [Display(Name = "Last Name")]
-        [Required(ErrorMessage = "You must enter a {0}")]
-        [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
+        [Display(Name = "Apellidos")]
+        [Required(ErrorMessage = "el campo {0} es requerido")]
         public string LastName { get; set; }
-
-        [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
-        [DataType(DataType.ImageUrl)]
-        public string Photo { get; set; }
-
-        [Required(ErrorMessage = "You must enter a {0}")]
-        [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
+        
         [DataType(DataType.PhoneNumber)]
-        public string Phone { get; set; }
+        public override string PhoneNumber { get; set; }
 
-        [Required(ErrorMessage = "You must enter a {0}")]
-        [StringLength(256, ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characters", MinimumLength = 3)]
-        public string Address { get; set; }
+        public string FullName { get { return $"{this.FirstName} {this.LastName}"; } }
 
-        [NotMapped]
-        public HttpPostedFileBase PhotoFile { get; set; }
-
-        public bool IsAdmin { get; set; }
-
-        public bool IsUser { get; set; }
-
-        public bool IsCustomer { get; set; }
-
-        public bool IsSupplier { get; set; }
-
-        public bool IsRemembered { get; set; }
-
-        public string Password { get; set; }
-
-        public string FullName { get { return string.Format("{0} {1}", FirstName, LastName); } }
-
-        public string PhotoFullPath { get;}
-
-        public override int GetHashCode()
+        public override string ToString()
         {
-            return UserId;
+            return FullName;
+        }
+
+        internal async Task<ClaimsIdentity> GenerateUserIdentityAsync(ApplicationUserManager userManager)
+        {
+             // Tenga en cuenta que el valor de authenticationType debe coincidir con el definido en CookieAuthenticationOptions.AuthenticationType
+            var userIdentity = await userManager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+            // Agregar aquí notificaciones personalizadas de usuario
+            return userIdentity;
         }
     }
 

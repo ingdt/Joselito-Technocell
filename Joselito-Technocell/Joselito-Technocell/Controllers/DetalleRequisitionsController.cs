@@ -11,6 +11,7 @@ using Joselito_Technocell.Models;
 
 namespace Joselito_Technocell.Controllers
 {
+    [Authorize]
     public class DetalleRequisitionsController : Controller
     {
         private Joselito_TechnocellDbContext db = new Joselito_TechnocellDbContext();

@@ -182,11 +182,13 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CajaController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
     <Compile Include="Controllers\InventarioController.cs" />
     <Compile Include="Controllers\ProductosController.cs" />
     <Compile Include="Controllers\RequisicionesController.cs" />
     <Compile Include="Controllers\SuplidoresController.cs" />
+    <Compile Include="Migrations\Configuration2.cs" />
     <Compile Include="Models\Caja.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\DetalleRequisitionsController.cs" />
@@ -205,6 +207,7 @@
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\DetalleFactura.cs" />
     <Compile Include="Models\DetalleRequisition.cs" />
+    <Compile Include="Models\EstadoFactura.cs" />
     <Compile Include="Models\EstadoRequisicion.cs" />
     <Compile Include="Models\Factura.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -3343,6 +3346,8 @@
     <Content Include="Views\Requisiciones\Edit.cshtml" />
     <Content Include="Views\Requisiciones\Index.cshtml" />
     <Content Include="Views\Inventario\Index.cshtml" />
+    <Content Include="Views\Caja\Index.cshtml" />
+    <Content Include="Views\Caja\AbrirCaja.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

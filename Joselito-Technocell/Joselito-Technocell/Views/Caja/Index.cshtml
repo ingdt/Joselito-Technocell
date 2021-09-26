@@ -1,0 +1,172 @@
+﻿@model Joselito_Technocell.Models.Factura
+
+@{
+    ViewBag.Title = "Caja";
+
+    Joselito_Technocell.Models.Joselito_TechnocellDbContext db = new Joselito_Technocell.Models.Joselito_TechnocellDbContext();
+}
+
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">@ViewBag.Title</h6>
+                </div>
+                <div class="col-lg-6 col-5 text-right">
+                    <button type="button" class="btn btn-sm btn-neutral" onclick="abrirModal()">Agregar producto</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <center>
+                    <h3 class="pt-5">Informacion de la factura</h3>
+                </center>
+                <div class="card-body">
+                    @using (Html.BeginForm("Create", "Requisiciones", "POST"))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IdCliente, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-12">
+                                @Html.DropDownList("IdCliente", null, "-- Seleccione un cliente --", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IdCliente, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Efectivo, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Efectivo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Efectivo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <center><h3><b>Total | @Model.Total.ToString("C")</b></h3></center>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">Facturar</button>
+                            <a href="~/caja/Cancelar" class="btn btn-danger btn-block">Cancelar</a>
+                        </div>
+                     }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card">
+                <center>
+                    <h3 class="pt-5">Listado de productos</h3>
+                </center>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-flush" id="">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Producto
+                                    </th>
+                                    <th>
+                                        Precio
+                                    </th>
+                                    <th>
+                                        Cantidad
+                                    </th>
+                                    <th>
+                                        Subtotal
+                                    </th>
+                                    <th>
+                                        Acciones
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var item in Model.DetalleFacturas)
+                                {
+                                    if (item.Product == null)
+                                    {
+                                        item.Product = db.Products.Find(item.ProductId);
+                                    }
+
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Product.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Precio)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Cantidad)
+                                        </td>
+                                        <td>
+                                            @item.Total.ToString("C")
+                                        </td>
+                                        <td>
+                                            <a href="~/caja/deleteProdut/@item.ProductId" class="btn btn-danger btn-sm">Eliminar</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="justify-content-center align-items-center py-4">
+                        <center><h3><b>Total | @Model.Total.ToString("C")</b></h3></center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="miModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" style="width:80%" role="document">
+        <form action="~/caja/addProduct" method="post">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <center><h3 class="pt-2 pb-3">Agregar producto</h3></center>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Producto</label>
+                                <select name="idProducto" id="idProducto" class="form-control">
+                                    <option>-- Seleccione un producto --</option>
+                                    @foreach (var item in db.Products.Where(a => a.IsService == false))
+                                    {
+                                        <option value="@item.ProductId">@item.Name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Cantidad</label>
+                                <input name="cantidad" id="cantidad" type="number" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="fncCloseModal()">Cancelar</button>
+                    <button id="btnGuardar" type="submit" class="btn btn-primary">Agregar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function abrirModal() {
+        $('#miModal').modal('show');
+    }
+    function fncCloseModal() {
+        $('#miModal').modal('hide');
+    }
+</script>

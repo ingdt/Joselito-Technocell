@@ -12,8 +12,14 @@ namespace Joselito_Technocell.Helpers
 {
     public class UserHelper : IDisposable
     {
-        private static ApplicationDbContext userContext = new ApplicationDbContext();
+        private static Joselito_TechnocellDbContext userContext = new Joselito_TechnocellDbContext();
         private static Joselito_TechnocellDbContext db = new Joselito_TechnocellDbContext();
+
+        public static User User(string userName)
+        {
+            var userManager = new UserManager<User>(new UserStore<User>(userContext));
+            return userManager.FindByName(userName);
+        }
 
         public static void CheckRole(string roleName)
         {
@@ -34,7 +40,7 @@ namespace Joselito_Technocell.Helpers
         }
         public static void addRol(string roleNeme, string email)
         {
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
+            var userManager = new UserManager<User>(new UserStore<User>(userContext));
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(userContext));
             var userASP = userManager.FindByName(email);
             var rol = roleManager.FindByName(roleNeme);
@@ -58,7 +64,7 @@ namespace Joselito_Technocell.Helpers
         } 
         public static void removeRol(string roleNeme, string email)
         {
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
+            var userManager = new UserManager<User>(new UserStore<User>(userContext));
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(userContext));
             var userASP = userManager.FindByName(email);
             var rol = roleManager.FindByName(roleNeme);
@@ -82,7 +88,7 @@ namespace Joselito_Technocell.Helpers
         }
         public static void CheckSuperUser()
         {
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
+            var userManager = new UserManager<User>(new UserStore<User>(userContext));
             var email = WebConfigurationManager.AppSettings["AdminUser"];
             var password = WebConfigurationManager.AppSettings["AdminPassWord"];
             var userASP = userManager.FindByName(email);
@@ -97,12 +103,14 @@ namespace Joselito_Technocell.Helpers
 
         public static void CreateUserASP(string email, string roleName, string password)
         {
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
+            var userManager = new UserManager<User>(new UserStore<User>(userContext));
 
-            var userASP = new ApplicationUser
+            var userASP = new User
             {
                 Email = email,
                 UserName = email,
+                FirstName = "Elvin",
+                LastName = "Apellido",
             };
 
             userManager.Create(userASP, password);
@@ -111,7 +119,7 @@ namespace Joselito_Technocell.Helpers
 
         public static async Task PasswordRecovery(string email)
         {
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
+            var userManager = new UserManager<User>(new UserStore<User>(userContext));
             var userASP = userManager.FindByEmail(email);
             if (userASP == null)
             {
@@ -145,7 +153,7 @@ namespace Joselito_Technocell.Helpers
 
         public static bool UpdateUserName(string currentUserName, string newUserName)
         {
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
+            var userManager = new UserManager<User>(new UserStore<User>(userContext));
             var userASP = userManager.FindByEmail(currentUserName);
             if (userASP == null)
             {
@@ -159,7 +167,7 @@ namespace Joselito_Technocell.Helpers
 
         public static bool DeleteUser(string userName)
         {
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
+            var userManager = new UserManager<User>(new UserStore<User>(userContext));
             var userASP = userManager.FindByEmail(userName);
             if (userASP == null)
             {

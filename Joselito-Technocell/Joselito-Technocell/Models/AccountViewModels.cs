@@ -50,7 +50,6 @@ namespace Joselito_Technocell.Models
     {
         [Required]
         [Display(Name = "Correo electrónico")]
-        [EmailAddress]
         public string Email { get; set; }
 
         [Required]

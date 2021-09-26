@@ -17,6 +17,8 @@ namespace Joselito_Technocell
         protected void Application_Start()
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<Models.Joselito_TechnocellDbContext, Migrations.Configuration>());
+            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<Models.ApplicationDbContext, Migrations.Configuration2>());
+
             CheckRolesAndSuperUser();
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
