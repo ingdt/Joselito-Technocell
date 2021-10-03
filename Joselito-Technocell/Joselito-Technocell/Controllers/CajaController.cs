@@ -88,7 +88,12 @@ namespace Joselito_Technocell.Controllers
 
                             else if (inventario != null)
                             {
-                                if (inventario.Cantidad < item.Cantidad)
+                                if (item.Product == null)
+                                {
+                                    item.Product = db.Products.Find(item.ProductId);
+                                }
+
+                                if (inventario.Cantidad < item.Cantidad && !item.Product.IsService)
                                 {
                                     Session["error"] = $"No tienes Stock suficiente para {item.Cantidad} del producto {inventario.Producto.Name}.";
                                     ViewBag.IdCliente = new SelectList(db.Clientes, "IdCliente", "FullName");
@@ -150,7 +155,7 @@ namespace Joselito_Technocell.Controllers
 
             else if (inventario != null)
             {
-                if (inventario.Cantidad < cantidad)
+                if (inventario.Cantidad < cantidad && !inventario.Producto.IsService)
                 {
                     Session["error"] = $"No tienes Stock suficiente para {cantidad} del producto {inventario.Producto.Name}.";
                     ViewBag.IdCliente = new SelectList(db.Clientes, "IdCliente", "FullName");
