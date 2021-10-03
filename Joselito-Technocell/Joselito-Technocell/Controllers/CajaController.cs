@@ -79,12 +79,18 @@ namespace Joselito_Technocell.Controllers
 
                             var inventario = db.Inventarios.FirstOrDefault(a => a.ProductId == item.ProductId);
 
-                            if (inventario == null || inventario.Cantidad < item.Cantidad)
+                            if (inventario == null)
                             {
-                                Session["error"] = $"No tienes Stock suficiente para {item.Cantidad} del producto {inventario.Producto.Name}.";
-                                ViewBag.IdCliente = new SelectList(db.Clientes, "IdCliente", "FullName");
 
-                                trann.Rollback();
+                                if (inventario.Cantidad < item.Cantidad)
+                                {
+                                    Session["error"] = $"No tienes Stock suficiente para {item.Cantidad} del producto {inventario.Producto.Name}.";
+                                    ViewBag.IdCliente = new SelectList(db.Clientes, "IdCliente", "FullName");
+                                    return RedirectToAction(nameof(Index));
+                                }
+
+                                Session["error"] = $"No tienes Stock suficiente para {item.Cantidad} de este producto.";
+                                ViewBag.IdCliente = new SelectList(db.Clientes, "IdCliente", "FullName");
                                 return RedirectToAction(nameof(Index));
                             }
 
