@@ -75,6 +75,7 @@ namespace Joselito_Technocell.Controllers
                         {
                             item.FacturaId = factura.FacturaId;
                             item.Product = null;
+                            item.Factura = null;
                             db.DetalleFacturas.Add(item);
 
                             if (item.Product == null)
@@ -102,8 +103,11 @@ namespace Joselito_Technocell.Controllers
                                 }
                             }
 
-                            inventario.Cantidad -= item.Cantidad;
-                            db.Entry(inventario).State = EntityState.Modified;
+                            if (!item.Product.IsService)
+                            {
+                                inventario.Cantidad -= item.Cantidad;
+                                db.Entry(inventario).State = EntityState.Modified;
+                            }
                         }
 
                         await db.SaveChangesAsync();
