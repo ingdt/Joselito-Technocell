@@ -39,6 +39,8 @@ namespace Joselito_Technocell.Models
         public DbSet<Suplidor> Suplidors { get; set; }
         public DbSet<Inventario> Inventarios { get; set; }
         public DbSet<Caja> Cajas { get; set; }
+        public DbSet<Factura> Facturas { get; set; }
+        public DbSet<DetalleFactura> DetalleFacturas { get; set; }
         //public DbSet<Customer> Customers { get; set; }
         //public DbSet<Order> Orders { get; set; }
         //public DbSet<Tax> Taxes { get; set; }

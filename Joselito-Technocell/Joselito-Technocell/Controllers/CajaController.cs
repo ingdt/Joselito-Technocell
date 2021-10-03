@@ -2,7 +2,9 @@
 using Joselito_Technocell.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -37,10 +39,68 @@ namespace Joselito_Technocell.Controllers
                 Session["factura"] = factura;
             }
 
-            ViewBag.IdCliente = new SelectList(db.Clientes, "IdCliente", "FullName");
+            ViewBag.IdCliente = new SelectList(db.Clientes, "IdCliente", "FullName", factura?.IdCliente);
             return View(factura);
         }
-        
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Index(Factura factura)
+        {
+            var sesionFactura = Session["factura"] as Factura;
+            var uNAme = User.Identity.Name;
+            var usu = UserHelper.User(uNAme);
+            factura.IdCaja = db.Cajas.FirstOrDefault(a=> a.OperadorId == usu.Id && a.Estdo == EstadoCaja.Abierta).CajaId;
+            factura.Fecha = DateTime.Now;
+            if (ModelState.IsValid)
+            {
+                using (var trann = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        factura.Estado = EstadoFactura.Pagada;
+                        db.Facturas.Add(factura);
+                        await db.SaveChangesAsync();
+
+                        foreach (var item in sesionFactura.DetalleFacturas)
+                        {
+                            item.FacturaId = factura.FacturaId;
+                            item.Product = null;
+                            db.DetalleFacturas.Add(item);
+
+                            var inventario = db.Inventarios.FirstOrDefault(a => a.ProductId == item.ProductId);
+
+                            if (inventario == null || inventario.Cantidad < item.Cantidad)
+                            {
+                                Session["error"] = $"No tienes Stock suficiente para {item.Cantidad} del producto {inventario.Producto.Name}.";
+                                ViewBag.IdCliente = new SelectList(db.Clientes, "IdCliente", "FullName");
+
+                                trann.Rollback();
+                                return RedirectToAction(nameof(Index));
+                            }
+
+                            inventario.Cantidad -= item.Cantidad;
+                            db.Entry(inventario).State = EntityState.Modified;
+                        }
+
+                        await db.SaveChangesAsync();
+                        trann.Commit();
+                        Session["factura"] = null;
+                    }
+                    catch (Exception ex)
+                    {
+                        Session["error"] = ex.Message;
+                        trann.Rollback();
+                    }
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            factura = sesionFactura;
+            return RedirectToAction(nameof(Index));
+        }
+
         [Authorize]
         [HttpGet]
         public ActionResult AbrirCaja()
@@ -52,7 +112,16 @@ namespace Joselito_Technocell.Controllers
         [HttpPost]
         public ActionResult addProduct(int? idProducto, int? cantidad)
         {
-            var factura = Session["factura"] as Factura;            
+            var factura = Session["factura"] as Factura;
+
+            var inventario = db.Inventarios.Include(a => a.Producto).FirstOrDefault(a => a.ProductId == idProducto);
+
+            if (inventario == null || inventario.Cantidad < cantidad)
+            {
+                Session["error"] = $"No tienes Stock suficiente para {cantidad} del producto {inventario.Producto.Name}.";
+                ViewBag.IdCliente = new SelectList(db.Clientes, "IdCliente", "FullName");
+                return RedirectToAction(nameof(Index));
+            }
 
             if (idProducto > 0 && cantidad > 0)
             {

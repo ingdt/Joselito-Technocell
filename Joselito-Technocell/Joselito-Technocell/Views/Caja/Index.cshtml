@@ -29,7 +29,7 @@
                     <h3 class="pt-5">Informacion de la factura</h3>
                 </center>
                 <div class="card-body">
-                    @using (Html.BeginForm("Create", "Requisiciones", "POST"))
+                    @using (Html.BeginForm("Index", "Caja", "POST"))
                     {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -54,7 +54,7 @@
                             <button type="submit" class="btn btn-primary btn-block">Facturar</button>
                             <a href="~/caja/Cancelar" class="btn btn-danger btn-block">Cancelar</a>
                         </div>
-                     }
+                    }
                 </div>
             </div>
         </div>
@@ -169,4 +169,26 @@
     function fncCloseModal() {
         $('#miModal').modal('hide');
     }
+
 </script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @if (Session["error"] != null)
+    {
+        <script>
+        var msj = '@Session["error"].ToString()';
+
+        //alert(msj);
+
+        Swal.fire(
+            'Error!',
+            msj,
+            'error'
+        )
+
+        </script>
+
+        Session.Remove("error");
+    }
+}
