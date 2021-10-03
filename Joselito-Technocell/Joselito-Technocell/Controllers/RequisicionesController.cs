@@ -147,13 +147,16 @@ namespace Joselito_Technocell.Controllers
                     }
                     catch (Exception ex)
                     {
+                        Session["error"] = ex.Message;
                         trann.Rollback();
                     }
                 }
 
                 Session["requisition"] = null;
 
-                return RedirectToAction("Index");
+                Session["ok"] = "Compra realizada con exito!";
+
+                return RedirectToAction(nameof(Index));
             }
 
             ViewBag.SuplidorId = new SelectList(db.Suplidors, "SuplidorId", "SuplidorNombre", requisitions.SuplidorId);

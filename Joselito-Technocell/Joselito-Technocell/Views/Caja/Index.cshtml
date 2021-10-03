@@ -174,21 +174,15 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @if (Session["error"] != null)
+
+    @if (Session["Imprimir"] != null)
     {
         <script>
-        var msj = '@Session["error"].ToString()';
-
-        //alert(msj);
-
-        Swal.fire(
-            'Error!',
-            msj,
-            'error'
-        )
-
+            var getUrl = window.location;
+            var baseUrl = getUrl.protocol + "//" + getUrl.host;
+            window.open(baseUrl + '/caja/Factura/' + '@Session["Imprimir"]', '_blank');
         </script>
 
-        Session.Remove("error");
+        Session.Remove("Imprimir");
     }
 }

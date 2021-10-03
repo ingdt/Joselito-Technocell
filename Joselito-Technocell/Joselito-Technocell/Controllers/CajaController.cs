@@ -1,5 +1,6 @@
 ﻿using Joselito_Technocell.Helpers;
 using Joselito_Technocell.Models;
+using Rotativa;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -52,6 +53,14 @@ namespace Joselito_Technocell.Controllers
             var usu = UserHelper.User(uNAme);
             factura.IdCaja = db.Cajas.FirstOrDefault(a=> a.OperadorId == usu.Id && a.Estdo == EstadoCaja.Abierta).CajaId;
             factura.Fecha = DateTime.Now;
+
+            if (sesionFactura.Total > factura.Efectivo)
+            {
+                Session["error"] = $"La factura hace un total de {sesionFactura.Total} favor pagar con un monto mayor o equivalente";
+
+                return RedirectToAction(nameof(Index));
+            }
+
             if (ModelState.IsValid)
             {
                 using (var trann = db.Database.BeginTransaction())
@@ -86,6 +95,9 @@ namespace Joselito_Technocell.Controllers
                         await db.SaveChangesAsync();
                         trann.Commit();
                         Session["factura"] = null;
+
+                        Session["ok"] = "Venta realizada con exito!";
+                        Session["Imprimir"] = factura.FacturaId;
                     }
                     catch (Exception ex)
                     {
@@ -97,8 +109,13 @@ namespace Joselito_Technocell.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            factura = sesionFactura;
+            
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<ActionResult> Factura(int id)
+        {
+            return View(await db.Facturas.Include(a => a.DetalleFacturas).FirstOrDefaultAsync(a => a.FacturaId == id));
         }
 
         [Authorize]

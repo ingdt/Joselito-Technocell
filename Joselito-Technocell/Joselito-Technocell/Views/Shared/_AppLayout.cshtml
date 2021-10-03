@@ -55,6 +55,41 @@
     <!-- Demo JS - remove this in your project -->
     <script src="~/Content/assets/js/demo.min.js"></script>
 
+    @if (Session["ok"] != null)
+    {
+        <script>
+        var msj = '@Session["ok"].ToString()';
+
+        //alert(msj);
+
+        Swal.fire(
+            'En hora buena!',
+            msj,
+            'success'
+        )
+
+        </script>
+
+        Session.Remove("ok");
+    }
+    else if (Session["error"] != null)
+    {
+        <script>
+        var msj = '@Session["error"].ToString()';
+
+        //alert(msj);
+
+        Swal.fire(
+            'Error!',
+            msj,
+            'error'
+        )
+
+        </script>
+
+        Session.Remove("error");
+    }
+
     @RenderSection("scripts", required: false)
 </body>
 </html>
