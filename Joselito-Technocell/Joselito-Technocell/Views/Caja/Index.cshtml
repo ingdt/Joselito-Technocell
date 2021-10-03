@@ -138,7 +138,7 @@
                                 <label class="form-label">Producto</label>
                                 <select name="idProducto" id="idProducto" class="form-control">
                                     <option>-- Seleccione un producto --</option>
-                                    @foreach (var item in db.Products.Where(a => a.IsService == false))
+                                    @foreach (var item in db.Products)
                                     {
                                         <option value="@item.ProductId">@item.Name</option>
                                     }

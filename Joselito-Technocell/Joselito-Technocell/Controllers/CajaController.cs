@@ -81,17 +81,19 @@ namespace Joselito_Technocell.Controllers
 
                             if (inventario == null)
                             {
+                                Session["error"] = $"No tienes Stock de este producto";
+                                ViewBag.IdCliente = new SelectList(db.Clientes, "IdCliente", "FullName");
+                                return RedirectToAction(nameof(Index));
+                            }
 
+                            else if (inventario != null)
+                            {
                                 if (inventario.Cantidad < item.Cantidad)
                                 {
                                     Session["error"] = $"No tienes Stock suficiente para {item.Cantidad} del producto {inventario.Producto.Name}.";
                                     ViewBag.IdCliente = new SelectList(db.Clientes, "IdCliente", "FullName");
                                     return RedirectToAction(nameof(Index));
                                 }
-
-                                Session["error"] = $"No tienes Stock suficiente para {item.Cantidad} de este producto.";
-                                ViewBag.IdCliente = new SelectList(db.Clientes, "IdCliente", "FullName");
-                                return RedirectToAction(nameof(Index));
                             }
 
                             inventario.Cantidad -= item.Cantidad;
@@ -141,17 +143,19 @@ namespace Joselito_Technocell.Controllers
 
             if (inventario == null)
             {
+                Session["error"] = $"No tienes Stock de este producto";
+                ViewBag.IdCliente = new SelectList(db.Clientes, "IdCliente", "FullName");
+                return RedirectToAction(nameof(Index));
+            }
+
+            else if (inventario != null)
+            {
                 if (inventario.Cantidad < cantidad)
                 {
                     Session["error"] = $"No tienes Stock suficiente para {cantidad} del producto {inventario.Producto.Name}.";
                     ViewBag.IdCliente = new SelectList(db.Clientes, "IdCliente", "FullName");
                     return RedirectToAction(nameof(Index));
                 }
-
-                Session["error"] = $"No tienes Stock suficiente para {cantidad} de este producto.";
-                ViewBag.IdCliente = new SelectList(db.Clientes, "IdCliente", "FullName");
-                return RedirectToAction(nameof(Index));
-
             }
 
             if (idProducto > 0 && cantidad > 0)
