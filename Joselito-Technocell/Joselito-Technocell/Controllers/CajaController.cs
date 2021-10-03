@@ -77,9 +77,14 @@ namespace Joselito_Technocell.Controllers
                             item.Product = null;
                             db.DetalleFacturas.Add(item);
 
+                            if (item.Product == null)
+                            {
+                                item.Product = db.Products.Find(item.ProductId);
+                            }
+
                             var inventario = db.Inventarios.FirstOrDefault(a => a.ProductId == item.ProductId);
 
-                            if (inventario == null)
+                            if (inventario == null && !item.Product.IsService)
                             {
                                 Session["error"] = $"No tienes Stock de este producto";
                                 ViewBag.IdCliente = new SelectList(db.Clientes, "IdCliente", "FullName");
@@ -87,11 +92,7 @@ namespace Joselito_Technocell.Controllers
                             }
 
                             else if (inventario != null)
-                            {
-                                if (item.Product == null)
-                                {
-                                    item.Product = db.Products.Find(item.ProductId);
-                                }
+                            {                               
 
                                 if (inventario.Cantidad < item.Cantidad && !item.Product.IsService)
                                 {
@@ -143,13 +144,19 @@ namespace Joselito_Technocell.Controllers
         public ActionResult addProduct(int? idProducto, int? cantidad)
         {
             var factura = Session["factura"] as Factura;
+            var producto = db.Products.Find(idProducto);
+
+            if (producto == null)
+            {
+                Session["error"] = "el producto ya no existe";
+                return RedirectToAction(nameof(Index));
+            }
 
             var inventario = db.Inventarios.Include(a => a.Producto).FirstOrDefault(a => a.ProductId == idProducto);
 
-            if (inventario == null)
+            if (inventario == null && !producto.IsService)
             {
                 Session["error"] = $"No tienes Stock de este producto";
-                ViewBag.IdCliente = new SelectList(db.Clientes, "IdCliente", "FullName");
                 return RedirectToAction(nameof(Index));
             }
 
