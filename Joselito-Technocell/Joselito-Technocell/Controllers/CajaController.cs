@@ -71,6 +71,22 @@ namespace Joselito_Technocell.Controllers
                         db.Facturas.Add(factura);
                         await db.SaveChangesAsync();
 
+                        //Crear asiento contable
+                        var asiento = new AsientoContable
+                        {
+                            Fecha = DateTimeOffset.Now,
+                            Glosa = $"Registro de venta #{factura.FacturaId}",
+                            RazonSocial = factura.Cliente != null ? factura.Cliente.Nombre : "",
+                            Tipo = Enum.TipoAsientoContable.Debito
+                        };
+
+                        db.AsientoContables.Add(asiento);
+                        await db.SaveChangesAsync();
+
+                        Cuenta cuenta = new Cuenta();
+
+                        cuenta = await VerificarCuenta("Efectivo caja y banco");
+
                         foreach (var item in sesionFactura.DetalleFacturas)
                         {
                             item.FacturaId = factura.FacturaId;
@@ -108,7 +124,31 @@ namespace Joselito_Technocell.Controllers
                                 inventario.Cantidad -= item.Cantidad;
                                 db.Entry(inventario).State = EntityState.Modified;
                             }
+
+                            var detalleAsiento = new DetalleAsiento
+                            {
+                                IdAsientoContable = asiento.IdAsientoContable,
+                                CuentaIdCuenta = cuenta.IdCuenta,
+                                Debe = item.Total,
+                                Hacer = 0,
+                                Detalle = $"venta de {item.Cantidad} {item.Product.Name}"
+                            };
+
+                            db.DetalleAsientosContables.Add(detalleAsiento);
                         }
+
+                        cuenta = await VerificarCuenta("Almacen");
+
+                        var detalleAsiento1 = new DetalleAsiento
+                        {
+                            IdAsientoContable = asiento.IdAsientoContable,
+                            CuentaIdCuenta = cuenta.IdCuenta,
+                            Debe = 0,
+                            Hacer = factura.Total,
+                            Detalle = $"venta #{factura.FacturaId}"
+                        };
+
+                        db.DetalleAsientosContables.Add(detalleAsiento1);
 
                         await db.SaveChangesAsync();
                         trann.Commit();
@@ -129,6 +169,20 @@ namespace Joselito_Technocell.Controllers
 
             
             return RedirectToAction(nameof(Index));
+        }
+
+        async Task<Cuenta> VerificarCuenta(string NombreCuenta)
+        {
+            var cuenta = await db.CuentasContables.FirstOrDefaultAsync(a => a.Descripcion == NombreCuenta);
+
+            if (cuenta == null)
+            {
+                cuenta = new Cuenta { Descripcion = NombreCuenta,};
+                db.CuentasContables.Add(cuenta);
+                await db.SaveChangesAsync();
+            }
+
+            return cuenta;
         }
 
         public async Task<ActionResult> Factura(int id)

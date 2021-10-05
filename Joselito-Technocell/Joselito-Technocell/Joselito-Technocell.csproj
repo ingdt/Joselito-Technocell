@@ -191,7 +191,9 @@
     <Compile Include="Controllers\ProductosController.cs" />
     <Compile Include="Controllers\RequisicionesController.cs" />
     <Compile Include="Controllers\SuplidoresController.cs" />
+    <Compile Include="Enum\TipoAsientoContable.cs" />
     <Compile Include="Migrations\Configuration2.cs" />
+    <Compile Include="Models\AsientoContable.cs" />
     <Compile Include="Models\Caja.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\DetalleRequisitionsController.cs" />
@@ -208,6 +210,8 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\Cuenta.cs" />
+    <Compile Include="Models\DetalleAsiento.cs" />
     <Compile Include="Models\DetalleFactura.cs" />
     <Compile Include="Models\DetalleRequisition.cs" />
     <Compile Include="Models\EstadoFactura.cs" />

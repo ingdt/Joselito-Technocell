@@ -41,6 +41,9 @@ namespace Joselito_Technocell.Models
         public DbSet<Caja> Cajas { get; set; }
         public DbSet<Factura> Facturas { get; set; }
         public DbSet<DetalleFactura> DetalleFacturas { get; set; }
+        public DbSet<AsientoContable> AsientoContables { get; set; }
+        public DbSet<Cuenta> CuentasContables { get; set; }
+        public DbSet<DetalleAsiento> DetalleAsientosContables { get; set; }
         //public DbSet<Customer> Customers { get; set; }
         //public DbSet<Order> Orders { get; set; }
         //public DbSet<Tax> Taxes { get; set; }
