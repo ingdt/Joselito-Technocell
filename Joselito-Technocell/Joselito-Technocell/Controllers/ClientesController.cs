@@ -22,6 +22,11 @@ namespace Joselito_Technocell.Controllers
             return View(await db.Clientes.ToListAsync());
         }
 
+        public async Task<ActionResult> print()
+        {
+            return View(await db.Clientes.ToListAsync());
+        }
+
         // GET: Clientes/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -80,7 +85,7 @@ namespace Joselito_Technocell.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "IdCliente,Nombre,Apellido,Telefono,Direccion")] Cliente cliente)
+        public async Task<ActionResult> Edit(Cliente cliente)
         {
             if (ModelState.IsValid)
             {

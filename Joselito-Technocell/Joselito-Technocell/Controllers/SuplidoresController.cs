@@ -22,6 +22,11 @@ namespace Joselito_Technocell.Controllers
             return View(await db.Suplidors.ToListAsync());
         }
 
+        public async Task<ActionResult> print()
+        {
+            return View(await db.Suplidors.ToListAsync());
+        }
+
         // GET: Suplidores/Details/5
         public async Task<ActionResult> Details(int? id)
         {

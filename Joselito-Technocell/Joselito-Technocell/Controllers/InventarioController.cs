@@ -23,6 +23,12 @@ namespace Joselito_Technocell.Controllers
             return View(await inventarios.ToListAsync());
         }
 
+        public async Task<ActionResult> print()
+        {
+            var inventarios = db.Inventarios.Include(i => i.Producto);
+            return View(await inventarios.ToListAsync());
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

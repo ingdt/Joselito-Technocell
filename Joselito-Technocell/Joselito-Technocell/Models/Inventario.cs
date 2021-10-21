@@ -12,7 +12,7 @@ namespace Joselito_Technocell.Models
         [Key]
         public int InventarioId { get; set; }
         public int ProductId { get; set; }
-        [Display(Name = "Cantidad de Raciones")]
+        [Display(Name = "Cantidad")]
         public decimal Cantidad { get; set; }
         public virtual Product Producto { get; set; }
     }

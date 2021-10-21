@@ -23,6 +23,13 @@ namespace Joselito_Technocell.Controllers
             return View(await products.ToListAsync());
         }
 
+        [HttpGet]
+        public async Task<ActionResult> Print()
+        {
+            var products = db.Products.Include(p => p.Category);
+            return View(await products.ToListAsync());
+        }
+
         // GET: Productos/Details/5
         public async Task<ActionResult> Details(int? id)
         {

@@ -13,6 +13,8 @@
                 </div>
                 <div class="col-lg-6 col-5 text-right">
                     @Html.ActionLink("Nuevo cliente", "Create", null, new { @class = "btn btn-sm btn-neutral" })
+                    @*@Html.ActionLink("Imprimir Listado", "print", null, new { @class = "btn btn-sm btn-info" })*@
+                    <a href="~/clientes/print" target="_blank" class="btn btn-sm btn-info">Imprimir Listado</a>
                 </div>
             </div>
         </div>
@@ -30,9 +32,6 @@
                         <tr>
                             <th>
                                 @Html.DisplayNameFor(model => model.Nombre)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Apellido)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.Telefono)

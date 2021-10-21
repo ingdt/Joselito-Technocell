@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Joselito_Technocell.Models.Inventario>
+
+@{
+    ViewBag.Title = "print";
+    Layout = null;
+}
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+<!-- Icons -->
+<link rel="stylesheet" href="~/Content/assets/vendor/nucleo/css/nucleo.css" type="text/css">
+@*<link rel="stylesheet" href="~/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">*@
+<!-- Page plugins -->
+<link rel="stylesheet" href="~/Content/assets/vendor/fullcalendar/dist/fullcalendar.min.css">
+<link rel="stylesheet" href="~/Content/assets/vendor/sweetalert2/dist/sweetalert2.min.css">
+<!-- Argon CSS -->
+<link rel="stylesheet" href="~/Content/assets/css/argon.css?v=1.2.1" type="text/css">
+
+<center><h1>Reporte de inventario</h1></center>
+<br />
+<br />
+<br />
+<table class="table">
+    <tr>
+        <th>
+            Producto
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cantidad)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Producto.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cantidad)
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+<br />
+<br />
+<center><small>Reporte generado @DateTime.Today.ToLongDateString()</small></center>
+
+<!-- Core -->
+<script src="~/Content/assets/vendor/jquery/dist/jquery.min.js"></script>
+<script src="~/Content/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/Content/assets/vendor/js-cookie/js.cookie.js"></script>
+<script src="~/Content/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+<script src="~/Content/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
+<!-- Optional JS -->
+<script src="~/Content/assets/vendor/moment/min/moment.min.js"></script>
+<script src="~/Content/assets/vendor/fullcalendar/dist/fullcalendar.min.js"></script>
+<script src="~/Content/assets/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
+<script src="~/Content/assets/vendor/jvectormap-next/jquery-jvectormap.min.js"></script>
+<script src="~/Content/assets/js/vendor/jvectormap/jquery-jvectormap-world-mill.js"></script>
+<script src="~/Content/assets/vendor/dropzone/dist/min/dropzone.min.js"></script>
+
+<script src="~/Content/assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/assets/vendor/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<!-- Argon JS -->
+<script src="~/Content/assets/js/argon.js?v=1.2.1"></script>
+<!-- Demo JS - remove this in your project -->
+<script src="~/Content/assets/js/demo.min.js"></script>
+
+<script type="text/javascript">
+    window.onload = function () { window.print(); }
+</script>

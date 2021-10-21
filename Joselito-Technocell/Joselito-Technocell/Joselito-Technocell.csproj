@@ -222,6 +222,7 @@
     <Compile Include="Models\Joselito-TechnocellDbContext.cs" />
     <Compile Include="Models\LoginRequest.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MetodoPago.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\RegistroAlmacen.cs" />
     <Compile Include="Models\Requisitions.cs" />
@@ -3281,11 +3282,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Customers\Create.cshtml" />
-    <Content Include="Views\Customers\Delete.cshtml" />
-    <Content Include="Views\Customers\Details.cshtml" />
-    <Content Include="Views\Customers\Edit.cshtml" />
-    <Content Include="Views\Customers\Index.cshtml" />
     <Content Include="Views\Sales\Create.cshtml" />
     <Content Include="Views\Sales\Delete.cshtml" />
     <Content Include="Views\Sales\Details.cshtml" />
@@ -3361,6 +3357,10 @@
     <Content Include="Views\Caja\Index.cshtml" />
     <Content Include="Views\Caja\AbrirCaja.cshtml" />
     <Content Include="Views\Caja\Factura.cshtml" />
+    <Content Include="Views\Clientes\print.cshtml" />
+    <Content Include="Views\Productos\print.cshtml" />
+    <Content Include="Views\Suplidores\print.cshtml" />
+    <Content Include="Views\Inventario\print.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
