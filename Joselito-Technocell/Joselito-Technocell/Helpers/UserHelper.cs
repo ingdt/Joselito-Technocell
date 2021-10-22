@@ -117,6 +117,15 @@ namespace Joselito_Technocell.Helpers
             userManager.AddToRole(userASP.Id, roleName);
         }
 
+        public static void CreateUserASP(User userASP, string password)
+        {
+
+            userASP.UserName = userASP.Email;
+            var userManager = new UserManager<User>(new UserStore<User>(userContext));
+
+            userManager.Create(userASP, password);
+        }
+
         public static async Task PasswordRecovery(string email)
         {
             var userManager = new UserManager<User>(new UserStore<User>(userContext));

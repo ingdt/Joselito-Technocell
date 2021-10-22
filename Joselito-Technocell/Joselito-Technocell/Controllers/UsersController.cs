@@ -1,4 +1,5 @@
-﻿using Joselito_Technocell.Models;
+﻿using Joselito_Technocell.Helpers;
+using Joselito_Technocell.Models;
 using Joselito_Technocell.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -22,7 +23,25 @@ namespace Joselito_Technocell.Controllers
             return View(usuarios);
         }
 
-        
+        public ActionResult Create()
+        {
+            return View(new User());
+        }
+
+        [HttpPost]
+        public ActionResult Create(User user)
+        {
+            try
+            {
+                UserHelper.CreateUserASP(user, "Entrada123.");
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception)
+            {
+                return View(user);
+            }
+        }
+
         public ActionResult Roles(string usuarioID)
         {
             if (string.IsNullOrEmpty(usuarioID))

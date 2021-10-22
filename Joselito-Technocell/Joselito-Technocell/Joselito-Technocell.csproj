@@ -3362,6 +3362,7 @@
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\Roles.cshtml" />
     <Content Include="Views\Users\AgregarRoles.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
