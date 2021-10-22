@@ -1,123 +1,77 @@
 ﻿@model IEnumerable<Joselito_Technocell.Models.User>
-
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Roles y usuarios";
 }
 
-<h2>Index</h2>
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">@ViewBag.Title</h6>
+                </div>
+                <div class="col-lg-6 col-5 text-right">
+                    @Html.ActionLink("Nuevo usuario", "Create", null, new { @class = "btn btn-sm btn-neutral" })
+                    @*@Html.ActionLink("Imprimir Listado", "print", null, new { @class = "btn btn-sm btn-info" })*@
+                    <a href="~/USers/print" target="_blank" class="btn btn-sm btn-info">Imprimir Listado</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid mt--6">
+    <div class="card">
+        <center>
+            <h3 class="pt-5">Usuarios</h3>
+        </center>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-flush" id="datatable-basic">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FirstName)
+                            </th>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Photo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Phone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Address)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DepartmentId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DepartmentName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CityId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CityName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsAdmin)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsUser)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsCustomer)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsSupplier)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsRemembered)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Password)
-        </th>
-        <th></th>
-    </tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Email)
+                            </th>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Photo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Phone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DepartmentId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DepartmentName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CityId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CityName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsAdmin)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsUser)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsCustomer)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsSupplier)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsRemembered)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Password)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.UserId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.UserId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.UserId })
-        </td>
-    </tr>
-}
+                            <th>
+                                @Html.DisplayNameFor(model => model.PhoneNumber)
+                            </th>
 
-</table>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                @*<td>
+                                        @Html.DisplayFor(modelItem => item.Nombre)
+                                    </td>*@
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FullName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Administrar roles", "Roles", new { usuarioID = item.Id }, new { @class = "btn btn-sm btn-primary" })
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>

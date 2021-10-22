@@ -1,0 +1,47 @@
+﻿@model Joselito_Technocell.ViewModels.VistaUsuario
+@{
+    ViewBag.Title = $"Agregar Roles a {Model.Nombre}";
+}
+
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">@ViewBag.Title</h6>
+                </div>
+                <div class="col-lg-6 col-5 text-right">
+                    @Html.ActionLink("Volver", "Index", new { usuarioID = Model.UsuarioID }, new { @class = "btn btn-sm btn-neutral" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--6">
+    @using (Html.BeginForm("AgregarRoles", "Users", new { usuarioID = Model.UsuarioID }, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="card">
+            <div class="card-header">
+                <center>
+                    <h3>Agregar role</h3>
+                </center>
+            </div>
+            <div class="card-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Role.RolID, "Roles", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-12">
+                            @Html.DropDownList("RolID", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Role.RolID, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                    <input type="submit" value="Agregar Role" class="btn btn-primary btn-block" />
+                </div>
+            </div>
+        </div>
+    }
+</div>

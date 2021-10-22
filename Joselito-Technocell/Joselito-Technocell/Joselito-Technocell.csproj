@@ -191,6 +191,7 @@
     <Compile Include="Controllers\ProductosController.cs" />
     <Compile Include="Controllers\RequisicionesController.cs" />
     <Compile Include="Controllers\SuplidoresController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Enum\TipoAsientoContable.cs" />
     <Compile Include="Migrations\Configuration2.cs" />
     <Compile Include="Models\AsientoContable.cs" />
@@ -232,6 +233,8 @@
     <Compile Include="Models\UserRolViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\RolView.cs" />
+    <Compile Include="ViewModels\VistaUsuario.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\assets\css\argon.css" />
@@ -3292,11 +3295,6 @@
     <Content Include="Views\Taxes\Details.cshtml" />
     <Content Include="Views\Taxes\Edit.cshtml" />
     <Content Include="Views\Taxes\Index.cshtml" />
-    <Content Include="Views\Users\Create.cshtml" />
-    <Content Include="Views\Users\Delete.cshtml" />
-    <Content Include="Views\Users\Details.cshtml" />
-    <Content Include="Views\Users\Edit.cshtml" />
-    <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Categories\Create.cshtml" />
     <Content Include="Views\Categories\Delete.cshtml" />
     <Content Include="Views\Categories\Edit.cshtml" />
@@ -3361,6 +3359,9 @@
     <Content Include="Views\Productos\print.cshtml" />
     <Content Include="Views\Suplidores\print.cshtml" />
     <Content Include="Views\Inventario\print.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\Roles.cshtml" />
+    <Content Include="Views\Users\AgregarRoles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
