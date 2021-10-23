@@ -32,6 +32,7 @@ namespace Joselito_Technocell
             UserHelper.CheckRole("Admin");
             UserHelper.CheckRole("Vendedor");
             UserHelper.CheckSuperUser();
+            Seed.CreateMEtodosDePago();
         }
     }
 }

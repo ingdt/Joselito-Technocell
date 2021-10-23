@@ -41,6 +41,7 @@ namespace Joselito_Technocell.Controllers
             }
 
             ViewBag.IdCliente = new SelectList(db.Clientes, "IdCliente", "FullName", factura?.IdCliente);
+            ViewBag.IdMetodoPago = new SelectList(db.MetodoPagos, "IdMetodoPago", "Descripcion", factura?.IdCliente);
             return View(factura);
         }
 
@@ -49,14 +50,31 @@ namespace Joselito_Technocell.Controllers
         public async Task<ActionResult> Index(Factura factura)
         {
             var sesionFactura = Session["factura"] as Factura;
+            sesionFactura.IdMetodoPago = factura.IdMetodoPago;
+            sesionFactura.IdCliente = factura.IdCliente;
+            sesionFactura.Efectivo = factura.Efectivo;
+            Session["factura"] = sesionFactura;
             var uNAme = User.Identity.Name;
             var usu = UserHelper.User(uNAme);
             factura.IdCaja = db.Cajas.FirstOrDefault(a=> a.OperadorId == usu.Id && a.Estdo == EstadoCaja.Abierta).CajaId;
             factura.Fecha = DateTime.Now;
 
-            if (sesionFactura.Total > factura.Efectivo)
+            if (sesionFactura.DetalleFacturas.Count == 0)
+            {
+                Session["error"] = $"No se puede realizar ventas sin seleccionar productos o servicios";
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            if (sesionFactura.Total > factura.Efectivo && factura.IdMetodoPago == 1)
             {
                 Session["error"] = $"La factura hace un total de {sesionFactura.Total} favor pagar con un monto mayor o equivalente";
+
+                return RedirectToAction(nameof(Index));
+            }
+            else if (factura.IdMetodoPago == 2 && (factura.IdCliente == 0 || factura.IdCliente == null))
+            {
+                Session["error"] = $"Favor seleccionar un cliente para realizar una venta a credito";
 
                 return RedirectToAction(nameof(Index));
             }
@@ -67,7 +85,7 @@ namespace Joselito_Technocell.Controllers
                 {
                     try
                     {
-                        factura.Estado = EstadoFactura.Pagada;
+                        factura.Estado = factura.IdMetodoPago == 1 ? EstadoFactura.Pagada : EstadoFactura.Deuda;
                         db.Facturas.Add(factura);
                         await db.SaveChangesAsync();
 
@@ -85,7 +103,68 @@ namespace Joselito_Technocell.Controllers
 
                         Cuenta cuenta = new Cuenta();
 
-                        cuenta = await VerificarCuenta("Efectivo caja y banco");
+                        if (factura.IdMetodoPago == 1)
+                        {
+                            cuenta = await VerificarCuenta("Efectivo caja y banco");
+                        }
+
+                        else if (factura.IdMetodoPago == 2)
+                        {
+                            cuenta = await VerificarCuenta("Cuentas por cobrar");
+
+                            var cxc = new CxC
+                            {
+                                IdCliente = factura.IdCliente,
+                                Monto = sesionFactura.Total - factura.Efectivo,
+                                Resto = sesionFactura.Total - factura.Efectivo,
+                                FacturaId = factura.FacturaId,
+                                Saldado = false,
+                            };
+
+                            db.CxC.Add(cxc);
+                            await db.SaveChangesAsync();
+
+                            var client = await db.Clientes.FindAsync(factura.IdCliente);
+                            var detalleAsiento = new DetalleAsiento
+                            {
+                                IdAsientoContable = asiento.IdAsientoContable,
+                                CuentaIdCuenta = cuenta.IdCuenta,
+                                Debe = factura.Total - factura.Efectivo,
+                                Hacer = 0,
+                                Detalle = $"venta a credito a {client.Nombre}"
+                            };
+
+                            db.DetalleAsientosContables.Add(detalleAsiento);
+
+                            if (factura.Efectivo > 0)
+                            {
+                                var c = await VerificarCuenta("Efectivo caja y banco ");
+
+                                detalleAsiento = new DetalleAsiento
+                                {
+                                    IdAsientoContable = asiento.IdAsientoContable,
+                                    CuentaIdCuenta = c.IdCuenta,
+                                    Debe = factura.Efectivo,
+                                    Hacer = 0,
+                                    Detalle = $"venta a {db.Clientes.Find(factura.IdCliente).Nombre}"
+                                };
+
+                                db.DetalleAsientosContables.Add(detalleAsiento);
+
+                                var ingreso = new Ingresos
+                                {
+                                    CajaId = (int)factura.IdCaja,
+                                    CajaIdCaja = (int)factura.IdCaja,
+                                    Fecha = DateTime.Now,
+                                    FechaEmision = DateTime.Now,
+                                    Observacion = $"venta a credito al cliente {db.Clientes.Find(factura.IdCliente).Nombre}",
+                                    TotalIngreso = factura.Efectivo
+                                };
+
+                                db.Ingresos.Add(ingreso);
+                            }
+
+                        }
 
                         foreach (var item in sesionFactura.DetalleFacturas)
                         {
@@ -100,6 +179,7 @@ namespace Joselito_Technocell.Controllers
                             }
 
                             var inventario = db.Inventarios.FirstOrDefault(a => a.ProductId == item.ProductId);
+                            var producto = await db.Products.FindAsync(inventario.InventarioId);
 
                             if (inventario == null && !item.Product.IsService)
                             {
@@ -125,16 +205,31 @@ namespace Joselito_Technocell.Controllers
                                 db.Entry(inventario).State = EntityState.Modified;
                             }
 
-                            var detalleAsiento = new DetalleAsiento
+                            if (factura.IdMetodoPago == 1)
                             {
-                                IdAsientoContable = asiento.IdAsientoContable,
-                                CuentaIdCuenta = cuenta.IdCuenta,
-                                Debe = item.Total,
-                                Hacer = 0,
-                                Detalle = $"venta de {item.Cantidad} {item.Product.Name}"
-                            };
+                                var detalleAsiento = new DetalleAsiento
+                                {
+                                    IdAsientoContable = asiento.IdAsientoContable,
+                                    CuentaIdCuenta = cuenta.IdCuenta,
+                                    Debe = item.Total,
+                                    Hacer = 0,
+                                    Detalle = $"venta de {item.Cantidad} {item.Product.Name}"
+                                };
 
-                            db.DetalleAsientosContables.Add(detalleAsiento);
+                                db.DetalleAsientosContables.Add(detalleAsiento);
+
+                                var ingreso = new Ingresos
+                                {
+                                    CajaId = (int)factura.IdCaja,
+                                    CajaIdCaja = (int)factura.IdCaja,
+                                    Fecha = DateTime.Now,
+                                    FechaEmision = DateTime.Now,
+                                    Observacion = $"venta de {item.Cantidad} {producto.Name}",
+                                    TotalIngreso = item.Cantidad * item.Precio
+                                };
+
+                                db.Ingresos.Add(ingreso);
+                            }
                         }
 
                         cuenta = await VerificarCuenta("Almacen");

@@ -193,6 +193,7 @@
     <Compile Include="Controllers\SuplidoresController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Enum\TipoAsientoContable.cs" />
+    <Compile Include="Helpers\Seed.cs" />
     <Compile Include="Migrations\Configuration2.cs" />
     <Compile Include="Models\AsientoContable.cs" />
     <Compile Include="Models\Caja.cs" />
@@ -212,6 +213,7 @@
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Cuenta.cs" />
+    <Compile Include="Models\CxC.cs" />
     <Compile Include="Models\DetalleAsiento.cs" />
     <Compile Include="Models\DetalleFactura.cs" />
     <Compile Include="Models\DetalleRequisition.cs" />
@@ -219,6 +221,7 @@
     <Compile Include="Models\EstadoRequisicion.cs" />
     <Compile Include="Models\Factura.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Ingresos.cs" />
     <Compile Include="Models\Inventario.cs" />
     <Compile Include="Models\Joselito-TechnocellDbContext.cs" />
     <Compile Include="Models\LoginRequest.cs" />

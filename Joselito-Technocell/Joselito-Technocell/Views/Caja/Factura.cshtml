@@ -79,7 +79,14 @@
     </tr>
     <tr>
         <td style="text-align: right">
-            <b>Vuelto: @vuelto.ToString("C")</b>
+            @if (Model.IdMetodoPago == 1)
+            {
+                <b>Vuelto: @vuelto.ToString("C")</b>
+            }
+            else
+            {
+                <b>Deuda: @vuelto.ToString("C")</b>
+            }
         </td>
     </tr>
 </table>
