@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Joselito_Technocell.Models.CxC>
+
+@{
+    ViewBag.Title = $"CxC del cliente {Model.FirstOrDefault().Cliente.FullName}";
+}
+
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">@ViewBag.Title</h6>
+                </div>
+                <div class="col-lg-6 col-5 text-right">
+                    <a href="~/cxc/printClientCxC" target="_blank" class="btn btn-sm btn-info">Imprimir Listado</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid mt--6">
+    <div class="card">
+        <center>
+            <h3 class="pt-5">Listado de cuentas por cobrar</h3>
+        </center>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-flush" id="datatable-basic">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Factura.FacturaId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Descripcion)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Monto)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Resto)
+                            </th>
+                            <th>
+                                Opciones
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <a target="_blank" href="~/caja/factura/@item.FacturaId">#@Html.DisplayFor(modelItem => item.Factura.FacturaId)</a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Descripcion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Monto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Resto)
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-primary btn-sm">Pagar</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Joselito_Technocell.Models.CxC>
+
+<div class="card">
+    <center>
+        <h3 class="pt-5">Listado de cuentas por cobrar</h3>
+    </center>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-flush" id="datatable-basic">
+                <thead>
+                    <tr>
+                        <th>
+                            Cliente
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Factura.FacturaId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Descripcion)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Monto)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Resto)
+                        </th>
+                        <th>
+                            Opciones
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cliente.FullName)
+                            </td>
+                            <td>
+                                <a target="_blank" href="~/caja/factura/@item.FacturaId">#@Html.DisplayFor(modelItem => item.Factura.FacturaId)</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Monto)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Resto)
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-primary btn-sm">Pagar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>

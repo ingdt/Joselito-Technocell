@@ -15,6 +15,8 @@ namespace Joselito_Technocell.Models
         public string Telefono { get; set; }
         public string Direccion { get; set; }
 
+        public virtual ICollection<CxC> CxC { get; set; }
+
         public string FullName { get { return $"{this.Nombre} {this.Apellido}"; } }
     }
 }

@@ -1,137 +1,142 @@
 ﻿@model Joselito_Technocell.Models.Factura
-
+@using System.Linq;
 @{
     ViewBag.Title = "Caja";
 
     Joselito_Technocell.Models.Joselito_TechnocellDbContext db = new Joselito_Technocell.Models.Joselito_TechnocellDbContext();
+
+    var cxc = db.CxC.Where(a => a.Saldado == false).ToList();
 }
 
-<div class="header bg-primary pb-6">
-    <div class="container-fluid">
-        <div class="header-body">
-            <div class="row align-items-center py-4">
-                <div class="col-lg-6 col-7">
-                    <h6 class="h2 text-white d-inline-block mb-0">@ViewBag.Title</h6>
-                </div>
-                <div class="col-lg-6 col-5 text-right">
-                    <button type="button" class="btn btn-sm btn-neutral" onclick="abrirModal()">Agregar producto</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="nav-wrapper">
+    <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab" data-toggle="tab" href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true">Caja</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false">CxC</a>
+        </li>
+    </ul>
 </div>
 
-<div class="container-fluid mt--6">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <center>
-                    <h3 class="pt-5">Informacion de la factura</h3>
-                </center>
-                <div class="card-body">
-                    @using (Html.BeginForm("Index", "Caja", "POST"))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.IdCliente, htmlAttributes: new { @class = "control-label col-md-12" })
-                            <div class="col-md-12">
-                                @Html.DropDownList("IdCliente", null, "-- Seleccione un cliente --", htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.IdCliente, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.IdMetodoPago, htmlAttributes: new { @class = "control-label col-md-12" })
-                            <div class="col-md-12">
-                                @Html.DropDownList("IdMetodoPago", null, "-- Seleccione un metodo de pago --", htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.IdMetodoPago, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Efectivo, htmlAttributes: new { @class = "control-label col-md-12" })
-                            <div class="col-md-12">
-                                @Html.EditorFor(model => model.Efectivo, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Efectivo, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <center><h3><b>Total | @Model.Total.ToString("C")</b></h3></center>
-
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-block">Facturar</button>
-                            <a href="~/caja/Cancelar" class="btn btn-danger btn-block">Cancelar</a>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-8">
-            <div class="card">
-                <center>
-                    <h3 class="pt-5">Listado de productos</h3>
-                </center>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-flush" id="">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Producto
-                                    </th>
-                                    <th>
-                                        Precio
-                                    </th>
-                                    <th>
-                                        Cantidad
-                                    </th>
-                                    <th>
-                                        Subtotal
-                                    </th>
-                                    <th>
-                                        Acciones
-                                    </th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                @foreach (var item in Model.DetalleFacturas)
-                                {
-                                    if (item.Product == null)
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+               
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <center>
+                                    <h3 class="pt-5">Informacion de la factura</h3>
+                                </center>
+                                <div class="card-body">
+                                    @using (Html.BeginForm("Index", "Caja", "POST"))
                                     {
-                                        item.Product = db.Products.Find(item.ProductId);
-                                    }
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.IdCliente, htmlAttributes: new { @class = "control-label col-md-12" })
+                                            <div class="col-md-12">
+                                                @Html.DropDownList("IdCliente", null, "-- Seleccione un cliente --", htmlAttributes: new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.IdCliente, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.IdMetodoPago, htmlAttributes: new { @class = "control-label col-md-12" })
+                                            <div class="col-md-12">
+                                                @Html.DropDownList("IdMetodoPago", null, "-- Seleccione un metodo de pago --", htmlAttributes: new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.IdMetodoPago, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Efectivo, htmlAttributes: new { @class = "control-label col-md-12" })
+                                            <div class="col-md-12">
+                                                @Html.EditorFor(model => model.Efectivo, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Efectivo, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
 
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Product.Name)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Precio)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Cantidad)
-                                        </td>
-                                        <td>
-                                            @item.Total.ToString("C")
-                                        </td>
-                                        <td>
-                                            <a href="~/caja/deleteProdut/@item.ProductId" class="btn btn-danger btn-sm">Eliminar</a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="justify-content-center align-items-center py-4">
-                        <center><h3><b>Total | @Model.Total.ToString("C")</b></h3></center>
+                                        <center><h3><b>Total | @Model.Total.ToString("C")</b></h3></center>
+
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary btn-block">Facturar</button>
+                                            <a href="~/caja/Cancelar" class="btn btn-danger btn-block">Cancelar</a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="card">
+                                <center>
+                                    <h3 class="pt-5">Listado de productos</h3>
+                                </center>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-flush" id="">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Producto
+                                                    </th>
+                                                    <th>
+                                                        Precio
+                                                    </th>
+                                                    <th>
+                                                        Cantidad
+                                                    </th>
+                                                    <th>
+                                                        Subtotal
+                                                    </th>
+                                                    <th>
+                                                        Acciones
+                                                    </th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                @foreach (var item in Model.DetalleFacturas)
+                                                {
+                                                    if (item.Product == null)
+                                                    {
+                                                        item.Product = db.Products.Find(item.ProductId);
+                                                    }
+
+                                                    <tr>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Product.Name)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Precio)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Cantidad)
+                                                        </td>
+                                                        <td>
+                                                            @item.Total.ToString("C")
+                                                        </td>
+                                                        <td>
+                                                            <a href="~/caja/deleteProdut/@item.ProductId" class="btn btn-danger btn-sm">Eliminar</a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="justify-content-center align-items-center py-4">
+                                        <center><h3><b>Total | @Model.Total.ToString("C")</b></h3></center>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+                @Html.Partial("_CxC", cxc)
+            </div>
         </div>
-    </div>
-</div>
-
 
 <div class="modal fade" id="miModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-dialog-centered" style="width:80%" role="document">

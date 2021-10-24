@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Joselito_Technocell.Models.Cliente>
+
+@{
+    ViewBag.Title = "Cuentas por cobrar";
+}
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">Productos</h6>
+                </div>
+                <div class="col-lg-6 col-5 text-right">                    
+                    <a href="~/cxc/print" target="_blank" class="btn btn-sm btn-info">Imprimir Listado</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--6">
+    <div class="card">
+        <center>
+            <h3 class="pt-5">Listado de cuentas por cobrar</h3>
+        </center>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-flush" id="datatable-basic">
+                    <thead>
+                        <tr>
+                            <th>
+                                Cliente
+                            </th>
+                            <th>
+                                Facturas por pagar
+                            </th>
+                            <th>
+                                Total Deuda
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+
+                            decimal deuda = 0;
+                            int facturas = 0;
+
+                            foreach (var cxc in item.CxC)
+                            {
+                                if (!cxc.Saldado)
+                                {
+                                    deuda += cxc.Resto;
+                                    facturas++;
+                                }
+                            }
+                            <tr>
+                                <td>
+                                    @item.Nombre
+                                </td>
+                                <td>
+                                    @facturas
+                                </td>
+                                <td>
+                                    @deuda.ToString("C")
+                                </td>
+                                <th>
+                                    <a class="btn btn-primary" href="~/cxc/ClienteCxC/@item.IdCliente">detalles</a>
+                                </th>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

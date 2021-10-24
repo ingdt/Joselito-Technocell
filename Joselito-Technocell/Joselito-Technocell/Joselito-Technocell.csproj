@@ -187,6 +187,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CajaController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
+    <Compile Include="Controllers\CxCController.cs" />
     <Compile Include="Controllers\InventarioController.cs" />
     <Compile Include="Controllers\ProductosController.cs" />
     <Compile Include="Controllers\RequisicionesController.cs" />
@@ -3366,6 +3367,10 @@
     <Content Include="Views\Users\Roles.cshtml" />
     <Content Include="Views\Users\AgregarRoles.cshtml" />
     <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\CxC\Index.cshtml" />
+    <Content Include="Views\CxC\print.cshtml" />
+    <Content Include="Views\CxC\ClienteCxC.cshtml" />
+    <Content Include="Views\Caja\_CxC.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

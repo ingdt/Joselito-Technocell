@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<Joselito_Technocell.Models.Cliente>
-
 @{
-    ViewBag.Title = $"Reporte de clienetes";
+    ViewBag.Title = $"Reporte de CxC";
     Layout = null;
 }
 
@@ -15,46 +14,54 @@
 <!-- Argon CSS -->
 <link rel="stylesheet" href="~/Content/assets/css/argon.css?v=1.2.1" type="text/css">
 
-<center><h1>Reporte de listado de clientes</h1></center>
+<center><h1>Reporte de listado de CxC</h1></center>
 <br />
 <br />
 <br />
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Apellido)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Telefono)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Direccion)
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<table class="table table-flush">
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Apellido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Telefono)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Direccion)
-            </td>
+            <th>
+                Cliente
+            </th>
+            <th>
+                Facturas por pagar
+            </th>
+            <th>
+                Total Deuda
+            </th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            decimal deuda = 0;
+            int facturas = 0;
+
+            foreach (var cxc in item.CxC)
+            {
+                if (!cxc.Saldado)
+                {
+                    deuda += cxc.Resto;
+                    facturas++;
+                }
+            }
+            <tr>
+                <td>
+                    @item.FullName
+                </td>
+                <td>
+                    @facturas
+                </td>
+                <td>
+                    @deuda.ToString("C")
+                </td>
+            </tr>
+        }
+    </tbody>
 
 </table>
-
 <br />
 <br />
 <center><small>Reporte generado @DateTime.Today.ToLongDateString()</small></center>
@@ -83,3 +90,4 @@
 <script type="text/javascript">
     window.onload = function () { window.print(); }
 </script>
+
