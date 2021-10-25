@@ -1,0 +1,35 @@
+﻿@model Joselito_Technocell.Models.CxC
+
+@{ 
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <center><h3 class="pt-2 pb-3">CxC del cliente @Model.Cliente.FullName</h3></center>
+        <center><h3 class="pt-2 pb-3">@Model.Resto.ToString("C")</h3></center>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.IdCxC)
+        @Html.HiddenFor(model => model.IdCliente)
+        @Html.HiddenFor(model => model.FacturaId)
+        @Html.HiddenFor(model => model.Descripcion)
+        @Html.HiddenFor(model => model.Monto)
+        @Html.HiddenFor(model => model.Resto)
+        @Html.HiddenFor(model => model.Saldado)
+
+        <div class="form-group">
+                <label class="control-label">Monto</label>
+                <input id="montoPago" name="montoPago" placeholder="RD$0.00" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-12">
+                <input type="submit" value="Pagar" class="btn btn-default btn-block" />
+            </div>
+        </div>
+    </div>
+}

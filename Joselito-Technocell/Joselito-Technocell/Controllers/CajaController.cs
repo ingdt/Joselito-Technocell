@@ -266,6 +266,113 @@ namespace Joselito_Technocell.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public async Task<ActionResult> PagarCXC(int? id)
+        {
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+
+            var cxc = await db.CxC.FindAsync(id);
+
+            return View(cxc);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> PagarCXC(CxC cuenta, decimal montoPago)
+        {
+            if (cuenta == null)
+            {
+                TempData["error"] = $"ha ocurrido un error en la transacción";
+                return HttpNotFound();
+            }
+
+            if (cuenta.Cliente == null)
+            {
+                cuenta.Cliente = await db.Clientes.FindAsync(cuenta.IdCliente);
+            }
+
+            cuenta.Resto -= montoPago;
+
+            if (cuenta.Resto <= 0)
+            {
+                cuenta.Saldado = true;
+                var factura = await db.Facturas.FindAsync(cuenta.FacturaId);
+
+                factura.Estado = EstadoFactura.Pagada;
+                db.Entry(factura).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+            }
+
+            using (var transaccion = db.Database.BeginTransaction())
+            {
+
+                try
+                {
+                    db.Entry(cuenta).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+
+                    //Crear asiento contable
+                    var asiento = new AsientoContable
+                    {
+                        Glosa = $"Pago de cuenta por cobrar #{cuenta.IdCxC} del cliente {cuenta.Cliente.Nombre}",
+                        Fecha = DateTime.Now,
+                        RazonSocial = cuenta.Cliente.Nombre,
+                        Tipo = Enum.TipoAsientoContable.Debito
+
+                    };
+
+                    db.AsientoContables.Add(asiento);
+                    await db.SaveChangesAsync();
+
+                    //crear detalle de asiento contable "Cuentas por cobrar"
+                    var cuentaContable = await db.CuentasContables.FirstOrDefaultAsync(a => a.Descripcion == "Cuentas por cobrar");
+
+                    var detalleAsiento = new DetalleAsiento
+                    {
+                        Hacer = montoPago,
+                        IdAsientoContable = asiento.IdAsientoContable,
+                        CuentaIdCuenta = cuentaContable.IdCuenta,
+                        Detalle = $"Pago de cuenta por cobrar #{cuenta.IdCxC} del cliente {cuenta.Cliente.Nombre}",
+
+                    };
+
+                    db.DetalleAsientosContables.Add(detalleAsiento);
+                    await db.SaveChangesAsync();
+
+                    //crear detalle de asiento contable "Efectivo caja y banco"
+                    cuentaContable = await db.CuentasContables.FirstOrDefaultAsync(a => a.Descripcion == "Efectivo caja y banco");
+
+                    detalleAsiento = new DetalleAsiento
+                    {
+                        Debe = montoPago,
+                        IdAsientoContable = asiento.IdAsientoContable,
+                        CuentaIdCuenta = cuentaContable.IdCuenta,
+                        Detalle = $"Pago de cuenta por cobrar #{cuenta.IdCxC} del cliente {cuenta.Cliente.Nombre}",
+
+                    };
+
+                    db.DetalleAsientosContables.Add(detalleAsiento);
+                    await db.SaveChangesAsync();
+
+                    TempData["success"] = $"Pago realizado con exito";
+
+                    transaccion.Commit();
+
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                    TempData["error"] = $"ha ocurrido un error en la transacción";
+
+                    transaccion.Rollback();
+
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+        }
+
         async Task<Cuenta> VerificarCuenta(string NombreCuenta)
         {
             var cuenta = await db.CuentasContables.FirstOrDefaultAsync(a => a.Descripcion == NombreCuenta);
