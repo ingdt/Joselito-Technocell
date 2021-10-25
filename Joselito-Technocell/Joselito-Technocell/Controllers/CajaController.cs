@@ -284,7 +284,7 @@ namespace Joselito_Technocell.Controllers
         {
             if (cuenta == null)
             {
-                TempData["error"] = $"ha ocurrido un error en la transacción";
+                Session["error"] = $"ha ocurrido un error en la transacción";
                 return HttpNotFound();
             }
 
@@ -356,7 +356,7 @@ namespace Joselito_Technocell.Controllers
                     db.DetalleAsientosContables.Add(detalleAsiento);
                     await db.SaveChangesAsync();
 
-                    TempData["success"] = $"Pago realizado con exito";
+                    Session["ok"] = $"Pago realizado con exito";
 
                     transaccion.Commit();
 
@@ -364,7 +364,7 @@ namespace Joselito_Technocell.Controllers
                 }
                 catch
                 {
-                    TempData["error"] = $"ha ocurrido un error en la transacción";
+                    Session["error"] = $"ha ocurrido un error en la transacción";
 
                     transaccion.Rollback();
 
