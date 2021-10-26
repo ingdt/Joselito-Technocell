@@ -59,6 +59,13 @@ namespace Joselito_Technocell.Controllers
             factura.IdCaja = db.Cajas.FirstOrDefault(a=> a.OperadorId == usu.Id && a.Estdo == EstadoCaja.Abierta).CajaId;
             factura.Fecha = DateTime.Now;
 
+            if (factura.IdMetodoPago == 0 || factura.IdMetodoPago == null)
+            {
+                Session["error"] = $"Seleccione un metodo de pago";
+
+                return RedirectToAction(nameof(Index));
+            }
+
             if (sesionFactura.DetalleFacturas.Count == 0)
             {
                 Session["error"] = $"No se puede realizar ventas sin seleccionar productos o servicios";
@@ -179,7 +186,7 @@ namespace Joselito_Technocell.Controllers
                             }
 
                             var inventario = db.Inventarios.FirstOrDefault(a => a.ProductId == item.ProductId);
-                            var producto = await db.Products.FindAsync(inventario.InventarioId);
+                            Product producto = await db.Products.FindAsync(item.ProductId); 
 
                             if (inventario == null && !item.Product.IsService)
                             {
@@ -188,7 +195,7 @@ namespace Joselito_Technocell.Controllers
                                 return RedirectToAction(nameof(Index));
                             }
 
-                            else if (inventario != null)
+                            else if (inventario != null && !item.Product.IsService)
                             {                               
 
                                 if (inventario.Cantidad < item.Cantidad && !item.Product.IsService)
