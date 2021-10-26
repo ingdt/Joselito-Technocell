@@ -11,7 +11,7 @@ using Joselito_Technocell.Models;
 
 namespace Joselito_Technocell.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "AD-ROOT, AD-ALMACEN, AU-ALMACEN")]
     public class InventarioController : Controller
     {
         private Joselito_TechnocellDbContext db = new Joselito_TechnocellDbContext();

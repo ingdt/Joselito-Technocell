@@ -11,7 +11,7 @@ using Joselito_Technocell.Models;
 
 namespace Joselito_Technocell.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "AD-ROOT, AD-ALMACEN, AU-ALMACEN")]
     public class SuplidoresController : Controller
     {
         private Joselito_TechnocellDbContext db = new Joselito_TechnocellDbContext();
@@ -65,6 +65,7 @@ namespace Joselito_Technocell.Controllers
             return View(suplidor);
         }
 
+        [Authorize(Roles = "AD-ROOT, AD-ALMACEN")]
         // GET: Suplidores/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
@@ -84,6 +85,7 @@ namespace Joselito_Technocell.Controllers
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "AD-ROOT, AD-ALMACEN")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "SuplidorId,SuplidorNombre,SuplidorDireccion1,Paginaweb,Email,Telefono1,Telefono2,Observacion,Direccion2")] Suplidor suplidor)
         {
@@ -97,6 +99,7 @@ namespace Joselito_Technocell.Controllers
         }
 
         // GET: Suplidores/Delete/5
+        [Authorize(Roles = "AD-ROOT, AD-ALMACEN")]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -114,6 +117,7 @@ namespace Joselito_Technocell.Controllers
         // POST: Suplidores/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "AD-ROOT, AD-ALMACEN")]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Suplidor suplidor = await db.Suplidors.FindAsync(id);

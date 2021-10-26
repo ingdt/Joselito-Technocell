@@ -11,12 +11,12 @@ using System.Web.Mvc;
 
 namespace Joselito_Technocell.Controllers
 {
+    [Authorize(Roles = "AD-ROOT, AU-CAJA")]
     public class CajaController : Controller
     {
         private Joselito_TechnocellDbContext db = new Joselito_TechnocellDbContext();
 
         // GET: Caja
-        [Authorize]
         public ActionResult Index()
         {
             var uNAme = User.Identity.Name;
@@ -392,14 +392,14 @@ namespace Joselito_Technocell.Controllers
             return View(await db.Facturas.Include(a => a.DetalleFacturas).FirstOrDefaultAsync(a => a.FacturaId == id));
         }
 
-        [Authorize]
+
         [HttpGet]
         public ActionResult AbrirCaja()
         {
             return View("AbrirCaja", new Caja());
         }
 
-        [Authorize]
+
         [HttpPost]
         public ActionResult addProduct(int? idProducto, int? cantidad)
         {
@@ -463,7 +463,7 @@ namespace Joselito_Technocell.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [Authorize]
+
         [HttpPost]
         public ActionResult AbrirCaja(Caja caja)
         {
@@ -479,7 +479,7 @@ namespace Joselito_Technocell.Controllers
             return View(caja);
         }
 
-        [Authorize]
+
         [HttpGet]
         public ActionResult CerrarCaja()
         {
@@ -515,7 +515,7 @@ namespace Joselito_Technocell.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [Authorize]
+
         [HttpPost]
         public ActionResult CerrarCaja(Caja caja)
         {

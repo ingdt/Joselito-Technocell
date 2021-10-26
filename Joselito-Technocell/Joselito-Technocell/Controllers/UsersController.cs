@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace Joselito_Technocell.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "AD-ROOT")]
     public class UsersController : Controller
     {
         private Joselito_TechnocellDbContext db = new Joselito_TechnocellDbContext();

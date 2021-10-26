@@ -11,7 +11,7 @@ using Joselito_Technocell.Models;
 
 namespace Joselito_Technocell.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "AD-ROOT, AD-ALMACEN, AU-ALMACEN")]
     public class RequisicionesController : Controller
     {
         private Joselito_TechnocellDbContext db = new Joselito_TechnocellDbContext();
@@ -41,6 +41,7 @@ namespace Joselito_Technocell.Controllers
             return View(requisitions);
         }
 
+        [Authorize(Roles = "AD-ROOT, AD-ALMACEN")]
         [HttpPost]
         public ActionResult addProduct(int? idProducto, int? cantidad, decimal? precio)
         {
@@ -80,6 +81,7 @@ namespace Joselito_Technocell.Controllers
             return View(nameof(Create), requisition);
         }
 
+        [Authorize(Roles = "AD-ROOT, AD-ALMACEN")]
         // GET: Requisiciones/Create
         public ActionResult Create()
         {
@@ -100,6 +102,7 @@ namespace Joselito_Technocell.Controllers
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "AD-ROOT, AD-ALMACEN")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Requisitions requisitions)
         {

@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace Joselito_Technocell.Controllers
 {
+    [Authorize(Roles = "AD-ROOT, AU-CONT")]
     public class CxCController : Controller
     {
         private Joselito_TechnocellDbContext db = new Joselito_TechnocellDbContext();

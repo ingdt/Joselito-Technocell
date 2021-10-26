@@ -27,63 +27,92 @@
                             <i class="ni ni-shop text-primary"></i>
                             <span class="nav-link-text">inicio</span>
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="~/categories">
-                            <i class="ni ni-shop text-primary"></i>
-                            <span class="nav-link-text">Categorias</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="~/Productos">
-                            <i class="ni ni-shop text-primary"></i>
-                            <span class="nav-link-text">Productos</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="~/clientes">
-                            <i class="ni ni-shop text-primary"></i>
-                            <span class="nav-link-text">Clientes</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="~/suplidores">
-                            <i class="ni ni-shop text-primary"></i>
-                            <span class="nav-link-text">suplidores</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="~/Requisiciones">
-                            <i class="ni ni-shop text-primary"></i>
-                            <span class="nav-link-text">Requisiciones</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="~/Inventario">
-                            <i class="ni ni-shop text-primary"></i>
-                            <span class="nav-link-text">Inventario</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="~/Caja">
-                            <i class="ni ni-shop text-primary"></i>
-                            <span class="nav-link-text">Caja</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="~/USers">
-                            <i class="ni ni-shop text-primary"></i>
-                            <span class="nav-link-text">Roles & Usuarios</span>
-                        </a>
-                    </li>
+                    </li>                    
                 </ul>
+                @if (User.IsInRole("AD-ROOT") || User.IsInRole("AU-CAJA"))
+                {
+                    <hr class="my-3">
+                    <h6 class="navbar-heading p-0 text-muted">
+                        <span class="docs-normal">Ventas</span>
+                        <span class="docs-mini">D</span>
+                    </h6>
+                    <ul class="navbar-nav">
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/clientes">
+                                <i class="ni ni-single-02 text-gray-dark"></i>
+                                <span class="nav-link-text">Clientes</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Caja">
+                                <i class="ni ni-cart text-cyan"></i>
+                                <span class="nav-link-text">Caja</span>
+                            </a>
+                        </li>
+                    </ul>
+                }
                 <!-- Divider -->
-                <hr class="my-3">
-                <ul class="navbar-nav">
-                </ul>
+                @if (User.IsInRole("AD-ROOT") || User.IsInRole("AD-ALMACEN") || User.IsInRole("AU-ALMACEN"))
+                {
+                    <hr class="my-3">
+                    <h6 class="navbar-heading p-0 text-muted">
+                        <span class="docs-normal">Inventario</span>
+                        <span class="docs-mini">D</span>
+                    </h6>
+                    <ul class="navbar-nav">
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/categories">
+                                <i class="ni ni-bullet-list-67 text-gray"></i>
+                                <span class="nav-link-text">Categorias</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Productos">
+                                <i class="ni ni-box-2 text-warning"></i>
+                                <span class="nav-link-text">Productos</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/suplidores">
+                                <i class="ni ni-delivery-fast text-black"></i>
+                                <span class="nav-link-text">suplidores</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Requisiciones">
+                                <i class="ni ni-books text-red"></i>
+                                <span class="nav-link-text">Requisiciones</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Inventario">
+                                <i class="ni ni-book-bookmark text-purple"></i>
+                                <span class="nav-link-text">Inventario</span>
+                            </a>
+                        </li>
+                    </ul>
+                }
+                <!-- Divider -->
+                @if (User.IsInRole("AD-ROOT"))
+                {
+                    <hr class="my-3">
+                    <h6 class="navbar-heading p-0 text-muted">
+                        <span class="docs-normal">Seguridad</span>
+                        <span class="docs-mini">D</span>
+                    </h6>
+                    <ul class="navbar-nav">
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/USers">
+                                <i class="ni ni-satisfied text-yellow"></i>
+                                <span class="nav-link-text">Roles & Usuarios</span>
+                            </a>
+                        </li>
+                    </ul>
+                }
                 <!-- Heading -->
             </div>
         </div>
