@@ -3,6 +3,9 @@
 @{
     ViewBag.Title = "print";
     Layout = null;
+
+    decimal total = 0m;
+    decimal totalCantidad = 0m;
 }
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
@@ -25,21 +28,50 @@
             Producto
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.Producto.Price)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Cantidad)
+        </th>
+        <th>
+            Total
         </th>
     </tr>
 
     @foreach (var item in Model)
     {
+        decimal subTotal = item.Cantidad * item.Producto.Price;
+        total += subTotal;
+        totalCantidad += item.Cantidad;
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Producto.Name)
             </td>
             <td>
+                @item.Producto.Price.ToString("C")
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Cantidad)
+            </td>
+            <td>
+                @subTotal.ToString("C")
             </td>
         </tr>
     }
+    <tr>
+        <td>
+
+        </td>
+        <td style="text-align: right">
+            <b>Total</b>
+        </td>
+        <td>
+            <b>@totalCantidad</b>
+        </td>
+        <td>
+            <b>@total.ToString("C")</b>
+        </td>
+    </tr>
 
 </table>
 
