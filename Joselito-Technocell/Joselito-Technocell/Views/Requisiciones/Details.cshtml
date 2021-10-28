@@ -1,7 +1,7 @@
 ﻿@model Joselito_Technocell.Models.Requisitions
 
 @{
-    ViewBag.Title = $"Requisición #{Model.RequisitionsId}";
+    ViewBag.Title = $"Compra #{Model.RequisitionsId}";
 
     Joselito_Technocell.Models.Joselito_TechnocellDbContext db = new Joselito_Technocell.Models.Joselito_TechnocellDbContext();
 
@@ -27,7 +27,7 @@
     <div class="container-fluid mt--6">
         <div class="card">
             <center>
-                <h3 class="pt-5">Informacion de la requisicion</h3>
+                <h3 class="pt-5">Informacion de la compra</h3>
             </center>
             <div class="card-body">
                 <div class="row">
@@ -36,8 +36,8 @@
                         <p style="text-align: right"><b>Estado: </b>@Model.Estado.ToString()</p>
                     </div>
                     <div class="col-md-6">
-                        <p><b>Fecha de creacion: </b>@Model.FechadePedido.ToLongDateString() @Model.FechadePedido.ToShortTimeString()</p>
-                        <p><b>Fecha de entrega: </b>@(Model.FechadeEntrega == null ? "N/A" : $"{Model.FechadeEntrega?.ToLongDateString()} {Model.FechadeEntrega?.ToShortTimeString()}")</p>
+                        <p><b>Fecha de compra: </b>@Model.FechadePedido.ToLongDateString() @Model.FechadePedido.ToShortTimeString()</p>
+                        
                     </div>
                 </div>
                 <p>

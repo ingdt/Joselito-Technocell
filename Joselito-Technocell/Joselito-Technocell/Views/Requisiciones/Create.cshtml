@@ -1,7 +1,7 @@
 ﻿@model Joselito_Technocell.Models.Requisitions
 
 @{
-    ViewBag.Title = "Nueva requisicion";
+    ViewBag.Title = "Nueva compra";
 
    Joselito_Technocell.Models.Joselito_TechnocellDbContext db = new Joselito_Technocell.Models.Joselito_TechnocellDbContext();
 }
@@ -24,7 +24,7 @@
 <div class="container-fluid mt--6">
     <div class="card">
         <center>
-            <h3 class="pt-5">Informacion de la requisicion</h3>
+            <h3 class="pt-5">Informacion de la compra</h3>
         </center>
         <div class="card-body">
             @using (Html.BeginForm("Create", "Requisiciones", "POST") )
@@ -56,7 +56,7 @@
                    <div class="row">
                        <div class="col-md-6">
                            <button type="button" class="btn btn-info btn-block" onclick="abrirModal()">Agregar producto</button>
-                           <button type="submit" class="btn btn-primary btn-block">Guardar Requisicion</button>
+                           <button type="submit" class="btn btn-primary btn-block">Guardar compra</button>
                        </div>
                    </div>
                 </div>

@@ -10,12 +10,12 @@ namespace Joselito_Technocell.Models
         public int RequisitionsId { get; set; }
 
         [DataType(DataType.Date)]
-        [Display(Name = "Fecha de pedido")]
+        [Display(Name = "Fecha de compra")]
         public DateTime FechadePedido { get; set; }
 
-        [DataType(DataType.Date)]
-        [Display(Name = "Fecha de entrega")]
-        public DateTime? FechadeEntrega { get; set; }
+        //[DataType(DataType.Date)]
+        //[Display(Name = "Fecha de entrega")]
+        //public DateTime? FechadeEntrega { get; set; }
 
         public EstadoRequisicion Estado { get; set; }
 
