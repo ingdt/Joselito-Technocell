@@ -3372,6 +3372,7 @@
     <Content Include="Views\CxC\ClienteCxC.cshtml" />
     <Content Include="Views\Caja\_CxC.cshtml" />
     <Content Include="Views\Caja\PagarCXC.cshtml" />
+    <Content Include="Views\Caja\_cerrarCaja.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

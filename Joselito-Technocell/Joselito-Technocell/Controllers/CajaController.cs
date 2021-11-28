@@ -42,6 +42,7 @@ namespace Joselito_Technocell.Controllers
 
             ViewBag.IdCliente = new SelectList(db.Clientes, "IdCliente", "FullName", factura?.IdCliente);
             ViewBag.IdMetodoPago = new SelectList(db.MetodoPagos, "IdMetodoPago", "Descripcion", factura?.IdCliente);
+            ViewBag.caja = caja;
             return View(factura);
         }
 
@@ -160,8 +161,7 @@ namespace Joselito_Technocell.Controllers
 
                                 var ingreso = new Ingresos
                                 {
-                                    CajaId = (int)factura.IdCaja,
-                                    CajaIdCaja = (int)factura.IdCaja,
+                                    IdCaja = (int)factura.IdCaja,
                                     Fecha = DateTime.Now,
                                     FechaEmision = DateTime.Now,
                                     Observacion = $"venta a credito al cliente {db.Clientes.Find(factura.IdCliente).Nombre}",
@@ -227,8 +227,7 @@ namespace Joselito_Technocell.Controllers
 
                                 var ingreso = new Ingresos
                                 {
-                                    CajaId = (int)factura.IdCaja,
-                                    CajaIdCaja = (int)factura.IdCaja,
+                                    IdCaja = (int)factura.IdCaja,
                                     Fecha = DateTime.Now,
                                     FechaEmision = DateTime.Now,
                                     Observacion = $"venta de {item.Cantidad} {producto.Name}",
@@ -361,6 +360,25 @@ namespace Joselito_Technocell.Controllers
                     };
 
                     db.DetalleAsientosContables.Add(detalleAsiento);
+                    await db.SaveChangesAsync();
+
+                    var uNAme = User.Identity.Name;
+                    var usu = UserHelper.User(uNAme);
+
+                    var caja = db.Cajas.FirstOrDefault(a => a.OperadorId == usu.Id && a.Estdo == EstadoCaja.Abierta);
+
+                    var fact = db.Facturas.Find(cuenta);
+
+                    var ingreso = new Ingresos
+                    {
+                        IdCaja = caja.CajaId,
+                        Fecha = DateTime.Now,
+                        FechaEmision = DateTime.Now,
+                        Observacion = $"Pago/abono a cuenta por cobrar del cliente {db.Clientes.Find(fact.IdCliente).Nombre}",
+                        TotalIngreso = montoPago
+                    };
+
+                    db.Ingresos.Add(ingreso);
                     await db.SaveChangesAsync();
 
                     Session["ok"] = $"Pago realizado con exito";
