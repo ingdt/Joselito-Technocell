@@ -228,6 +228,7 @@
     <Compile Include="Models\LoginRequest.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MetodoPago.cs" />
+    <Compile Include="Models\PagoCxC.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\RegistroAlmacen.cs" />
     <Compile Include="Models\Requisitions.cs" />
