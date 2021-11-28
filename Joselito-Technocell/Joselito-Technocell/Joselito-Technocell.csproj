@@ -3374,6 +3374,7 @@
     <Content Include="Views\Caja\_CxC.cshtml" />
     <Content Include="Views\Caja\PagarCXC.cshtml" />
     <Content Include="Views\Caja\_cerrarCaja.cshtml" />
+    <Content Include="Views\CxC\PagosCxC.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Joselito_Technocell.Models.PagoCxC>
+
+@{
+    ViewBag.Title = "Pagos CxC";
+    Layout = null;
+}
+
+
+<div class="table-responsive">
+    <table class="table table-flush" id="datatable-basic">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Monto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Monto)
+                </td>
+                <td>
+                    @item.Fecha.ToShortDateString() @item.Fecha.ToShortTimeString()
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+

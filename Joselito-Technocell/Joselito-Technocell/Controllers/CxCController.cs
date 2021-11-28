@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -18,7 +19,7 @@ namespace Joselito_Technocell.Controllers
         // GET: CxC
         public async Task<ActionResult> Index()
         {
-            var applicationDbContext = await db.CxC.Where(a=> a.Saldado == false).ToListAsync();
+            var applicationDbContext = await db.CxC.ToListAsync();
 
             var lista = new List<Cliente>();
 
@@ -48,7 +49,18 @@ namespace Joselito_Technocell.Controllers
                 return HttpNotFound();
             }
 
-            return View(await db.CxC.Where(a => a.IdCliente == id && a.Saldado == false).Include(a=> a.Cliente).ToListAsync());
+            return View(await db.CxC.Where(a => a.IdCliente == id).Include(a=> a.Cliente).ToListAsync());
+        }
+
+        public async Task<ActionResult> PagosCxC(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var pagos = await db.PagosCxC.Where(a=> a.IdCxC == id).ToListAsync();
+
+            return View(pagos);
         }
 
         public async Task<ActionResult> print()

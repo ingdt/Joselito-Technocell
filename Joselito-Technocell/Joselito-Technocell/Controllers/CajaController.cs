@@ -300,22 +300,23 @@ namespace Joselito_Technocell.Controllers
             }
 
             cuenta.Resto -= montoPago;
-
-            if (cuenta.Resto <= 0)
-            {
-                cuenta.Saldado = true;
-                var factura = await db.Facturas.FindAsync(cuenta.FacturaId);
-
-                factura.Estado = EstadoFactura.Pagada;
-                db.Entry(factura).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-            }
+            
 
             using (var transaccion = db.Database.BeginTransaction())
             {
 
                 try
                 {
+                    if (cuenta.Resto <= 0)
+                    {
+                        cuenta.Saldado = true;
+                        var factura = await db.Facturas.FindAsync(cuenta.FacturaId);
+
+                        factura.Estado = EstadoFactura.Pagada;
+                        db.Entry(factura).State = EntityState.Modified;
+                        await db.SaveChangesAsync();
+                    }
+
                     db.Entry(cuenta).State = EntityState.Modified;
                     await db.SaveChangesAsync();
 
@@ -335,6 +336,17 @@ namespace Joselito_Technocell.Controllers
                     //crear detalle de asiento contable "Cuentas por cobrar"
                     var cuentaContable = await db.CuentasContables.FirstOrDefaultAsync(a => a.Descripcion == "Cuentas por cobrar");
 
+                    if (cuentaContable == null)
+                    {
+                        cuentaContable = new Cuenta
+                        {
+                            Descripcion = "Cuentas por cobrar"
+                        };
+
+                        db.CuentasContables.Add(cuentaContable);
+                        await db.SaveChangesAsync();
+                    }
+
                     var detalleAsiento = new DetalleAsiento
                     {
                         Hacer = montoPago,
@@ -349,6 +361,17 @@ namespace Joselito_Technocell.Controllers
 
                     //crear detalle de asiento contable "Efectivo caja y banco"
                     cuentaContable = await db.CuentasContables.FirstOrDefaultAsync(a => a.Descripcion == "Efectivo caja y banco");
+
+                    if (cuentaContable == null)
+                    {
+                        cuentaContable = new Cuenta
+                        {
+                            Descripcion = "Efectivo caja y banco"
+                        };
+
+                        db.CuentasContables.Add(cuentaContable);
+                        await db.SaveChangesAsync();
+                    }
 
                     detalleAsiento = new DetalleAsiento
                     {
@@ -367,7 +390,7 @@ namespace Joselito_Technocell.Controllers
 
                     var caja = db.Cajas.FirstOrDefault(a => a.OperadorId == usu.Id && a.Estdo == EstadoCaja.Abierta);
 
-                    var fact = db.Facturas.Find(cuenta);
+                    var fact = db.Facturas.Find(cuenta.FacturaId);
 
                     var ingreso = new Ingresos
                     {
@@ -388,6 +411,7 @@ namespace Joselito_Technocell.Controllers
                          IdCxC = cuenta.IdCxC,
                          Monto = montoPago
                     };
+
                     db.PagosCxC.Add(pago);
                     await db.SaveChangesAsync();
 
@@ -395,7 +419,7 @@ namespace Joselito_Technocell.Controllers
 
                     return RedirectToAction(nameof(Index));
                 }
-                catch
+                catch(Exception ex)
                 {
                     Session["error"] = $"ha ocurrido un error en la transacción";
 
