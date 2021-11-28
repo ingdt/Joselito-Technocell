@@ -47,6 +47,7 @@ namespace Joselito_Technocell.Models
         public DbSet<DetalleAsiento> DetalleAsientosContables { get; set; }
         public DbSet<CxC> CxC { get; set; }
         public DbSet<Ingresos> Ingresos { get; set; }
+        public DbSet<PagoCxC> PagosCxC { get; set; }
         //public DbSet<Customer> Customers { get; set; }
         //public DbSet<Order> Orders { get; set; }
         //public DbSet<Tax> Taxes { get; set; }

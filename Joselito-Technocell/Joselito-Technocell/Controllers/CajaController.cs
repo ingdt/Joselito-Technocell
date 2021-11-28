@@ -383,6 +383,14 @@ namespace Joselito_Technocell.Controllers
 
                     Session["ok"] = $"Pago realizado con exito";
 
+                    PagoCxC pago = new PagoCxC{
+                         Fecha = DateTime.Now,
+                         IdCxC = cuenta.IdCxC,
+                         Monto = montoPago
+                    };
+                    db.PagosCxC.Add(pago);
+                    await db.SaveChangesAsync();
+
                     transaccion.Commit();
 
                     return RedirectToAction(nameof(Index));
