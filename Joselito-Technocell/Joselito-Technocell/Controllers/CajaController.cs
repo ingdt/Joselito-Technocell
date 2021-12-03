@@ -272,6 +272,11 @@ namespace Joselito_Technocell.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<ActionResult> List()
+        {
+            return View(await db.Cajas.Include(a=> a.Operador).OrderByDescending(a=> a.CajaId).ToListAsync());
+        }
+
         [HttpGet]
         public async Task<ActionResult> PagarCXC(int? id)
         {

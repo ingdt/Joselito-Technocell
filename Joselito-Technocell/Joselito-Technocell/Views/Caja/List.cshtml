@@ -1,0 +1,104 @@
+﻿@model IEnumerable<Joselito_Technocell.Models.Caja>
+@{
+    ViewBag.Title = "Cajas";
+}
+
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">@ViewBag.Title</h6>
+                </div>
+                <div class="col-lg-6 col-5 text-right">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--6">
+    <div class="card">
+        <center>
+            <h3 class="pt-5">Listado de cajas</h3>
+        </center>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-flush" id="datatable-basic">
+                    <thead>
+                        <tr>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Operador
+                            </th>
+                            <th>
+                                Estado
+                            </th>  
+                            <th>
+                                Montos (Apertura-Cierre)
+                            </th> 
+                            <th>
+                                Fecha (Apertura-Cierre)
+                            </th>
+                            <th>
+                                Acciones
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CajaId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Operador.FullName)
+                            </td>
+                            <td>
+                                @if (item.Estdo == EstadoCaja.Abierta)
+                                {
+                                    <span>Abierta</span>
+                                }
+                                else
+                                {
+                                    <span>Cerrada</span>
+                                }
+                            </td>
+                            <td>
+                                @if (item.Estdo == EstadoCaja.Abierta)
+                                {
+                                    <span>@item.MontoApertura.ToString("C") - Aun abierta</span>
+                                }
+                                else
+                                {
+                                    <span>@item.MontoApertura.ToString("C") - @item.MontoCierre.ToString("C")</span>
+                                }
+                            </td>
+                            <td>
+                                @if (item.Estdo == EstadoCaja.Abierta)
+                                {
+                                    <span>@item.Apertura.ToShortDateString() - Aun abierta</span>
+                                }
+                                else
+                                {
+                                    <span>@item.Apertura.ToShortDateString() - @Convert.ToDateTime(@item.Apertura.ToShortDateString()).ToShortDateString()</span>
+                                }
+                            </td>
+                            <td>
+                                <a class="btn btn-primary" href="~/caja/info/@item.CajaId">detalles</a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
