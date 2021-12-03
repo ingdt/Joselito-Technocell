@@ -547,6 +547,23 @@ namespace Joselito_Technocell.Controllers
             return View(caja);
         }
 
+        [HttpPost]
+        public ActionResult CerrarCaja(Caja caja)
+        {
+            caja.Cierre = DateTime.Now;
+            caja.Estdo = EstadoCaja.Cerrarda;
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(caja).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(caja);
+        }
+
         [HttpGet]
         public ActionResult Cancelar()
         {
@@ -570,22 +587,6 @@ namespace Joselito_Technocell.Controllers
             }
 
             return RedirectToAction(nameof(Index));
-        }
-
-
-        [HttpPost]
-        public ActionResult CerrarCaja(Caja caja)
-        {
-            caja.Apertura = DateTime.Now;
-            if (ModelState.IsValid)
-            {
-                db.Cajas.Add(caja);
-                db.SaveChanges();
-
-                return RedirectToAction(nameof(Index));
-            }
-
-            return View(caja);
-        }
+        }        
     }
 }

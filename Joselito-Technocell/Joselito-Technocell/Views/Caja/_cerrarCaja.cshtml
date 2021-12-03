@@ -5,7 +5,7 @@
 }
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("CerrarCaja", "Caja", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
