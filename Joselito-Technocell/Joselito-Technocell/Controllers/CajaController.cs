@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -164,7 +165,7 @@ namespace Joselito_Technocell.Controllers
                                     IdCaja = (int)factura.IdCaja,
                                     Fecha = DateTime.Now,
                                     FechaEmision = DateTime.Now,
-                                    Observacion = $"venta a credito al cliente {db.Clientes.Find(factura.IdCliente).Nombre}",
+                                    Observacion = $"Abono inicial de venta a credito al cliente {db.Clientes.Find(factura.IdCliente).Nombre}",
                                     TotalIngreso = factura.Efectivo
                                 };
 
@@ -277,6 +278,27 @@ namespace Joselito_Technocell.Controllers
             return View(await db.Cajas.Include(a=> a.Operador).OrderByDescending(a=> a.CajaId).ToListAsync());
         }
 
+        [HttpGet]
+        public async Task<ActionResult> Info(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var caja = await db.Cajas
+                .Include(a=> a.Operador)
+                .Include(a=> a.Facturas)
+                .Include(a=> a.Ingresos)
+                .FirstOrDefaultAsync(a=> a.CajaId == id);
+
+            if (caja == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(caja);
+        }
         [HttpGet]
         public async Task<ActionResult> PagarCXC(int? id)
         {
@@ -460,8 +482,7 @@ namespace Joselito_Technocell.Controllers
         {
             return View("AbrirCaja", new Caja());
         }
-
-
+        
         [HttpPost]
         public ActionResult addProduct(int? idProducto, int? cantidad)
         {
@@ -524,8 +545,7 @@ namespace Joselito_Technocell.Controllers
             ViewBag.IdCliente = new SelectList(db.Clientes, "IdCliente", "FullName");
             return RedirectToAction(nameof(Index));
         }
-
-
+        
         [HttpPost]
         public ActionResult AbrirCaja(Caja caja)
         {
@@ -540,8 +560,7 @@ namespace Joselito_Technocell.Controllers
 
             return View(caja);
         }
-
-
+        
         [HttpGet]
         public ActionResult CerrarCaja()
         {

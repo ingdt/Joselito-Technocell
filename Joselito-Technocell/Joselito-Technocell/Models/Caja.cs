@@ -21,6 +21,7 @@ namespace Joselito_Technocell.Models
         [ForeignKey("OperadorId")]
         public virtual User Operador { get; set; }
         public virtual ICollection<Factura> Facturas { get; set; }
+        public virtual ICollection<Ingresos> Ingresos { get; set; }
 
     }
 }

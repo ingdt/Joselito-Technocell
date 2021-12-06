@@ -1,0 +1,155 @@
+﻿@model  Joselito_Technocell.Models.Caja
+@{
+    ViewBag.Title = $"Caja #{Model.CajaId}";
+
+    var db = new Joselito_Technocell.Models.Joselito_TechnocellDbContext();
+
+    decimal totalIngresos = 0;
+}
+
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">@ViewBag.Title - en estado @Model.Estdo.ToString()</h6>
+                </div>
+                <div class="col-lg-6 col-5 text-right">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="container-fluid mt--6">
+            <div class="card">
+                <center>
+                    <h3 class="pt-5">Informacion de la caja #@Model.CajaId</h3>
+                </center>
+                <hr />
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Operador</label>
+                        <input class="form-control" disabled value="@Model.Operador.FullName" />
+                    </div>
+                    <div class="form-group">
+                        <label>Monto de apertura</label>
+                        <input class="form-control" disabled value="@Model.MontoApertura.ToString("C")" />
+                    </div>
+                    <div class="form-group">
+                        <label>Monto de cierre</label>
+                        <input class="form-control" disabled value="@Model.MontoCierre.ToString("C")" />
+                    </div>
+                    <div class="form-group">
+                        <label>Monto de apertura</label>
+                        <input class="form-control" disabled value="@Model.Apertura" />
+                    </div>
+                    <div class="form-group">
+                        <label>Monto de cierre</label>
+                        <input class="form-control" disabled value="@Model.Cierre" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="container-fluid mt--6">
+            <div class="card">
+                <center>
+                    <h3 class="pt-5">Ingresos de la caja #@Model.CajaId</h3>
+                </center>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-flush" id="datatable-basic">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Descripcion
+                                    </th>
+                                    <th>
+                                        Monto
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody @foreach (var item in Model.Ingresos) { decimal ingreso = 0;  if (item.TotalIngreso != null) { ingreso = Convert.ToDecimal(item.TotalIngreso);  totalIngresos += ingreso; } <tr>
+                                    <td>
+                                        @item.Observacion
+                                    </td>
+                                    <td>
+                                        @ingreso.ToString("c")
+                                    </td>
+                                </tr>
+                        }
+                    </tbody>
+
+                        </table>
+                        <center>
+                            <h3 class="pt-5">TOTAL | @totalIngresos.ToString("C")</h3>
+                        </center>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <center>
+        <h3 class="pt-5">Facturas de la caja #@Model.CajaId</h3>
+    </center>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-flush">
+                <thead>
+                    <tr>
+                        <th>
+                            NO. Factura
+                        </th>
+                        <th>
+                            Cliente
+                        </th>
+                        <th>
+                            Total
+                        </th>
+                    </tr>
+                </thead>
+                <tbody 
+                    @foreach (var item in Model.Facturas) {
+                        if (item.Cliente == null)
+                        {
+                            if (item.IdCliente != null)
+                            {
+                                item.Cliente = db.Clientes.Find(item.IdCliente);
+                            }
+                            else
+                            {
+                                item.Cliente = new Joselito_Technocell.Models.Cliente();
+                            }
+                        }
+                        <tr>
+                            <td>
+                                <a target="_blank" href="~/caja/factura/@item.FacturaId">Factura #@item.FacturaId</a>
+                            </td>
+                            <td>
+                                @item.Cliente.FullName
+                            </td>                            
+                            <td>
+                                @item.Total.ToString("C")
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+            <center>
+                <h3 class="pt-5">TOTAL | @totalIngresos.ToString("C")</h3>
+            </center>
+        </div>
+    </div>
+</div>
+
