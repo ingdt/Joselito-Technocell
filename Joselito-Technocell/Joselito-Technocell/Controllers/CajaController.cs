@@ -299,6 +299,29 @@ namespace Joselito_Technocell.Controllers
 
             return View(caja);
         }
+
+        [HttpGet]
+        public async Task<ActionResult> PrintInfo(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var caja = await db.Cajas
+                .Include(a => a.Operador)
+                .Include(a => a.Facturas)
+                .Include(a => a.Ingresos)
+                .FirstOrDefaultAsync(a => a.CajaId == id);
+
+            if (caja == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(caja);
+        }
+
         [HttpGet]
         public async Task<ActionResult> PagarCXC(int? id)
         {

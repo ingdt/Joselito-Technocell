@@ -1,0 +1,135 @@
+﻿@model  Joselito_Technocell.Models.Caja
+@{
+    ViewBag.Title = "PrintInfo";
+    Layout = null;
+
+    decimal totalIngresos = 0;
+    var db = new Joselito_Technocell.Models.Joselito_TechnocellDbContext();
+
+}
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+<!-- Icons -->
+<link rel="stylesheet" href="~/Content/assets/vendor/nucleo/css/nucleo.css" type="text/css">
+@*<link rel="stylesheet" href="~/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">*@
+<!-- Page plugins -->
+<link rel="stylesheet" href="~/Content/assets/vendor/fullcalendar/dist/fullcalendar.min.css">
+<link rel="stylesheet" href="~/Content/assets/vendor/sweetalert2/dist/sweetalert2.min.css">
+<!-- Argon CSS -->
+<link rel="stylesheet" href="~/Content/assets/css/argon.css?v=1.2.1" type="text/css">
+
+<center><h1>Reporte de la caja #@Model.CajaId</h1></center>
+<table class="table table-bordered">
+    <tr>
+        <td>
+            <b>Fecha de apertura:</b> @Model.Apertura
+        </td>
+        <td>
+            <b>
+                Fecha de cierre:
+            </b> @if (Model.Estdo == EstadoCaja.Abierta)
+            {
+                <span>@Model.Apertura.ToShortDateString() - Aun abierta</span>
+            }
+            else
+            {
+                <span>@Model.Apertura.ToShortDateString() - @Convert.ToDateTime(Model.Apertura.ToShortDateString()).ToShortDateString()</span>
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>Monto de apertura:</b> @Model.MontoApertura.ToString("C")
+        </td>
+        <td>
+            <b>
+                Monto de cierre:
+            </b>
+            @if (Model.Estdo == EstadoCaja.Abierta)
+            {
+                <span>@Model.MontoApertura.ToString("C") - Aun abierta</span>
+            }
+            else
+            {
+                <span>@Model.MontoCierre.ToString("C")</span>
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>Operador:</b> @Model.Operador.FullName
+        </td>
+        <td>
+            <b>Estado:</b>
+            @if (Model.Estdo == EstadoCaja.Abierta)
+            {
+                <span>Abierta</span>
+            }
+            else
+            {
+                <span>Cerrada</span>
+            }
+        </td>
+    </tr>
+</table>
+<center><h3>Facturas registradas</h3></center>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                NO. Factura
+            </th>
+            <th>
+                Cliente
+            </th>
+            <th>
+                Total
+            </th>
+        </tr>
+    </thead>
+    <tbody 
+        @foreach (var item in Model.Facturas) { if (item.Cliente == null) { if (item.IdCliente != null) { item.Cliente = db.Clientes.Find(item.IdCliente); } else { item.Cliente = new Joselito_Technocell.Models.Cliente(); } } <tr>
+                        <td>
+                            <span>Factura #@item.FacturaId</span>
+                        </td>
+                        <td>
+                            @item.Cliente.FullName
+                        </td>
+                        <td>
+                            @item.Total.ToString("C")
+                        </td>
+                    </tr>
+         }
+    </tbody>
+
+</table>
+
+<hr />
+<center><h3>Ingresos detallados</h3></center>
+<table class="table table-bordered" id="datatable-basic">
+    <thead>
+        <tr>
+            <th>
+                Descripcion
+            </th>
+            <th>
+                Monto
+            </th>
+        </tr>
+    </thead>
+    <tbody @foreach (var item in Model.Ingresos) { decimal ingreso = 0; if (item.TotalIngreso != null) { ingreso = Convert.ToDecimal(item.TotalIngreso); totalIngresos += ingreso; }<tr>
+                                    <td>
+                                        @item.Observacion
+                                    </td>
+                                    <td>
+                                        @ingreso.ToString("c")
+                                    </td>
+                                </tr>
+                        }
+                    </tbody>
+
+</table>
+<center>
+    <h3>TOTAL | @totalIngresos.ToString("C")</h3>
+</center>
+
