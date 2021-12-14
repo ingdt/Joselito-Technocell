@@ -620,6 +620,30 @@ namespace Joselito_Technocell.Controllers
         }
 
         [HttpGet]
+        public ActionResult ReporteVentas()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ReporteVentas(DateTime desde, DateTime hasta)
+        {
+            hasta.AddHours(23).AddMinutes(59);
+            var list = db.Facturas
+                .Include(a=> a.DetalleFacturas)
+                .Where(a=> a.Fecha >= desde && a.Fecha <= hasta).ToList();
+
+            return View("ReporteVentasView", list);
+        }
+
+        [HttpGet]
+        public ActionResult ReporteVentasView(List<Factura> data)
+        {
+            return View(data);
+        }
+
+
+        [HttpGet]
         public ActionResult DeleteProdut(int id)
         {
             var factura = Session["factura"] as Factura;
