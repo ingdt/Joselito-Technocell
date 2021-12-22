@@ -9,6 +9,22 @@
 
     var caja = ViewBag.caja as Joselito_Technocell.Models.Caja;
 }
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<style>
+    .selection ::after span {
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+    }
+
+    .select2-selection__rendered ::after span {
+        padding-top: -10px !important;
+    }
+
+    .select2-selection--single {
+        height: 49px !important;
+    }
+</style>
 
 <div class="nav-wrapper">
     <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
@@ -163,8 +179,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-label">Producto</label>
-                                <select name="idProducto" id="idProducto" class="form-control">
-                                    <option>-- Seleccione un producto --</option>
+                                <select name="idProducto" style="height:42px;" id="idProducto" class="form-control js-example-basic-single">
+                                    <option></option>
                                     @foreach (var item in db.Products)
                                     {
                                         <option value="@item.ProductId">@item.Name</option>
@@ -218,11 +234,13 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         function cxc(id) {
             $("#Modal-body-cxc").load('/caja/PagarCXC/' + id);
         }
+
+        $('.js-example-basic-single').select2({ placeholder: '-- Seleccione un producto --'});
     </script>
 
     <script>
