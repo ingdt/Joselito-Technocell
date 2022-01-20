@@ -21,8 +21,10 @@ namespace Joselito_Technocell.Models
         public string LastName { get; set; }
         
         [DataType(DataType.PhoneNumber)]
+        [Display(Name = "Teléfono")]
         public override string PhoneNumber { get; set; }
 
+        [Display(Name = "Nombre Completo")]
         public string FullName { get { return $"{this.FirstName} {this.LastName}"; } }
 
         public override string ToString()

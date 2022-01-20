@@ -11,12 +11,13 @@ using System.Web.Mvc;
 
 namespace Joselito_Technocell.Controllers
 {
-    [Authorize(Roles = "AD-ROOT, AU-CONT")]
+    
     public class CxCController : Controller
     {
         private Joselito_TechnocellDbContext db = new Joselito_TechnocellDbContext();
 
         // GET: CxC
+        [Authorize(Roles = "AD-ROOT, AU-CONT")]
         public async Task<ActionResult> Index()
         {
             var applicationDbContext = await db.CxC.ToListAsync();
@@ -42,6 +43,7 @@ namespace Joselito_Technocell.Controllers
             return View(lista);
         }
 
+        [Authorize(Roles = "AD-ROOT, AU-CONT")]
         public async Task<ActionResult> ClienteCxC(int? id)
         {
             if (id == null)
@@ -52,6 +54,8 @@ namespace Joselito_Technocell.Controllers
             return View(await db.CxC.Where(a => a.IdCliente == id).Include(a=> a.Cliente).ToListAsync());
         }
 
+        [AllowAnonymous]
+        [HttpGet]
         public async Task<ActionResult> PagosCxC(int? id)
         {
             if (id == null)
@@ -63,6 +67,7 @@ namespace Joselito_Technocell.Controllers
             return View(pagos);
         }
 
+        [Authorize(Roles = "AD-ROOT, AU-CONT")]
         public async Task<ActionResult> print()
         {
             var applicationDbContext = await db.CxC.Where(a => a.Saldado == false).ToListAsync();
