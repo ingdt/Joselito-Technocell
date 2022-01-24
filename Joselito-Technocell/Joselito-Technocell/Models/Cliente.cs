@@ -12,6 +12,8 @@ namespace Joselito_Technocell.Models
         public int IdCliente { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
+
+        [RegularExpression("^[0-9]{3}[-][0-9]{3}[-][0-9]{4}$", ErrorMessage = "Por favor introduzca un Número con el formato correcto ejemplo: 000-000-0000")]
         public string Telefono { get; set; }
         public string Direccion { get; set; }
 

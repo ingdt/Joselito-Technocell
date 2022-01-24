@@ -26,12 +26,15 @@ namespace Joselito_Technocell.Models
         public string Paginaweb { get; set; }
 
         [StringLength(50)]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Por favor introduzca una direccion de correo valida")]
         public string Email { get; set; }
 
         [StringLength(12)]
+        [RegularExpression("^[0-9]{3}[-][0-9]{3}[-][0-9]{4}$", ErrorMessage = "Por favor introduzca un Número con el formato correcto ejemplo: 000-000-0000")]
         public string Telefono1 { get; set; }
 
         [StringLength(12)]
+        [RegularExpression("^[0-9]{3}[-][0-9]{3}[-][0-9]{4}$", ErrorMessage = "Por favor introduzca un Número con el formato correcto ejemplo: 000-000-0000")]
         public string Telefono2 { get; set; }
 
         [StringLength(500)]
