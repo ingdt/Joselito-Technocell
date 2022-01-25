@@ -15,6 +15,7 @@ namespace Joselito_Technocell.Models
         [DataType(DataType.Currency)]
         [Required(ErrorMessage = "El campo {0} es requerido")]
         public decimal Monto { get; set; }
+        public decimal Resto { get; set; }
         public DateTime Fecha { get; set; }
         public virtual CxC CxC { get; set; }
     }
