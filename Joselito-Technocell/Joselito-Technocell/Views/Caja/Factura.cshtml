@@ -185,9 +185,11 @@
                         <thead>
                             <tr>
                                 <th>PRODUCTO</th>
-                                <th class="text-center" width="10%">CANTIDAD</th>
-                                <th class="text-center" width="10%">PRECIO</th>
-                                <th class="text-right" width="20%">SUBTOTAL</th>
+                                <th >CANTIDAD</th>
+                                <th >PRECIO</th>
+                                <th >SUBTOTAL</th>
+                                <th >ITBIS</th>
+                                <th >TOTAL</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -203,6 +205,12 @@
                                     <td>
                                         @item.Precio.ToString("C")
                                     </td>
+                                    <td>
+                                        @item.SubTotal.ToString("C")
+                                    </td>
+                                    <td>
+                                        @item.ITBIS.ToString("C")
+                                    </td>
                                     <td width="25%">
                                         @item.Total.ToString("C")
                                     </td>
@@ -216,6 +224,14 @@
                 <div class="invoice-price">
                     <div class="invoice-price-left">
                         <div class="invoice-price-row">
+                            <div class="sub-price">
+                                <small>SUBTOTAL</small>
+                                <span class="text-inverse">@Model.SubTotal.ToString("C")</span>
+                            </div>
+                            <div class="sub-price">
+                                <small>ITBIS</small>
+                                <span class="text-inverse">@Model.ITBIS.ToString("C")</span>
+                            </div>
                             <div class="sub-price">
                                 <small>TOTAL</small>
                                 <span class="text-inverse">@Model.Total.ToString("C")</span>

@@ -35,17 +35,47 @@ namespace Joselito_Technocell.Models
         public virtual Caja Caja { get; set; }
         public virtual ICollection<DetalleFactura> DetalleFacturas { get; set; } = new List<DetalleFactura>();
 
-        public decimal Total { get {
+        public decimal ITBIS
+        {
+            get
+            {
 
                 decimal t = 0;
 
                 foreach (var item in this.DetalleFacturas)
                 {
-                    t += (decimal)item.Total;
+                    t += (decimal)item.ITBIS;
                 }
 
                 return t;
 
-        } }
+            }
+        }
+
+        public decimal SubTotal { get {
+
+                decimal t = 0;
+
+                foreach (var item in this.DetalleFacturas)
+                {
+                    t += (decimal)item.SubTotal;
+                }
+
+                return t;
+
+        }
+        
+        }
+
+        public decimal Total
+        {
+            get
+            {
+
+                return SubTotal + ITBIS;
+
+            }
+
+        }
     }
 }
