@@ -653,6 +653,7 @@ namespace Joselito_Technocell.Controllers
         public ActionResult ReporteVentas(DateTime desde, DateTime hasta)
         {
             hasta.AddHours(23).AddMinutes(59);
+
             var list = db.Facturas
                 .Include(a=> a.DetalleFacturas)
                 .Where(a=> a.Fecha >= desde && a.Fecha <= hasta).ToList();
