@@ -57,7 +57,7 @@ namespace Joselito_Technocell.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ProductId,Name,Description,BarCode,Price,Image,IsService,CategoryId")] Product product)
+        public async Task<ActionResult> Create(Product product)
         {
             if (ModelState.IsValid)
             {
@@ -82,6 +82,7 @@ namespace Joselito_Technocell.Controllers
             {
                 return HttpNotFound();
             }
+
             ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Name", product.CategoryId);
             return View(product);
         }
@@ -91,7 +92,7 @@ namespace Joselito_Technocell.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ProductId,Name,Description,BarCode,Price,Image,IsService,CategoryId")] Product product)
+        public async Task<ActionResult> Edit(Product product)
         {
             if (ModelState.IsValid)
             {

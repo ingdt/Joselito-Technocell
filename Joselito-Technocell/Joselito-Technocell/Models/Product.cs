@@ -11,6 +11,8 @@ namespace Joselito_Technocell.Models
     {
         [Key]
         public int ProductId { get; set; }
+
+        [Display(Name = "Este producto tiene impuestos?")]
         public bool ConImpuesto { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es requerido")]
