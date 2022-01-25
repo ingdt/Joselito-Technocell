@@ -1,9 +1,11 @@
-﻿@model  Joselito_Technocell.Models.Factura
+﻿@model Joselito_Technocell.Models.PagoCxC
+
 @{
-    ViewBag.Title = "Factura";
+    ViewBag.Title = "ReciboDePago";
+
     Layout = null;
 
-    var vuelto = Model.Efectivo - Model.Total;
+    //var vuelto = Model.Efectivo - Model.Total;
 }
 
 
@@ -129,11 +131,11 @@
         border-color: #d9dfe3;
     }
 
-    @@media print{
+    @@media print {
         .hidden-print * {
             display: none !important;
         }
-}
+    }
 </style>
 
 
@@ -156,13 +158,13 @@
                 <div class="invoice-to">
                     <small>CLIENTE</small>
                     <address class="m-t-5 m-b-5">
-                        <strong class="text-inverse">@Model.Cliente.FullName</strong><br>
-                        Dirección: @Model.Cliente.Direccion<br>
-                        Tel: @Model.Cliente.Telefono<br>
+                        <strong class="text-inverse">@Model.CxC.Factura.Cliente.FullName</strong><br>
+                        Dirección: @Model.CxC.Factura.Cliente.Direccion<br>
+                        Tel: @Model.CxC.Factura.Cliente.Telefono<br>
                     </address>
                 </div>
                 <div class="invoice-date">
-                    <small>FACTURA #@Model.FacturaId</small>
+                    <small>FECHA</small>
                     <div class="date text-inverse m-t-5">
                         @Model.Fecha.ToLongDateString()
                     </div>
@@ -176,35 +178,25 @@
             <div class="invoice-content">
                 <!-- begin table-responsive -->
                 <div class="table-responsive">
-                    <table class="table table-invoice">
+                    @*<table class="table table-invoice">
                         <thead>
                             <tr>
-                                <th>PRODUCTO</th>
-                                <th class="text-center" width="10%">CANTIDAD</th>
+                                <th>DESCRIPCION</th>
                                 <th class="text-center" width="10%">PRECIO</th>
-                                <th class="text-right" width="20%">SUBTOTAL</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.DetalleFacturas)
-                            {
-                                <tr>
-                                    <td>
-                                        @item.Product.Name
-                                    </td>
-                                    <td>
-                                        @item.Cantidad
-                                    </td>
-                                    <td>
-                                        @item.Precio.ToString("C")
-                                    </td>
-                                    <td width="25%">
-                                        @item.Total.ToString("C")
-                                    </td>
-                                </tr>
-                            }
+                            <tr>
+                                <td>
+                                    @Model.CxC.Descripcion
+                                </td>
+                                <td>
+                                    @Model.Monto.ToString("C")
+                                </td>
+                            </tr>
                         </tbody>
-                    </table>
+                    </table>*@
+                    <p>Pago/abono a cuenta por cobrar de la factura #@Model.CxC.FacturaId, compra que se realizo en la fecha <b>@Model.CxC.Factura.Fecha.ToLongDateString()</b> a las <b>@Model.CxC.Factura.Fecha.ToShortTimeString()</b> por el cliente <b>@Model.CxC.Factura.Cliente.FullName</b> con valor de @Model.CxC.Monto.ToString("C").</p>
                 </div>
                 <!-- end table-responsive -->
                 <!-- begin invoice-price -->
@@ -213,26 +205,19 @@
                         <div class="invoice-price-row">
                             <div class="sub-price">
                                 <small>TOTAL</small>
-                                <span class="text-inverse">@Model.Total.ToString("C")</span>
+                                <span class="text-inverse"> @Model.Monto.ToString("C")</span>
                             </div>
                             <div class="sub-price">
                                 <i class="bi bi-slash-lg text-muted"></i>
                             </div>
                             <div class="sub-price">
-                                <small>Efectivo</small>
-                                <span class="text-inverse">@Model.Efectivo.ToString("C")</span>
+                                <small>DEVUELTA</small>
+                                <span class="text-inverse">@Model.Resto.ToString("C")</span>
                             </div>
                         </div>
                     </div>
                     <div class="invoice-price-right">
-                        @if (Model.IdMetodoPago == 1)
-                        {
-                            <small>Vuelto:</small> <span class="f-w-600">@vuelto.ToString("C")</span>
-                        }
-                        else
-                        {
-                            <small>Deuda</small> <span class="f-w-600">@vuelto.ToString("C")</span>
-                        }
+                        <small>RESTO ADEUDADO:</small> <span class="f-w-600">@Model.CxC.Resto.ToString("C")</span>
                     </div>
                 </div>
                 <!-- end invoice-price -->

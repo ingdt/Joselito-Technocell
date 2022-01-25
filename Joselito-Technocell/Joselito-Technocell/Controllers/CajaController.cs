@@ -338,6 +338,7 @@ namespace Joselito_Technocell.Controllers
         [HttpPost]
         public async Task<ActionResult> PagarCXC(CxC cuenta, decimal montoPago)
         {
+            decimal resto = 0;
             if (cuenta == null)
             {
                 Session["error"] = $"ha ocurrido un error en la transacción";
@@ -349,7 +350,17 @@ namespace Joselito_Technocell.Controllers
                 cuenta.Cliente = await db.Clientes.FindAsync(cuenta.IdCliente);
             }
 
-            cuenta.Resto -= montoPago;
+            if (montoPago > cuenta.Resto)
+            {
+                resto = montoPago - cuenta.Resto;
+                cuenta.Resto = 0;
+            }
+            else
+            {
+                cuenta.Resto -= montoPago;
+            }
+
+            
             
 
             using (var transaccion = db.Database.BeginTransaction())
@@ -459,7 +470,8 @@ namespace Joselito_Technocell.Controllers
                     PagoCxC pago = new PagoCxC{
                          Fecha = DateTime.Now,
                          IdCxC = cuenta.IdCxC,
-                         Monto = montoPago
+                         Monto = montoPago,
+                         Resto = resto
                     };
 
                     db.PagosCxC.Add(pago);
@@ -467,17 +479,28 @@ namespace Joselito_Technocell.Controllers
 
                     transaccion.Commit();
 
+                    Session["Imprimir2"] = pago.IdPagoCxC;
+
                     return RedirectToAction(nameof(Index));
                 }
                 catch(Exception ex)
                 {
-                    Session["error"] = $"ha ocurrido un error en la transacción";
+                    Session["error"] = ex.Message;
 
                     transaccion.Rollback();
 
                     return RedirectToAction(nameof(Index));
                 }
             }
+        }
+
+        public async Task<ActionResult> ReciboDePago(int id)
+        {
+            return View(await db.PagosCxC
+                .Include(a => a.CxC)
+                .Include(a => a.CxC.Cliente)
+                .Include(a => a.CxC.Factura)
+                .FirstOrDefaultAsync(a => a.IdPagoCxC == id));
         }
 
         async Task<Cuenta> VerificarCuenta(string NombreCuenta)
