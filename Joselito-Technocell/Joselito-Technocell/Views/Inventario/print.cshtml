@@ -8,99 +8,220 @@
     decimal totalCantidad = 0m;
 }
 
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
-<!-- Icons -->
-<link rel="stylesheet" href="~/Content/assets/vendor/nucleo/css/nucleo.css" type="text/css">
-@*<link rel="stylesheet" href="~/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">*@
-<!-- Page plugins -->
-<link rel="stylesheet" href="~/Content/assets/vendor/fullcalendar/dist/fullcalendar.min.css">
-<link rel="stylesheet" href="~/Content/assets/vendor/sweetalert2/dist/sweetalert2.min.css">
-<!-- Argon CSS -->
-<link rel="stylesheet" href="~/Content/assets/css/argon.css?v=1.2.1" type="text/css">
-
-<center><h1>Reporte de inventario</h1></center>
-<br />
-<br />
-<br />
-<table class="table">
-    <tr>
-        <th>
-            Producto
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Producto.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cantidad)
-        </th>
-        <th>
-            Total
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        decimal subTotal = item.Cantidad * item.Producto.Price;
-        total += subTotal;
-        totalCantidad += item.Cantidad;
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Producto.Name)
-            </td>
-            <td>
-                @item.Producto.Price.ToString("C")
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cantidad)
-            </td>
-            <td>
-                @subTotal.ToString("C")
-            </td>
-        </tr>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<style>
+    body {
+        margin-top: 20px;
+        background: #eee;
     }
-    <tr>
-        <td>
 
-        </td>
-        <td style="text-align: right">
-            <b>Total</b>
-        </td>
-        <td>
-            <b>@totalCantidad</b>
-        </td>
-        <td>
-            <b>@total.ToString("C")</b>
-        </td>
-    </tr>
+    .invoice {
+        background: #fff;
+        padding: 20px
+    }
 
-</table>
+    .invoice-company {
+        font-size: 20px
+    }
+
+    .invoice-header {
+        margin: 0 -20px;
+        background: #f0f3f4;
+        padding: 20px
+    }
+
+    .invoice-date,
+    .invoice-from,
+    .invoice-to {
+        display: table-cell;
+        width: 1%
+    }
+
+    .invoice-from,
+    .invoice-to {
+        padding-right: 20px
+    }
+
+        .invoice-date .date,
+        .invoice-from strong,
+        .invoice-to strong {
+            font-size: 16px;
+            font-weight: 600
+        }
+
+    .invoice-date {
+        text-align: right;
+        padding-left: 20px
+    }
+
+    .invoice-price {
+        background: #f0f3f4;
+        display: table;
+        width: 100%
+    }
+
+        .invoice-price .invoice-price-left,
+        .invoice-price .invoice-price-right {
+            display: table-cell;
+            padding: 20px;
+            font-size: 20px;
+            font-weight: 600;
+            width: 75%;
+            position: relative;
+            vertical-align: middle
+        }
+
+            .invoice-price .invoice-price-left .sub-price {
+                display: table-cell;
+                vertical-align: middle;
+                padding: 0 20px
+            }
+
+        .invoice-price small {
+            font-size: 12px;
+            font-weight: 400;
+            display: block
+        }
+
+        .invoice-price .invoice-price-row {
+            display: table;
+            float: left
+        }
+
+        .invoice-price .invoice-price-right {
+            width: 25%;
+            background: #2d353c;
+            color: #fff;
+            font-size: 28px;
+            text-align: right;
+            vertical-align: bottom;
+            font-weight: 300
+        }
+
+            .invoice-price .invoice-price-right small {
+                display: block;
+                opacity: .6;
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                font-size: 12px
+            }
+
+    .invoice-footer {
+        border-top: 1px solid #ddd;
+        padding-top: 10px;
+        font-size: 10px
+    }
+
+    .invoice-note {
+        color: #999;
+        margin-top: 80px;
+        font-size: 85%
+    }
+
+    .invoice > div:not(.invoice-footer) {
+        margin-bottom: 20px
+    }
+
+    .btn.btn-white, .btn.btn-white.disabled, .btn.btn-white.disabled:focus, .btn.btn-white.disabled:hover, .btn.btn-white[disabled], .btn.btn-white[disabled]:focus, .btn.btn-white[disabled]:hover {
+        color: #2d353c;
+        background: #fff;
+        border-color: #d9dfe3;
+    }
+
+    @@media print {
+        .hidden-print * {
+            display: none !important;
+        }
+    }
+</style>
 
 
-<br />
-<br />
-<center><small>Reporte generado @DateTime.Today.ToLongDateString()</small></center>
+<div class="container">
+    <div class="col-md-12">
+        <div class="invoice">
+            <!-- begin invoice-company -->
+            <div class="invoice-company text-inverse f-w-600 text-center">
+                <span class="pull-right hidden-print">
+                    @*<a href="javascript:;" class="btn btn-sm btn-white m-b-10 p-l-5"><i class="fa fa-file t-plus-1 text-danger fa-fw fa-lg"></i> Export as PDF</a>*@
+                    <a href="javascript:;" onclick="window.print()" class="btn btn-sm btn-white m-b-10 p-l-5"><i class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Print</a>
+                </span>
+                JOSELITO TECNOCELL <br />
+                <small>Autopista Duarte km75 esq. Mella</small> <br />
+                <small>Tel: (809) 453-3236</small>
+            </div>
+            <div class="invoice-content">
+                <table class="table table-invoice">
 
-<!-- Core -->
-<script src="~/Content/assets/vendor/jquery/dist/jquery.min.js"></script>
-<script src="~/Content/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/Content/assets/vendor/js-cookie/js.cookie.js"></script>
-<script src="~/Content/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
-<script src="~/Content/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
-<!-- Optional JS -->
-<script src="~/Content/assets/vendor/moment/min/moment.min.js"></script>
-<script src="~/Content/assets/vendor/fullcalendar/dist/fullcalendar.min.js"></script>
-<script src="~/Content/assets/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
-<script src="~/Content/assets/vendor/jvectormap-next/jquery-jvectormap.min.js"></script>
-<script src="~/Content/assets/js/vendor/jvectormap/jquery-jvectormap-world-mill.js"></script>
-<script src="~/Content/assets/vendor/dropzone/dist/min/dropzone.min.js"></script>
+                    <tr>
+                        <th>
+                            Producto
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Producto.Price)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Cantidad)
+                        </th>
+                        <th>
+                            Total
+                        </th>
+                    </tr>
 
-<script src="~/Content/assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="~/Content/assets/vendor/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-<!-- Argon JS -->
-<script src="~/Content/assets/js/argon.js?v=1.2.1"></script>
-<!-- Demo JS - remove this in your project -->
-<script src="~/Content/assets/js/demo.min.js"></script>
+                    @foreach (var item in Model)
+                    {
+                        decimal subTotal = item.Cantidad * item.Producto.Price;
+                        total += subTotal;
+                        totalCantidad += item.Cantidad;
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Producto.Name)
+                            </td>
+                            <td>
+                                @item.Producto.Price.ToString("C")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cantidad)
+                            </td>
+                            <td>
+                                @subTotal.ToString("C")
+                            </td>
+                        </tr>
+                    }
 
-<script type="text/javascript">
-    window.onload = function () { window.print(); }
-</script>
+                </table>
+                <div class="invoice-price">
+                    <div class="invoice-price-left">
+                        <div class="invoice-price-row">
+                            <div class="sub-price">
+                                <small>TOTAL</small>
+                                <span class="text-inverse">@total.ToString("C")</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="invoice-note">
+                * Desbloqueos, activaciones y reparaciones de telefonos<br>
+                * Impresión y musica<br>
+                * Recargas
+            </div>
+            <!-- end invoice-note -->
+            <!-- begin invoice-footer -->
+            <div class="invoice-footer">
+                <p class="text-center m-b-5 f-w-600">
+                    REPORTE EMITIDO EL @DateTime.Now.ToLongDateString().ToUpper()
+                </p>
+                <p class="text-center">
+                    <span class="m-r-10"><i class="fa fa-fw fa-lg fa-globe"></i> jtecnocell.com</span>
+                    <span class="m-r-10"><i class="fa fa-fw fa-lg fa-phone"></i> (809) 453-3236   </span>
+                    <span class="m-r-10"><i class="fa fa-fw fa-lg fa-envelope"></i> jstechnocell@gmail.com</span>
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -12,13 +12,39 @@ namespace Joselito_Technocell.Models
         public decimal Cantidad { get; set; }
         public decimal Precio { get; set; }
 
-        public decimal Total { get { return Cantidad * Precio; } }
-
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
 
         [ForeignKey("FacturaId")]
         public virtual Factura Factura { get; set; }
+        public decimal ITBIS
+        {
+            get
+            {
+                if (Product.ConImpuesto)
+                {
+                    var t = Precio * 0.18m;
+                    return t * Cantidad;
+                }
+                return 0;
+            }
+        }
+
+        public decimal SubTotal
+        {
+            get
+            {
+                return Precio * Cantidad;
+            }
+        }
+
+        public decimal Total
+        {
+            get
+            {
+                return SubTotal + ITBIS;
+            }
+        }
 
     }
 }

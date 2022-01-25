@@ -112,7 +112,13 @@
                                                 Cantidad
                                             </th>
                                             <th>
+                                                ITBIS
+                                            </th>
+                                            <th>
                                                 Subtotal
+                                            </th>
+                                            <th>
+                                                Total
                                             </th>
                                             <th>
                                                 Acciones
@@ -140,6 +146,12 @@
                                                 </td>
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.Cantidad)
+                                                </td>
+                                                <td>
+                                                    @item.ITBIS.ToString("C")
+                                                </td>
+                                                <td>
+                                                    @item.SubTotal.ToString("C")
                                                 </td>
                                                 <td>
                                                     @item.Total.ToString("C")

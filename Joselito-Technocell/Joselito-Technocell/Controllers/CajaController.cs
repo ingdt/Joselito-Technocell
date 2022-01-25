@@ -577,6 +577,7 @@ namespace Joselito_Technocell.Controllers
                     var product = db.Products.Find(idProducto);
                     factura.DetalleFacturas.Add(new DetalleFactura
                     {
+                        Product = product,
                         Cantidad = (int)cantidad,
                         ProductId = (int)idProducto,
                         Precio = product.Price,

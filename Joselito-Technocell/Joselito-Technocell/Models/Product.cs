@@ -11,6 +11,7 @@ namespace Joselito_Technocell.Models
     {
         [Key]
         public int ProductId { get; set; }
+        public bool ConImpuesto { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es requerido")]
         [StringLength(256, ErrorMessage = "El campo {0} puede contener un maximo {1} y un minimo {2} de caracteres", MinimumLength = 3)]
