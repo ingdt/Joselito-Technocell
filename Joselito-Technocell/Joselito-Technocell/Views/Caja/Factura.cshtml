@@ -156,9 +156,9 @@
                 <div class="invoice-to">
                     <small>CLIENTE</small>
                     <address class="m-t-5 m-b-5">
-                        <strong class="text-inverse">@Model.Cliente.FullName</strong><br>
-                        Dirección: @Model.Cliente.Direccion<br>
-                        Tel: @Model.Cliente.Telefono<br>
+                        <strong class="text-inverse">@Model.Cliente?.FullName</strong><br>
+                        Dirección: @Model.Cliente?.Direccion<br>
+                        Tel: @Model.Cliente?.Telefono<br>
                     </address>
                 </div>
                 <div class="invoice-date">
