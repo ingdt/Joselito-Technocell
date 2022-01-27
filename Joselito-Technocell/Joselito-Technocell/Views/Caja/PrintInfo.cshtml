@@ -183,7 +183,7 @@
                         else
                         {
                             <span>
-                                @Model.Apertura.ToShortDateString() - @Convert.ToDateTime(Model.Apertura.ToShortDateString()).ToShortDateString()
+                                @Convert.ToDateTime(Model.Cierre).ToShortDateString() - @Convert.ToDateTime(Model.Cierre).ToShortTimeString()
                             </span>
                         }<br>
                         ESTADO: @if (Model.Estdo == EstadoCaja.Abierta)
