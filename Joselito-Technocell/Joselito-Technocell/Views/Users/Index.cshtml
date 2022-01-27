@@ -62,6 +62,7 @@
                                     @Html.DisplayFor(modelItem => item.PhoneNumber)
                                 </td>
                                 <td>
+                                    @Html.ActionLink("Editar", "Editar", new { usuarioID = item.Id }, new { @class = "btn btn-sm btn-primary" })
                                     @Html.ActionLink("Administrar roles", "Roles", new { usuarioID = item.Id }, new { @class = "btn btn-sm btn-primary" })
                                 </td>
 

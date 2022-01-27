@@ -5,7 +5,10 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -23,6 +26,32 @@ namespace Joselito_Technocell.Controllers
             return View(usuarios);
         }
 
+        public ActionResult Editar(string usuarioID)
+        {
+            if (String.IsNullOrEmpty(usuarioID))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var usu = db.Users.Find(usuarioID);
+            if (usu == null)
+            {
+                return HttpNotFound();
+            }
+            return View(usu);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Editar(User usuario)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(usuario).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            return View(usuario);
+        }
         public ActionResult Create()
         {
             return View(new User());

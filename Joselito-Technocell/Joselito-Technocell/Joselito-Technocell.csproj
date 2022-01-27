@@ -3189,6 +3189,7 @@
     <Content Include="Views\Caja\ReporteVentas.cshtml" />
     <Content Include="Views\Caja\ReporteVentasView.cshtml" />
     <Content Include="Views\Caja\ReciboDePago.cshtml" />
+    <Content Include="Views\Users\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
